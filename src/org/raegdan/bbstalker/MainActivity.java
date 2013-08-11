@@ -12,25 +12,24 @@ import android.view.Menu;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    Button btnQuery;
-    Button btnWatchDB;
-    Button btnWatchCollection;
-    
-    EditText etQuery;
+    Button btnMAQuery;
+    Button btnMAWatchDB;
+    Button btnMAWatchCollection;
+    EditText etMAQuery;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
         
-        btnQuery = (Button) findViewById(R.id.btnQuery);
-        btnQuery.setOnClickListener(this);
-        btnWatchDB = (Button) findViewById(R.id.btnWatchDB);
-        btnWatchDB.setOnClickListener(this);
-        btnWatchCollection = (Button) findViewById(R.id.btnWatchCollection);
-        btnWatchCollection.setOnClickListener(this);
-        etQuery = (EditText) findViewById(R.id.etQuery);
-        etQuery.setOnClickListener(this);
+        btnMAQuery = (Button) findViewById(R.id.btnMAQuery);
+        btnMAQuery.setOnClickListener(this);
+        btnMAWatchDB = (Button) findViewById(R.id.btnMAWatchDB);
+        btnMAWatchDB.setOnClickListener(this);
+        btnMAWatchCollection = (Button) findViewById(R.id.btnMAWatchCollection);
+        btnMAWatchCollection.setOnClickListener(this);
+        etMAQuery = (EditText) findViewById(R.id.etMAQuery);
+        etMAQuery.setOnClickListener(this);
 	}
 	
 	  protected void ShowToast(String text)
@@ -49,20 +48,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 	    switch (v.getId()) {
-	    case R.id.btnQuery:
-	    	if (etQuery.getText().toString().equalsIgnoreCase(""))
+	    case R.id.btnMAQuery:
+	    	if (etMAQuery.getText().toString().equalsIgnoreCase(""))
 	    	{
 	    		ShowToast("Nothing to query :)");
 	    	} else {
-	    		QueryDatabase(etQuery.getText().toString());
+	    		QueryDatabase(etMAQuery.getText().toString());
 	    	}
 	    	break;
 	    	
-	    case R.id.btnWatchDB:
+	    case R.id.btnMAWatchDB:
 	    	QueryDatabase("");
 	    	break;
 
-	    case R.id.btnWatchCollection:
+	    case R.id.btnMAWatchCollection:
 	    	QueryDatabase("$");
 	    	break;
 	    	

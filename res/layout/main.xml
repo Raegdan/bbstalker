@@ -9,67 +9,68 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/btnWatchCollection"
+        android:id="@+id/btnMAWatchCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnWatchDB"
+        android:layout_below="@+id/btnMAWatchDB"
         android:text="My collection" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnMAHelp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnWatchCollection"
+        android:layout_below="@+id/btnMAWatchCollection"
         android:text="Help" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnMAConfig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/button3"
+        android:layout_below="@+id/btnMAHelp"
         android:text="Config" />
 
     <Button
-        android:id="@+id/btnWatchDB"
+        android:id="@+id/btnMAWatchDB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnWatchCollection"
+        android:layout_alignLeft="@+id/btnMAWatchCollection"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnQuery"
+        android:layout_below="@+id/btnMAQuery"
         android:text="Watch all database" />
 
     <Button
-        android:id="@+id/btnQuery"
+        android:id="@+id/btnMAQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnWatchDB"
-        android:layout_below="@+id/textView1"
+        android:layout_alignRight="@+id/btnMAWatchDB"
+        android:layout_below="@+id/tvMATitle"
         android:text="Query" />
 
     <EditText
-        android:id="@+id/etQuery"
+        android:id="@+id/etMAQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnQuery"
-        android:layout_alignBottom="@+id/btnQuery"
+        android:layout_alignBottom="@id/btnMAQuery"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/btnQuery"
+        android:layout_alignTop="@id/btnMAQuery"
+        android:layout_below="@+id/tvMATitle"
+        android:layout_toLeftOf="@id/btnMAQuery"
         android:ems="10"
         android:inputType="text"
         android:maxLines="1" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvMATitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
         android:text="(\\ BBStalker v0.1 /)"
         android:textAllCaps="false"
         android:textAppearance="?android:attr/textAppearanceLarge"

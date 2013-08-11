@@ -3,40 +3,116 @@
     android:id="@+id/rlPWBBInfo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
     android:padding="16dp" >
 
-    <LinearLayout
-        android:id="@+id/ll1"
+    <TextView
+        android:id="@+id/tvPWBBInfoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/ivPWBBInfoPonyPic"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
-
-        <ImageView
-            android:id="@+id/ivPWBBInfoWavePic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/tvPWBBInfoName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </LinearLayout>
+        android:layout_alignRight="@+id/ivPWBBInfoPonyPic"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
         android:id="@+id/ivPWBBInfoPonyPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ll1"
-        android:layout_alignRight="@+id/ll1"
-        android:layout_below="@+id/ll1"
-        android:padding="16dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_below="@+id/tvPWBBInfoName"
+        android:layout_centerInParent="true"
+        android:scaleType="center"
+        android:src="@drawable/bb01001" />
+
+    <LinearLayout
+        android:id="@+id/llPWBBCartUncartWiki"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivPWBBInfoPonyPic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" >
+
+        <ImageButton
+            android:id="@+id/ibPWBBCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cart" />
+
+        <ImageButton
+            android:id="@+id/ibPWBBUncart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/uncart" />
+
+        <ImageButton
+            android:id="@+id/ibPWBBWiki"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wiki" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llPWBBCartUncartWiki"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" >
+
+        <LinearLayout
+            android:id="@+id/tvPWBBSocialShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etPWBBSocialShareShopname" >
+
+            <ImageButton
+                android:id="@+id/ibPWBBShareVK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vk" />
+
+            <ImageButton
+                android:id="@+id/ibPWBBShareFB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fb" />
+
+            <ImageButton
+                android:id="@+id/ibPWBBShareTwi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tw" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etPWBBSocialShareShopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/tvPWBBSocialShare"
+            android:layout_toRightOf="@+id/tvPWBBSocialShareShop"
+            android:lines="1"
+            android:text="ToyLandia"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/tvPWBBSocialShareShop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/etPWBBSocialShareShopname"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="4dp"
+            android:text="Shop:"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

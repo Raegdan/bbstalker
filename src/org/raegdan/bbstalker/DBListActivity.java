@@ -23,7 +23,7 @@ import android.widget.TextView;
 public class DBListActivity extends Activity implements OnItemClickListener {
 	
 	  ListView lvDBList;
-	  TextView tvHeader;
+	  TextView tvDBHeader;
 	  BlindbagDB database = new BlindbagDB();
 	  BlindbagDB QueryResult;
 	  
@@ -45,12 +45,12 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 		  setContentView(R.layout.dblist);
 		  
 		  lvDBList = (ListView) findViewById(R.id.lvDBList);
-		  tvHeader = (TextView) findViewById(R.id.tvHeader);
+		  tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);
 		  
 		  
 		  if (!database.LoadDB("database.json", this))
 		  {
-			  tvHeader.setText("Error loading JSON database: I/O error or invalid JSON. If you didn't modify, rename or delete the original «database.json» file, please contact me (Raegdan)");
+			  tvDBHeader.setText("Error loading JSON database: I/O error or invalid JSON. If you didn't modify, rename or delete the original «database.json» file, please contact me (Raegdan)");
 			  return;
 		  }
 		  		  
@@ -58,9 +58,9 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 		  
 		  if (query.equalsIgnoreCase(""))
 		  {
-			  tvHeader.setText("All database");
+			  tvDBHeader.setText("All database");
 		  } else {
-			  tvHeader.setText("Results for «" + query + "»");
+			  tvDBHeader.setText("Results for «" + query + "»");
 		  }
 		  
 		  QueryResult = database.LookupDB(query);
@@ -76,7 +76,7 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 	  {
 		  DBList dblist = new DBList();
 		  dblist.fields = new String[] {"name", "misc", "img1"};
-		  dblist.views = new int[] {R.id.lvdblist_text1, R.id.lvdblist_text2, R.id.lvdblist_img1};
+		  dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
 		  
 		  for (int i = 0; i < database.blindbags.size(); i++)
 		  {
@@ -116,11 +116,12 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 		  Blindbag bb = QueryResult.blindbags.get(index);
 		  
 		  TextView tvPWBBInfoName = (TextView) layout.findViewById(R.id.tvPWBBInfoName);
-		  ImageView ivPWBBInfoWavePic = (ImageView) layout.findViewById(R.id.ivPWBBInfoWavePic);
+		  //Log.d("x", layout.findViewById(R.id.tvPWBBInfoName).getClass().toString());
+		  //ImageView ivPWBBInfoWavePic = (ImageView) layout.findViewById(R.id.ivPWBBInfoWavePic);
 		  ImageView ivPWBBInfoPonyPic = (ImageView) layout.findViewById(R.id.ivPWBBInfoPonyPic);
 		  
 		  tvPWBBInfoName.setText(bb.name);
-		  ivPWBBInfoWavePic.setImageResource(this.getResources().getIdentifier("w" + bb.waveid, "drawable", this.getPackageName()));
+		  //ivPWBBInfoWavePic.setImageResource(this.getResources().getIdentifier("w" + bb.waveid, "drawable", this.getPackageName()));
 		  ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + bb.uniqid, "drawable", this.getPackageName()));
 		  
 		  PopupWindow pw = new PopupWindow(this);
