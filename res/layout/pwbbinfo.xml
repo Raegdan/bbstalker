@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlPWBBInfo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="16dp" >
 
-    <TextView
-        android:id="@+id/pwbbinfo_header"
+    <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+
+        <ImageView
+            android:id="@+id/ivPWBBInfoWavePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvPWBBInfoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivPWBBInfoPonyPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ll1"
+        android:layout_alignRight="@+id/ll1"
+        android:layout_below="@+id/ll1"
+        android:padding="16dp"
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

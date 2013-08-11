@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -90,8 +90,7 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 				  }
 			  }
 			  
-			  Resources mRes = this.getResources();
-			  Integer wavepic = mRes.getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", this.getPackageName());
+			  Integer wavepic = this.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", this.getPackageName());
 			  HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 			  hmDBList.put("name", database.blindbags.get(i).name);
 			  hmDBList.put("misc", "Code: " + bbids);
@@ -106,22 +105,30 @@ public class DBListActivity extends Activity implements OnItemClickListener {
 	  protected void lvDBListItemClicked(Integer index)
 	  {
 		  Log.d("db list click", QueryResult.blindbags.get(index).uniqid + " - " + QueryResult.blindbags.get(index).name);
+		  ShowBBInfo(index);
 	  }
 	  
-	  protected void ShowBBInfo (BlindbagDB source, Integer index)
+	  protected void ShowBBInfo (Integer index)
 	  {
-		  /*Log.d("sbbi", "linking textview");
-		  TextView pwbbinfo_header = new TextView(this);
-		  pwbbinfo_header = (TextView) findViewById(R.id.pwbbinfo_header);
-		  Log.d("sbbi", "textview settext");
-		  pwbbinfo_header.setText(source.blindbags.get(index).name);
-		  */
-		  Log.d("sbbi", "creating inflater");
-		  LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
-		  Log.d("sbbi", "creating pw");
-		  PopupWindow pw = new PopupWindow(inflater.inflate(R.layout.pwbbinfo, null, false),100,100, true);
-		  Log.d("sbbi", "show pw");
-		  pw.showAtLocation(this.findViewById(R.id.lvDBList), Gravity.CENTER, 0, 0);
+		  LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		  View view = inflater.inflate(R.layout.pwbbinfo, null);
+		  RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.rlPWBBInfo);
+		  Blindbag bb = QueryResult.blindbags.get(index);
+		  
+		  TextView tvPWBBInfoName = (TextView) layout.findViewById(R.id.tvPWBBInfoName);
+		  ImageView ivPWBBInfoWavePic = (ImageView) layout.findViewById(R.id.ivPWBBInfoWavePic);
+		  ImageView ivPWBBInfoPonyPic = (ImageView) layout.findViewById(R.id.ivPWBBInfoPonyPic);
+		  
+		  tvPWBBInfoName.setText(bb.name);
+		  ivPWBBInfoWavePic.setImageResource(this.getResources().getIdentifier("w" + bb.waveid, "drawable", this.getPackageName()));
+		  ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + bb.uniqid, "drawable", this.getPackageName()));
+		  
+		  PopupWindow pw = new PopupWindow(this);
+		  pw.setContentView(layout);
+	      pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
+	      pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+	      pw.setFocusable(true);
+		  pw.showAtLocation(view, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	  }
 
 	@Override
