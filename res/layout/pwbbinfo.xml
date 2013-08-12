@@ -76,10 +76,10 @@
                 android:src="@drawable/vk" />
 
             <ImageButton
-                android:id="@+id/ibPWBBShareFB"
+                android:id="@+id/ibPWBBShareGPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/fb" />
+                android:src="@drawable/gplus" />
 
             <ImageButton
                 android:id="@+id/ibPWBBShareTwi"

@@ -214,7 +214,7 @@ public final class R {
         public static final int bb08023=0x7f0200be;
         public static final int bb08024=0x7f0200bf;
         public static final int cart=0x7f0200c0;
-        public static final int fb=0x7f0200c1;
+        public static final int gplus=0x7f0200c1;
         public static final int ic_launcher=0x7f0200c2;
         public static final int tw=0x7f0200c3;
         public static final int uncart=0x7f0200c4;
@@ -238,7 +238,7 @@ public final class R {
         public static final int etMAQuery=0x7f08000c;
         public static final int etPWBBSocialShareShopname=0x7f080015;
         public static final int ibPWBBCart=0x7f080011;
-        public static final int ibPWBBShareFB=0x7f080017;
+        public static final int ibPWBBShareGPlus=0x7f080017;
         public static final int ibPWBBShareTwi=0x7f080018;
         public static final int ibPWBBShareVK=0x7f080016;
         public static final int ibPWBBUncart=0x7f080012;

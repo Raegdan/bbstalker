@@ -39,6 +39,7 @@ class Blindbag
 	String waveid;
 	String name;
 	String uniqid;
+	String wikiurl;
 	
 	Blindbag()
 	{
@@ -105,6 +106,7 @@ class BlindbagDB extends Activity {
 			bb.name = DB.getJSONArray("blindbags").getJSONObject(i).getString("name");
 			bb.uniqid = DB.getJSONArray("blindbags").getJSONObject(i).getString("uniqid");
 			bb.waveid = DB.getJSONArray("blindbags").getJSONObject(i).getString("waveid");
+			bb.wikiurl = DB.getJSONArray("blindbags").getJSONObject(i).getString("wikiurl");
 			
 			for (int j = 0; j < DB.getJSONArray("blindbags").getJSONObject(i).getJSONArray("bbids").length(); j++)
 			{
