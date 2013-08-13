@@ -110,6 +110,7 @@ class BlindbagDB extends Activity {
 		return success;
 	}
 	
+	@SuppressWarnings("unchecked")
 	BlindbagDB LookupDB(String query)
 	{
 		BlindbagDB OutDB = this;
@@ -200,11 +201,11 @@ class BlindbagDB extends Activity {
 		}
 		
 		SharedPreferences sp = ((Activity) context).getPreferences(MODE_PRIVATE);
-	    Editor ed = sp.edit();
-	    ed.putString(COLLECTION_PREF_ID, ja.toString());
-	    ed.commit();
-	    
-	    return true;
+	Editor ed = sp.edit();
+	ed.putString(COLLECTION_PREF_ID, ja.toString());
+	ed.commit();
+	
+	return true;
 	}
 	
 	Blindbag GetBlindbagByUniqID(String uniqid)
@@ -305,14 +306,14 @@ class BlindbagDB extends Activity {
 	{
 		return Pattern.compile(regexp).matcher(s).matches();
 	}
-	  
+	
 	protected JSONObject GetDB(Context context) throws JSONException, IOException
 	{
 		AssetManager am = context.getAssets();
-	  	InputStream is = am.open(DB_ASSET);
-	  	JSONObject DB = new JSONObject(StreamToString(is));
-	  	is.close();
-	  	return DB;
+		InputStream is = am.open(DB_ASSET);
+		JSONObject DB = new JSONObject(StreamToString(is));
+		is.close();
+		return DB;
 	}
 	
 	protected void ParseDB(JSONObject DB) throws JSONException

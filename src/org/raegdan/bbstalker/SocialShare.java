@@ -40,18 +40,19 @@ public class SocialShare extends Activity {
 		for (int i = 0; i < ril.size(); i++)
 		{
 			ri = ril.get(i);
-		    if(ri.activityInfo.packageName.startsWith(PackageNames[SocialNetwork])){
-		        ss.setClassName(ri.activityInfo.packageName, ri.activityInfo.name);
-		        SNAppFound = true;
-		        break;
-		    }				
+			if (ri.activityInfo.packageName.startsWith(PackageNames[SocialNetwork]))
+			{
+				ss.setClassName(ri.activityInfo.packageName, ri.activityInfo.name);
+				SNAppFound = true;
+				break;
+			}				
 		}
 		
 		if (SNAppFound)
 		{
-		    context.startActivity(ss);
+			context.startActivity(ss);
 		}
 		
-	    return SNAppFound;
+		return SNAppFound;
 	}
 }
