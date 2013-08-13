@@ -1,14 +1,14 @@
 {
 	"waves":
 	[
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]},
-		{"waveid": "1", "priorities": [{"regexp": "^[A-Z]{2}$", "field": "bbids"},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name"}]}		
+		{"waveid": "1", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "2", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "3", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "4", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "5", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "6", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "7", "priorities": [{"regexp": "^[0-9]*$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]},
+		{"waveid": "8", "priorities": [{"regexp": "^[A-Z]{2}$", "field": "bbids", "priority": 10},		{"regexp": "^[A-Za-z\\ \\(\\)]*$", "field": "name", "priority": 10}]}		
 	],
 	"blindbags":
 	[

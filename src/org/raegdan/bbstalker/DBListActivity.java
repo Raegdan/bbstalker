@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.app.Activity;
+import android.app.DownloadManager.Query;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,6 +38,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  View vPWBBInfo;
 	  RelativeLayout rlPWBBInfo;
 	  TextView tvPWBBInfoName;
+	  TextView tvPWBBInfoMisc;
 	  ImageView ivPWBBInfoPonyPic;
 	  ImageButton ibPWBBWiki;
 	  ImageButton ibPWBBShareVK;
@@ -67,6 +70,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  vPWBBInfo = inflater.inflate(R.layout.pwbbinfo, null);
 		  rlPWBBInfo = (RelativeLayout) vPWBBInfo.findViewById(R.id.rlPWBBInfo);
 		  tvPWBBInfoName = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoName);
+		  tvPWBBInfoMisc = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoMisc);
 		  ivPWBBInfoPonyPic = (ImageView) rlPWBBInfo.findViewById(R.id.ivPWBBInfoPonyPic);
 		  ibPWBBWiki = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWiki);
 		  ibPWBBShareVK = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareVK);
@@ -74,12 +78,16 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  ibPWBBShareTwi = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareTwi);	
 		  etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
 		  
-		  if (!database.LoadDB("database.json", this))
+		  Log.d("x", "Init controls OK");
+		  
+		  if (!database.LoadDB(this))
 		  {
 			  tvDBHeader.setText("Error loading JSON database: I/O error or invalid JSON. If you didn't modify, rename or delete the original «database.json» file, please contact me (Raegdan)");
 			  return;
 		  }
-		  		  
+
+		  Log.d("x", "Load DB OK");
+
 		  String query = getIntent().getStringExtra("query");
 		  
 		  if (query.equalsIgnoreCase(""))
@@ -129,6 +137,27 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  return dblist;
 	  }
 	  
+	  protected void CartUncart(String uniqid, Integer value)
+	  {
+		  String errmsg = "JSON error occured while saving data.";
+		  
+		  for (int i = 0; i < database.blindbags.size(); i++)
+		  {
+			  if (database.blindbags.get(i).uniqid.equalsIgnoreCase(uniqid))
+			  {
+				  database.blindbags.get(i).count += value;
+				  break;
+			  }
+		  }
+		  
+		  if (!database.CommitDB())
+		  {
+			  Toast.makeText(getApplicationContext(), errmsg, Toast.LENGTH_LONG).show();
+		  }
+		  
+		  
+	  }
+	  
 	  protected void lvDBListItemClicked(Integer index)
 	  {
 		  ShowBBInfo(index);
@@ -139,6 +168,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  CurrentBlindbag = QueryResult.blindbags.get(index);
 
 		  tvPWBBInfoName.setText(CurrentBlindbag.name);
+		  tvPWBBInfoMisc.setText("Pieces in collection: " + CurrentBlindbag.count);
 		  ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + CurrentBlindbag.uniqid, "drawable", this.getPackageName()));
 		  ibPWBBWiki.setOnClickListener(this);
 		  ibPWBBShareVK.setOnClickListener(this);
