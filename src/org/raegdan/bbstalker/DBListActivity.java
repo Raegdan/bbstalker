@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.app.Activity;
-import android.app.DownloadManager.Query;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,13 +27,14 @@ import android.widget.Toast;
 
 public class DBListActivity extends Activity implements OnItemClickListener, OnClickListener {
 	
+	  BlindbagDB database;
+	  DBList dblist;
+	  String CurrentBBUniqID = "";
+	  Integer HideMode = 0;
+
 	  ListView lvDBList;
 	  TextView tvDBHeader;
-	  BlindbagDB database = new BlindbagDB();
-	  //BlindbagDB QueryResult;
-	  //Blindbag CurrentBlindbag;
-	  Integer EntryIndex = 0;
-	  
+
 	  View vPWBBInfo;
 	  RelativeLayout rlPWBBInfo;
 	  TextView tvPWBBInfoName;
@@ -45,7 +44,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  ImageButton ibPWBBShareVK;
 	  ImageButton ibPWBBShareGPlus;
 	  ImageButton ibPWBBShareTwi;
+	  ImageButton ibPWBBCart;
+	  ImageButton ibPWBBUncart;
 	  EditText etPWBBShareShopname;
+	  
+	  final static int HM_BY_COUNT = 1;
+	  final static int HM_BY_PRIORITY = 2;
 	  
 	  protected class DBList
 	  {
@@ -64,22 +68,9 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  super.onCreate(savedInstanceState);
 		  setContentView(R.layout.dblist);
 		  
-		  lvDBList = (ListView) findViewById(R.id.lvDBList);
-		  tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);
+		  tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
 		  
-		  LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		  vPWBBInfo = inflater.inflate(R.layout.pwbbinfo, null);
-		  rlPWBBInfo = (RelativeLayout) vPWBBInfo.findViewById(R.id.rlPWBBInfo);
-		  tvPWBBInfoName = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoName);
-		  tvPWBBInfoMisc = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoMisc);
-		  ivPWBBInfoPonyPic = (ImageView) rlPWBBInfo.findViewById(R.id.ivPWBBInfoPonyPic);
-		  ibPWBBWiki = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWiki);
-		  ibPWBBShareVK = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareVK);
-		  ibPWBBShareGPlus = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareGPlus);
-		  ibPWBBShareTwi = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareTwi);	
-		  etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
-		  
-		  Log.d("x", "Init controls OK");
+		  database = new BlindbagDB();
 		  
 		  if (!database.LoadDB(this))
 		  {
@@ -87,34 +78,49 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			  return;
 		  }
 
-		  Log.d("x", "Load DB OK");
-
 		  String query = getIntent().getStringExtra("query");
 		  
-		  if (query.equalsIgnoreCase(""))
-		  {
-			  tvDBHeader.setText("All database");
-		  } else {
-			  tvDBHeader.setText("Results for «" + query + "»");
-		  }
-		  
-		  database = database.LookupDB(query);
-		  DBList dblist = PrepareDBList(database);
-
+		  lvDBList = (ListView) findViewById(R.id.lvDBList);
 		  lvDBList.setOnItemClickListener(this);
-		  SimpleAdapter adapter = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
-		  lvDBList.setAdapter(adapter);		  
+		  
+		  if (query.equalsIgnoreCase("$"))
+		  {
+			  tvDBHeader.setText("My collection");
+			  HideMode = HM_BY_COUNT;
+		  } else
+		  {
+			  if (query.equalsIgnoreCase(""))
+			  {
+				  tvDBHeader.setText("All database");
+			  } else {
+				  tvDBHeader.setText("Results for «" + query + "»");
+			  }
+			  
+			  database = database.LookupDB(query);
+			  HideMode = HM_BY_PRIORITY;
+		  }		
+		  
+		  DisplayDB(database, HideMode);
 	  }
 	  
-	  protected DBList PrepareDBList (BlindbagDB database)
+	  protected void DisplayDB(BlindbagDB database, Integer HideMode)
 	  {
-		  DBList dblist = new DBList();
-		  dblist.fields = new String[] {"name", "misc", "img1"};
-		  dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+		  DBList dblist = PrepareDBList(database, HideMode);
+		  SimpleAdapter adapter = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
+		  lvDBList.setAdapter(adapter);
+	  }
+	  
+	  protected DBList PrepareDBList (BlindbagDB database, Integer HideMode)
+	  {
+		  dblist = new DBList();
+		  dblist.fields = new String[] {"name", "misc", "count", "img1"};
+		  dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.tvLVDBListCollectionCount, R.id.ivVLDBListWavePic};
 		  
 		  for (int i = 0; i < database.blindbags.size(); i++)
 		  {
-			  if (database.blindbags.get(i).priority == 0)
+			  if (
+					  (	(HideMode == HM_BY_PRIORITY) && (database.blindbags.get(i).priority == 0)	) ||
+					  (	(HideMode == HM_BY_COUNT) && (database.blindbags.get(i).count == 0)	)		)
 			  {
 				  continue;
 			  }
@@ -133,6 +139,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			  HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 			  hmDBList.put("name", database.blindbags.get(i).name);
 			  hmDBList.put("misc", "Code: " + bbids);
+			  hmDBList.put("count", " (" + database.blindbags.get(i).count.toString() + " in collection)");
 			  hmDBList.put("img1", wavepic);
 			  hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 			  dblist.data.add(hmDBList);
@@ -145,40 +152,70 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  {
 		  String errmsg = "JSON error occured while saving data.";
 		  
-		  for (int i = 0; i < database.blindbags.size(); i++)
+		  Blindbag bb = new Blindbag();;
+		  int i;
+		  
+		  for (i = 0; i < database.blindbags.size(); i++)
 		  {
-			  if (database.blindbags.get(i).uniqid.equalsIgnoreCase(uniqid))
+			  bb = database.blindbags.get(i);
+			  
+			  if (bb.uniqid.equalsIgnoreCase(uniqid))
 			  {
-				  database.blindbags.get(i).count += value;
+				  if (bb.count + value < 0)
+				  {
+					  return;
+				  }
+				  
+				  bb.count += value;
 				  break;
 			  }
 		  }
 		  
-		  if (!database.CommitDB())
+		  database.blindbags.set(i, bb);
+		  
+		  if (!database.CommitDB(this))
 		  {
 			  Toast.makeText(getApplicationContext(), errmsg, Toast.LENGTH_LONG).show();
+			  bb.count -= value;
+			  database.blindbags.set(i, bb);
 		  }
 		  
-		  
+		  tvPWBBInfoMisc.setText("Pieces in collection: " + database.blindbags.get(i).count);
+		  DisplayDB(database, HideMode);
 	  }
 	  
 	  protected void lvDBListItemClicked(Integer index)
 	  {
-		  EntryIndex = index;
+		  CurrentBBUniqID = (String) dblist.data.get(index).get("uniqid");
 		  ShowBBInfo();
 	  }
 	  
 	  protected void ShowBBInfo ()
 	  {
-		  Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
-
-		  tvPWBBInfoName.setText(CurrentBlindbag.name);
-		  tvPWBBInfoMisc.setText("Pieces in collection: " + CurrentBlindbag.count);
-		  ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + CurrentBlindbag.uniqid, "drawable", this.getPackageName()));
+		  LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		  vPWBBInfo = inflater.inflate(R.layout.pwbbinfo, null);
+		  rlPWBBInfo = (RelativeLayout) vPWBBInfo.findViewById(R.id.rlPWBBInfo);
+		  tvPWBBInfoName = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoName);
+		  tvPWBBInfoMisc = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoMisc);
+		  ivPWBBInfoPonyPic = (ImageView) rlPWBBInfo.findViewById(R.id.ivPWBBInfoPonyPic);
+		  ibPWBBWiki = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWiki);
+		  ibPWBBShareVK = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareVK);
+		  ibPWBBShareGPlus = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareGPlus);
+		  ibPWBBShareTwi = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareTwi);	
+		  etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
+		  ibPWBBCart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBCart);
+		  ibPWBBUncart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBUncart);
+		  
+		  tvPWBBInfoName.setText(database.GetBlindbagByUniqID(CurrentBBUniqID).name);
+		  tvPWBBInfoMisc.setText("Pieces in collection: " + database.GetBlindbagByUniqID(CurrentBBUniqID).count);
+		  ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + CurrentBBUniqID, "drawable", this.getPackageName()));
 		  ibPWBBWiki.setOnClickListener(this);
 		  ibPWBBShareVK.setOnClickListener(this);
 		  ibPWBBShareGPlus.setOnClickListener(this);
 		  ibPWBBShareTwi.setOnClickListener(this);
+		  ibPWBBCart.setOnClickListener(this);
+		  ibPWBBUncart.setOnClickListener(this);
+		  
 		  
 		  PopupWindow pw = new PopupWindow(this);
 		  pw.setContentView(rlPWBBInfo);
@@ -190,11 +227,9 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  
 	  protected void SocialShare(int SocialNetwork)
 	  {
-		  Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
-		  
 		  SocialShare ss = new SocialShare(this);
 		  
-		  String message = "Hey everypony! Just found W" + CurrentBlindbag.waveid + " blind bags & " + CurrentBlindbag.name + " among them @ «" + etPWBBShareShopname.getText().toString() + "» shop, geo: http://TODO/ using #bbstalker";
+		  String message = "Hey everypony! Just found W" + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + " blind bags & " + database.GetBlindbagByUniqID(CurrentBBUniqID).name + " among them @ «" + etPWBBShareShopname.getText().toString() + "» shop, geo: http://TODO/ using #bbstalker";
 		  
 		  String text = "Please install official ";
 		  switch (SocialNetwork)
@@ -233,7 +268,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 
 	@Override
 	public void onClick(View v) {
-		Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
+		Blindbag CurrentBlindbag = database.GetBlindbagByUniqID(CurrentBBUniqID);
 		
 		switch (v.getId())
 		{
@@ -252,6 +287,15 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			case R.id.ibPWBBShareTwi:
 				SocialShare(SocialShare.SN_TWITTER);
 				break;
-}
+				
+			case R.id.ibPWBBCart:
+				CartUncart(CurrentBBUniqID, +1);
+				break;
+
+			case R.id.ibPWBBUncart:
+				CartUncart(CurrentBBUniqID, -1);
+				break;
+
+		}
 	}
 }

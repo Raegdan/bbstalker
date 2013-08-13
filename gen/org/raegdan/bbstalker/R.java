@@ -230,34 +230,35 @@ public final class R {
         public static final int wiki=0x7f0200ce;
     }
     public static final class id {
-        public static final int btnMAConfig=0x7f080009;
-        public static final int btnMAHelp=0x7f080008;
-        public static final int btnMAQuery=0x7f08000a;
-        public static final int btnMAWatchCollection=0x7f080006;
-        public static final int btnMAWatchDB=0x7f080007;
-        public static final int etMAQuery=0x7f08000c;
-        public static final int etPWBBSocialShareShopname=0x7f080016;
-        public static final int ibPWBBCart=0x7f080012;
-        public static final int ibPWBBShareGPlus=0x7f080018;
-        public static final int ibPWBBShareTwi=0x7f080019;
-        public static final int ibPWBBShareVK=0x7f080017;
-        public static final int ibPWBBUncart=0x7f080013;
-        public static final int ibPWBBWiki=0x7f080014;
-        public static final int ivPWBBInfoPonyPic=0x7f08000f;
+        public static final int btnMAConfig=0x7f08000a;
+        public static final int btnMAHelp=0x7f080009;
+        public static final int btnMAQuery=0x7f08000b;
+        public static final int btnMAWatchCollection=0x7f080007;
+        public static final int btnMAWatchDB=0x7f080008;
+        public static final int etMAQuery=0x7f08000d;
+        public static final int etPWBBSocialShareShopname=0x7f080017;
+        public static final int ibPWBBCart=0x7f080013;
+        public static final int ibPWBBShareGPlus=0x7f080019;
+        public static final int ibPWBBShareTwi=0x7f08001a;
+        public static final int ibPWBBShareVK=0x7f080018;
+        public static final int ibPWBBUncart=0x7f080014;
+        public static final int ibPWBBWiki=0x7f080015;
+        public static final int ivPWBBInfoPonyPic=0x7f080010;
         public static final int ivVLDBListWavePic=0x7f080004;
-        public static final int ll1=0x7f08001b;
-        public static final int llPWBBCartUncartWiki=0x7f080011;
+        public static final int ll1=0x7f08001c;
+        public static final int llPWBBCartUncartWiki=0x7f080012;
         public static final int lvDBList=0x7f080002;
-        public static final int rlPWBBInfo=0x7f08000d;
+        public static final int rlPWBBInfo=0x7f08000e;
         public static final int tvDBHeader=0x7f080000;
         public static final int tvDBTitle=0x7f080001;
+        public static final int tvLVDBListCollectionCount=0x7f080006;
         public static final int tvLVDBListMisc=0x7f080005;
         public static final int tvLVDBListName=0x7f080003;
-        public static final int tvMATitle=0x7f08000b;
-        public static final int tvPWBBInfoMisc=0x7f080010;
-        public static final int tvPWBBInfoName=0x7f08000e;
-        public static final int tvPWBBSocialShare=0x7f080015;
-        public static final int tvPWBBSocialShareShop=0x7f08001a;
+        public static final int tvMATitle=0x7f08000c;
+        public static final int tvPWBBInfoMisc=0x7f080011;
+        public static final int tvPWBBInfoName=0x7f08000f;
+        public static final int tvPWBBSocialShare=0x7f080016;
+        public static final int tvPWBBSocialShareShop=0x7f08001b;
     }
     public static final class layout {
         public static final int dblist=0x7f030000;

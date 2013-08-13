@@ -174,30 +174,13 @@ class BlindbagDB extends Activity {
 			OutDB.blindbags.set(i, bb);
 		}
 		
-		Boolean f = true;
-		while (f)
-		{
-			f = false;
-			for (int i = 0; i < OutDB.blindbags.size() - 1; i++)
-			{
-				Blindbag buf = new Blindbag();
-				
-				if (blindbags.get(i).priority < blindbags.get(i + 1).priority)
-				{
-					buf = blindbags.get(i);
-					OutDB.blindbags.set(i, blindbags.get(i + 1));
-					OutDB.blindbags.set(i+1, buf);
-					f = true;
-				};
-
-			}
-		}
+		OutDB = PrioritySort(OutDB);
 		
 		return OutDB;
 		
 	}
 	
-	Boolean CommitDB ()
+	Boolean CommitDB (Context context)
 	{
 		JSONArray ja = new JSONArray();
 		
@@ -216,12 +199,25 @@ class BlindbagDB extends Activity {
 			}
 		}
 		
-		SharedPreferences sp = getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = ((Activity) context).getPreferences(MODE_PRIVATE);
 	    Editor ed = sp.edit();
 	    ed.putString(COLLECTION_PREF_ID, ja.toString());
 	    ed.commit();
 	    
 	    return true;
+	}
+	
+	Blindbag GetBlindbagByUniqID(String uniqid)
+	{
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			if (blindbags.get(i).uniqid.equalsIgnoreCase(uniqid))
+			{
+				return blindbags.get(i);
+			}
+		}
+		
+		return null;
 	}
 	
 	///////////////////
@@ -230,6 +226,30 @@ class BlindbagDB extends Activity {
 	
 	protected final static String DB_ASSET = "database.json";
 	protected final static String COLLECTION_PREF_ID = "bbcollection";
+	
+	protected BlindbagDB PrioritySort (BlindbagDB database)
+	{
+		Boolean f = true;
+		while (f)
+		{
+			f = false;
+			for (int i = 0; i < database.blindbags.size() - 1; i++)
+			{
+				Blindbag buf = new Blindbag();
+				
+				if (database.blindbags.get(i).priority < database.blindbags.get(i + 1).priority)
+				{
+					buf = database.blindbags.get(i);
+					database.blindbags.set(i, database.blindbags.get(i + 1));
+					database.blindbags.set(i+1, buf);
+					f = true;
+				};
+
+			}
+		}
+		
+		return database;
+	}
 	
 	protected JSONArray GetCollection (Context context) throws JSONException
 	{
@@ -241,17 +261,31 @@ class BlindbagDB extends Activity {
 	protected void ParseCollection (JSONArray collection) throws JSONException
 	{
 
-		for (int i = 0; i < collection.length(); i++)
+		for (int i = 0; i < blindbags.size(); i++)
 		{
-			JSONObject jo = collection.getJSONObject(i);
+			Blindbag bb = new Blindbag();
+			bb = blindbags.get(i);
+			Boolean found = false;
 			
-			for (int j = 0; j < blindbags.size(); j++)
+			for (int j = 0; j < collection.length(); j++)
 			{
-				if (jo.getString("uniqid").equalsIgnoreCase(blindbags.get(j).uniqid))
+				JSONObject jo = collection.getJSONObject(j);
+				
+				if (jo.getString("uniqid").equalsIgnoreCase(blindbags.get(i).uniqid))
 				{
-					blindbags.get(i).count = jo.getInt("count");
+					bb.count = jo.getInt("count");
+					found = true;
 				}
 			}
+			
+			if (!found)
+			{
+				bb.count = 0;
+			}
+			
+			blindbags.set(i, bb);
+			
+			found = false;
 		}
 		Log.d("x", "ParseCollection OK");
 	}

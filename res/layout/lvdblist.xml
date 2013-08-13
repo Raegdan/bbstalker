@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tvLVDBListMisc"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLVDBListName"
         android:layout_toRightOf="@+id/ivVLDBListWavePic"
@@ -32,5 +32,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:src="@drawable/w1" />
+
+    <TextView
+        android:id="@+id/tvLVDBListCollectionCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvLVDBListMisc"
+        android:layout_alignBottom="@+id/tvLVDBListMisc"
+        android:layout_toRightOf="@+id/tvLVDBListMisc"
+        android:text=" (0 in collection)"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
 
 </RelativeLayout>

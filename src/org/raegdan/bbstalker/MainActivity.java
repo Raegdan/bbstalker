@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void QueryDatabase(String query) {
     	Intent intent = new Intent(this, DBListActivity.class);
     	intent.putExtra("query", query);
-    	startActivity(intent);		
+    	startActivity(intent);
 	}
 	
 	@Override
