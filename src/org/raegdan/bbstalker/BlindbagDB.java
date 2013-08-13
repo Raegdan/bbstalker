@@ -112,56 +112,42 @@ class BlindbagDB extends Activity {
 	
 	BlindbagDB LookupDB(String query)
 	{
-		Wave w = new Wave();
-		w = GetWaveInfo("8");
+		BlindbagDB OutDB = this;
 		
-		for (int i = 0; i < w.priorities.size(); i++)
+//		Log.d("Lookup", "Query: '" + query + "'");
+		
+		for (int i = 0; i < OutDB.blindbags.size(); i++)
 		{
-			Log.d("wave test", Integer.toString(i) + " -- " + w.priorities.get(i).regexp + " -- " + w.priorities.get(i).field + " -- " + Integer.toString(w.priorities.get(i).priority));
-		}
-		
-		
-		return null;
-	}
-	
-	/*BlindbagDB LookupDB(String query)
-	{
-		BlindbagDB OutDB = new BlindbagDB();
-		
-		Log.d("Lookup", "Query: '" + query + "'");
-		
-		for (int i = 0; i < blindbags.size(); i++)
-		{
-			Blindbag bb = blindbags.get(i);
+			Blindbag bb = OutDB.blindbags.get(i);
 			
 			Wave w = new Wave();
-			w = GetWaveInfo(bb.waveid);
+			w = GetWaveInfo(bb.waveid, OutDB);
 			
 			Integer Priority = 0;
 			for (int j = 0; j < w.priorities.size(); j++)
 			{
-				Log.d("Lookup", "j = " + Integer.toString(j) + ", Regexp: '" + w.priorities.get(j).regexp + ", " + w.priorities.get(j).priority.toString() + "'");
+//				Log.d("Lookup", "j = " + Integer.toString(j) + ", Regexp: '" + w.priorities.get(j).regexp + ", " + w.priorities.get(j).priority.toString() + "'");
 				
-				if (MatchRegexp(w.priorities.get(j).regexp, query) && (w.priorities.get(j).priority > Priority))
+				if (MatchRegexp(w.priorities.get(j).regexp, query.toUpperCase(Locale.ENGLISH)) && (w.priorities.get(j).priority > Priority))
 				{
-					Log.d("Lookup", "Regexp Match! Field = '" + w.priorities.get(j).field + "'");
+//					Log.d("Lookup", "Regexp Match! Field = '" + w.priorities.get(j).field + "'");
 					String PriorityField = w.priorities.get(j).field;
 					
 					Object field = bb.GetFieldByName(PriorityField);
 					// Exception in GFBN
 					if (field == null)
 					{
-						Log.d("Lookup", "Field is null.");
+//						Log.d("Lookup", "Field is null.");
 						continue;
 					}
 					
 					// Field is string (e.g. name)
 					else if (field instanceof String)
 					{
-						Log.d("Lookup", "Field is string.");
+//						Log.d("Lookup", "Field is string.");
 						if (((String) field).toUpperCase(Locale.ENGLISH).contains(query.toUpperCase(Locale.ENGLISH)))
 						{
-							Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
+//							Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
 							Priority = w.priorities.get(j).priority;
 						}							
 					}
@@ -169,12 +155,12 @@ class BlindbagDB extends Activity {
 					// Field is list (e.g. bbids)
 					else if (field instanceof List)
 					{
-						Log.d("Lookup", "Field is list.");
+//						Log.d("Lookup", "Field is list.");
 						for (int k = 0; k < bb.bbids.size(); k++)
 						{
-							if (((List<String>) field).get(k).contains(query))
+							if (((List<String>) field).get(k).toUpperCase(Locale.ENGLISH).contains(query.toUpperCase(Locale.ENGLISH)))
 							{
-								Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
+//								Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
 								Priority = w.priorities.get(j).priority;
 							}
 						}							
@@ -183,7 +169,9 @@ class BlindbagDB extends Activity {
 			}
 			
 			bb.priority = Priority;
-			OutDB.blindbags.add(bb);
+			
+//			Log.d("Out", bb.name + " --- " + bb.waveid + " --- " + Integer.toString(bb.priority));
+			OutDB.blindbags.set(i, bb);
 		}
 		
 		Boolean f = true;
@@ -192,32 +180,22 @@ class BlindbagDB extends Activity {
 			f = false;
 			for (int i = 0; i < OutDB.blindbags.size() - 1; i++)
 			{
-				Blindbag bb1, bb2;
-				bb1 = blindbags.get(i);
-				bb2 = blindbags.get(i + 1);
+				Blindbag buf = new Blindbag();
 				
-				if (bb1.priority > bb2.priority)
+				if (blindbags.get(i).priority < blindbags.get(i + 1).priority)
 				{
+					buf = blindbags.get(i);
+					OutDB.blindbags.set(i, blindbags.get(i + 1));
+					OutDB.blindbags.set(i+1, buf);
 					f = true;
-				} else if ((bb1.priority == bb2.priority) && (Integer.parseInt(bb1.waveid) > Integer.parseInt(bb2.waveid)))
-				{
-					f = true;
-				} else if ((bb1.priority == bb2.priority) && (Integer.parseInt(bb1.waveid) > Integer.parseInt(bb2.waveid)))
-				{
-					f = true;
-				}
-				
-				if (f)
-				{
-					OutDB.blindbags.set(i, bb2);
-					OutDB.blindbags.set(i+1, bb1);
-				}
+				};
+
 			}
 		}
 		
 		return OutDB;
 		
-	}*/
+	}
 	
 	Boolean CommitDB ()
 	{
@@ -310,9 +288,9 @@ class BlindbagDB extends Activity {
 			Wave w = new Wave();
 			w.waveid = DB.getJSONArray("waves").getJSONObject(i).getString("waveid");
 
-			RegexpField rf = new RegexpField();
 			for (int j = 0; j < DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").length(); j++)
 			{
+				RegexpField rf = new RegexpField();
 				rf.field =  DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getString("field");
 				rf.regexp =  DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getString("regexp");
 				rf.priority = DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getInt("priority");
@@ -341,15 +319,15 @@ class BlindbagDB extends Activity {
 		}
 	}
 	
-	Wave GetWaveInfo(String waveid)
+	Wave GetWaveInfo(String waveid, BlindbagDB database)
 	{
 		Wave w = new Wave();
 		
-		for (int i = 0; i < waves.size(); i++)
+		for (int i = 0; i < database.waves.size(); i++)
 		{
-			if (waves.get(i).waveid.equalsIgnoreCase(waveid))
+			if (database.waves.get(i).waveid.equalsIgnoreCase(waveid))
 			{
-				w = waves.get(i);
+				w = database.waves.get(i);
 			}
 		}
 		

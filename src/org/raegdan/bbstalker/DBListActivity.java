@@ -32,8 +32,9 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  ListView lvDBList;
 	  TextView tvDBHeader;
 	  BlindbagDB database = new BlindbagDB();
-	  BlindbagDB QueryResult;
-	  Blindbag CurrentBlindbag;
+	  //BlindbagDB QueryResult;
+	  //Blindbag CurrentBlindbag;
+	  Integer EntryIndex = 0;
 	  
 	  View vPWBBInfo;
 	  RelativeLayout rlPWBBInfo;
@@ -97,14 +98,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			  tvDBHeader.setText("Results for «" + query + "»");
 		  }
 		  
-		  QueryResult = database.LookupDB(query);
-		  DBList dblist = PrepareDBList(QueryResult);
+		  database = database.LookupDB(query);
+		  DBList dblist = PrepareDBList(database);
 
 		  lvDBList.setOnItemClickListener(this);
 		  SimpleAdapter adapter = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
-		  lvDBList.setAdapter(adapter);
-		  
-		  CurrentBlindbag = new Blindbag();		  
+		  lvDBList.setAdapter(adapter);		  
 	  }
 	  
 	  protected DBList PrepareDBList (BlindbagDB database)
@@ -115,6 +114,11 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		  
 		  for (int i = 0; i < database.blindbags.size(); i++)
 		  {
+			  if (database.blindbags.get(i).priority == 0)
+			  {
+				  continue;
+			  }
+			  
 			  String bbids = "";
 			  for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
 			  {
@@ -160,12 +164,13 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  
 	  protected void lvDBListItemClicked(Integer index)
 	  {
-		  ShowBBInfo(index);
+		  EntryIndex = index;
+		  ShowBBInfo();
 	  }
 	  
-	  protected void ShowBBInfo (Integer index)
+	  protected void ShowBBInfo ()
 	  {
-		  CurrentBlindbag = QueryResult.blindbags.get(index);
+		  Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
 
 		  tvPWBBInfoName.setText(CurrentBlindbag.name);
 		  tvPWBBInfoMisc.setText("Pieces in collection: " + CurrentBlindbag.count);
@@ -185,6 +190,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	  
 	  protected void SocialShare(int SocialNetwork)
 	  {
+		  Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
+		  
 		  SocialShare ss = new SocialShare(this);
 		  
 		  String message = "Hey everypony! Just found W" + CurrentBlindbag.waveid + " blind bags & " + CurrentBlindbag.name + " among them @ «" + etPWBBShareShopname.getText().toString() + "» shop, geo: http://TODO/ using #bbstalker";
@@ -226,6 +233,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 
 	@Override
 	public void onClick(View v) {
+		Blindbag CurrentBlindbag = database.blindbags.get(EntryIndex);
+		
 		switch (v.getId())
 		{
 			case R.id.ibPWBBWiki:
