@@ -150,8 +150,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	protected void CartUncart(String uniqid, Integer value)
 	{
 		String errmsg = "JSON error occured while saving data.";
+		Blindbag bb = new Blindbag();
 		
-		Blindbag bb = new Blindbag();;
 		int i;
 		
 		for (i = 0; i < database.blindbags.size(); i++)
@@ -180,8 +180,21 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
+		dblist.data.get(CurrentDBListID).put("count", " (" + bb.count.toString() + " in collection)");
 		
 		tvPWBBInfoMisc.setText("Pieces in collection: " + database.blindbags.get(i).count);
+		
+		if (HideMode == HM_BY_COUNT)
+		{
+			if (bb.count == 0)
+			{
+				dblist.data.remove(CurrentDBListID.intValue());
+				Log.d("pw", "remove");
+			}
+			
+			saDBList.notifyDataSetChanged();
+		}
+
 	}
 	
 	protected void lvDBListItemClicked(Integer index)
@@ -226,7 +239,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			public void onDismiss()
 			{
 				Log.d("pw", "dismiss");
-				RefreshDBList();
+				//RefreshDBList();
 			}
 		});
 		
@@ -239,16 +252,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	
 	protected void RefreshDBList()
 	{
-		// Deleting items if count was set to zero via PW and we're in HM_BY_COUNT mode (collection viewing)
-		if (HideMode == HM_BY_COUNT)
-		{
-			if (((Integer) dblist.data.get(CurrentDBListID).get("count_int")) == 0)
-			{
-				dblist.data.remove(CurrentDBListID);
-				Log.d("pw", "remove");
-				saDBList.notifyDataSetChanged();
-			}
-		}
+
 	}
 	
 	protected void SocialShare(int SocialNetwork)
