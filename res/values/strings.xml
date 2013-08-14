@@ -13,7 +13,7 @@
     <string name="social_msg_p1">"Hey everypony! Just found W"</string>
     <string name="social_msg_p2">" blind bags &amp; "</string>
     <string name="social_msg_p3">" among them @ "</string>
-    <string name="social_msg_p4">" shop, geo: "</string>
+    <string name="social_msg_p4">" shop "</string>
     <string name="social_msg_p5">" using #bbstalker"</string>
     <string name="no_social_app_p1">"Please install official "</string>
     <string name="no_social_app_p2">" client from the Market."</string>
@@ -25,6 +25,8 @@
     <string name="help">"Help"</string>
     <string name="config">"Config"</string>
     <string name="code">"Code: "</string>
+    <string name="help_header"><i><b>BBStalker</b>\nBrought to you by Raegdan\nLicense: GNU GPL v3</i></string>
+    <string name="help_text">Help text in English coming soon.</string>
 
     
 

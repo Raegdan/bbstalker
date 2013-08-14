@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -65,6 +74,11 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		{
 			data = new ArrayList<HashMap<String, Object>>();
 		}
+	}
+	
+	protected class Geodata
+	{
+		Double lat, lon;
 	}
 		
 	@Override
@@ -231,6 +245,25 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
 		
+		final SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		etPWBBShareShopname.setText(sp.getString("shopname", getString(R.string.shop_field)));
+		etPWBBShareShopname.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				sp.edit().putString("shopname", etPWBBShareShopname.getText().toString()).commit();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
 		
 		pw = new PopupWindow(this);
 		
@@ -240,12 +273,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		pw.setFocusable(true);
 		pw.showAtLocation(vPWBBInfo, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
-	
+
 	protected void SocialShare(int SocialNetwork)
 	{
 		SocialShare ss = new SocialShare(this);
 		
-		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString() + getString(R.string.social_msg_p4) + "http://TODO/" + getString(R.string.social_msg_p5);
+		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString() + getString(R.string.social_msg_p4) /* + "http://TODO/" */ + getString(R.string.social_msg_p5);
 		
 		String text = getString(R.string.no_social_app_p1);
 		switch (SocialNetwork)

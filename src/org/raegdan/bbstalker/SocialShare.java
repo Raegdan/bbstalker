@@ -31,6 +31,7 @@ public class SocialShare extends Activity {
 	{
 		Intent ss = new Intent(Intent.ACTION_SEND);
 		ss.putExtra(Intent.EXTRA_TEXT, text);
+		
 		ss.setType("text/plain");
 		
 		List<ResolveInfo> ril = context.getPackageManager().queryIntentActivities(ss, PackageManager.MATCH_DEFAULT_ONLY);

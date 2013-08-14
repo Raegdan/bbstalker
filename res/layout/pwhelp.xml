@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlPWHelp"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_vertical|center_horizontal" >
+    android:layout_height="wrap_content"
+    android:padding="16dp" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvPWHelpHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="15dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/help_header"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPWHelpHeader"
+        android:layout_alignRight="@+id/tvPWHelpHeader"
+        android:layout_below="@id/tvPWHelpHeader"
+        android:layout_marginTop="16dp" >
+
+        <TextView
+            android:id="@+id/tvPWHelpText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_text"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </ScrollView>
 
 </RelativeLayout>

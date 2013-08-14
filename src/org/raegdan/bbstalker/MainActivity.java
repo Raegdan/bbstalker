@@ -2,12 +2,14 @@ package org.raegdan.bbstalker;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
@@ -77,7 +79,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	{
 		PopupWindow pw;
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View vPWHelp = inflater.inflate(R.layout.pwhelp, null);
+		RelativeLayout rlPWHelp = (RelativeLayout) vPWHelp.findViewById(R.id.rlPWHelp);
 		
+		pw = new PopupWindow(this);
+		
+		pw.setContentView(rlPWHelp);
+		pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setFocusable(true);
+		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
 	
 	///////////////////////////////////////
