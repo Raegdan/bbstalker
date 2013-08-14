@@ -2,13 +2,15 @@ package org.raegdan.bbstalker;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Toast;
+import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -62,17 +64,28 @@ public class MainActivity extends Activity implements OnClickListener {
 	    	QueryDatabase("$");
 	    	break;
 	    	
+	    case R.id.btnMAHelp:
+	    	ShowHelp();
+	    	break;
+	    	
 	    default:
 	    	break;
 	  }
 	}
 	
+	protected void ShowHelp()
+	{
+		PopupWindow pw;
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+	}
+	
 	///////////////////////////////////////
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    ///@Override
+   // public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+   //     getMenuInflater().inflate(R.menu.main, menu);
+   //     return true;
+   // }
     
 }
