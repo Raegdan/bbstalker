@@ -32,12 +32,6 @@ public class MainActivity extends Activity implements OnClickListener {
         etMAQuery.setOnClickListener(this);
 	}
 	
-	  protected void ShowToast(String text)
-	  {
-		  Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT); 
-		  toast.show(); 
-	  }
-
 	// Queries blind bag DB and shows DB activity
 	protected void QueryDatabase(String query) {
     	Intent intent = new Intent(this, DBListActivity.class);
@@ -51,7 +45,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	    case R.id.btnMAQuery:
 	    	if (etMAQuery.getText().toString().equalsIgnoreCase(""))
 	    	{
-	    		ShowToast("Nothing to query :)");
+	    		Toast.makeText(getApplicationContext(), getString(R.string.nothing_to_query), Toast.LENGTH_LONG).show();
 	    	} else {
 	    		QueryDatabase(etMAQuery.getText().toString());
 	    	}

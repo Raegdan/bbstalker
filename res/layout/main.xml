@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAWatchDB"
-        android:text="My collection" />
+        android:text="@string/my_collection" />
 
     <Button
         android:id="@+id/btnMAHelp"
@@ -24,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAWatchCollection"
-        android:text="Help" />
+        android:text="@string/help" />
 
     <Button
         android:id="@+id/btnMAConfig"
@@ -33,7 +33,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAHelp"
-        android:text="Config" />
+        android:text="@string/config" />
 
     <Button
         android:id="@+id/btnMAWatchDB"
@@ -42,7 +42,7 @@
         android:layout_alignLeft="@+id/btnMAWatchCollection"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAQuery"
-        android:text="Watch all database" />
+        android:text="@string/watch_all_db" />
 
     <Button
         android:id="@+id/btnMAQuery"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/btnMAWatchDB"
         android:layout_below="@+id/tvMATitle"
-        android:text="Query" />
+        android:text="@string/query" />
 
     <EditText
         android:id="@+id/etMAQuery"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:text="(\\ BBStalker v0.1 /)"
+        android:text="@string/app_title"
         android:textAllCaps="false"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/holo_green_light"

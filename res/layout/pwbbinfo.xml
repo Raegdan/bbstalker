@@ -108,7 +108,7 @@
             android:layout_alignRight="@+id/tvPWBBSocialShare"
             android:layout_toRightOf="@+id/tvPWBBSocialShareShop"
             android:lines="1"
-            android:text="ToyLandia"
+            android:text="@string/shop_field"
             android:textAppearance="?android:attr/textAppearanceSmall" >
 
             <requestFocus />
@@ -122,7 +122,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingLeft="4dp"
-            android:text="Shop:"
+            android:text="@string/shop_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </RelativeLayout>
