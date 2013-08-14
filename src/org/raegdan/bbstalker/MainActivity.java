@@ -15,6 +15,7 @@ public class MainActivity extends Activity implements OnClickListener {
     Button btnMAQuery;
     Button btnMAWatchDB;
     Button btnMAWatchCollection;
+    Button btnMAHelp;
     EditText etMAQuery;
 	
 	@Override
@@ -28,6 +29,8 @@ public class MainActivity extends Activity implements OnClickListener {
         btnMAWatchDB.setOnClickListener(this);
         btnMAWatchCollection = (Button) findViewById(R.id.btnMAWatchCollection);
         btnMAWatchCollection.setOnClickListener(this);
+        btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
+        btnMAHelp.setOnClickListener(this);
         etMAQuery = (EditText) findViewById(R.id.etMAQuery);
         etMAQuery.setOnClickListener(this);
 	}
