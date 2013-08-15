@@ -17,7 +17,7 @@
     <string name="social_msg_p5">" using #bbstalker"</string>
     <string name="no_social_app_p1">"Please install official "</string>
     <string name="no_social_app_p2">" client from the Market."</string>
-    <string name="app_title">"(\\ BBStalker v0.1 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -29,7 +29,9 @@
     <string name="help_text">Help text in English coming soon.</string>
     <string name="trying_to_locate">Trying to get location...</string>
     <string name="trying_to_get_link">Trying to get a Google Maps link...</string>
-
-    
+    <string name="title_activity_config">ConfigActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="allow_geoloc">Allow geolocation for social networks sharing</string>
 
 </resources>

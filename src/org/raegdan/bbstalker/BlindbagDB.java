@@ -191,12 +191,12 @@ class BlindbagDB extends Activity {
 			}
 		}
 		
-		SharedPreferences sp = ((Activity) context).getPreferences(MODE_PRIVATE);
-	Editor ed = sp.edit();
-	ed.putString(COLLECTION_PREF_ID, ja.toString());
-	ed.commit();
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE);
+		Editor ed = sp.edit();
+		ed.putString(COLLECTION_PREF_ID, ja.toString());
+		ed.commit();
 	
-	return true;
+		return true;
 	}
 	
 	Blindbag GetBlindbagByUniqID(String uniqid)
@@ -254,7 +254,7 @@ class BlindbagDB extends Activity {
 	
 	protected JSONArray GetCollection (Context context) throws JSONException
 	{
-		SharedPreferences sp = ((Activity) context).getPreferences(MODE_PRIVATE);
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE);
 		return new JSONArray(sp.getString(COLLECTION_PREF_ID, "[{\"uniqid\": \"\", \"count\": 0}]"));		
 	}
 	

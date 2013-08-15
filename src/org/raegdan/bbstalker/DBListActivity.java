@@ -256,7 +256,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
 		
-		final SharedPreferences sp = this.getPreferences(MODE_PRIVATE);
+		final SharedPreferences sp = this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 		etPWBBShareShopname.setText(sp.getString("shopname", getString(R.string.shop_field)));
 		etPWBBShareShopname.addTextChangedListener(new TextWatcher() {
 
@@ -291,6 +291,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	// To share, call SocialShare.
 	//
 	// - SocialShare
+	//   - Geolocation allowed in config?
+	//     - no: ActuallyShare w/o geotag
 	//   - Cached location exists?
 	//     - yes: ActuallyShare with cached location
 	//     - no: 
@@ -321,6 +323,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	
 	protected void SocialShare(Integer SocialNetwork)
 	{		
+		if (!this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE).getBoolean("allow_geoloc", true))
+		{
+			ActuallyShare(SocialNetwork, null);
+			return;
+		}
+		
 		Time t = new Time();
 		t.setToNow();
 		

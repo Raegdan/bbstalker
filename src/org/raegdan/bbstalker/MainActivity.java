@@ -20,6 +20,7 @@ public class MainActivity extends Activity implements OnClickListener {
     Button btnMAWatchDB;
     Button btnMAWatchCollection;
     Button btnMAHelp;
+    Button btnMAConfig;
     EditText etMAQuery;
 	
 	@Override
@@ -35,6 +36,8 @@ public class MainActivity extends Activity implements OnClickListener {
         btnMAWatchCollection.setOnClickListener(this);
         btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
         btnMAHelp.setOnClickListener(this);
+        btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
+        btnMAConfig.setOnClickListener(this);
         etMAQuery = (EditText) findViewById(R.id.etMAQuery);
         etMAQuery.setOnClickListener(this);
 	}
@@ -44,6 +47,12 @@ public class MainActivity extends Activity implements OnClickListener {
     	Intent intent = new Intent(this, DBListActivity.class);
     	intent.putExtra("query", query);
     	startActivity(intent);
+	}
+	
+	protected void OpenConfigActivity()
+	{
+    	Intent intent = new Intent(this, ConfigActivity.class);
+    	startActivity(intent);		
 	}
 	
 	@Override
@@ -68,6 +77,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	    	
 	    case R.id.btnMAHelp:
 	    	ShowHelp();
+	    	break;
+	    	
+	    case R.id.btnMAConfig:
+	    	OpenConfigActivity();
 	    	break;
 	    	
 	    default:

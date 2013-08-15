@@ -1,83 +1,188 @@
 {
 	"waves":
 	[
-		{"waveid": "1", "priorities": 
-		[
-			{"regexp": "^(([0-2][0-9\\.\\*]|[0-9\\.\\*][0-9])|(2[0-9\\.\\*]4[0-9\\.\\*]5))$", 																								"field": "bbids", "priority": 50},
-			{"regexp": "^(([0-2][0-9\\.\\*]|[0-9\\.\\*][0-9])|(2[0-9\\.\\*]4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}4[0-9\\.\\*]5|2[0-9\\.\\*]{1,}5))$", 														"field": "bbids", "priority": 40},
-			{"regexp": "^(([0-2][0-9\\.\\*]|[0-9\\.\\*][0-9])|(2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}5))$", 																	"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "1", "priorities": 			
+			[
+				{"regexp": "^1$", 									"field": "waveid", "priority": 200},
+				                      
+				{"regexp": "^[0-2][0-9\\.\\*]$", 					"field": "bbids", "priority": 100},
+				             	 
+				{"regexp": "^2[0-9\\.\\*]4[0-9\\.\\*]5$", 			"field": "bbids", "priority": 90},
+				               	 
+				{"regexp": "^2[0-9\\.\\*]4[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^2[0-9\\.\\*]{1,}5$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}4[0-9\\.\\*]5$", 		"field": "bbids", "priority": 60},
+				                    	     
+				{"regexp": "^[0-2\\.\\*][0-9]$", 					"field": "bbids", "priority": 50},
+				                	 
+				{"regexp": "^2[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}4[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}5$", 					"field": "bbids", "priority": 20},
+				
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}
+			]
+		},
 		
-		{"waveid": "2", "priorities": 
-		[
-			{"regexp": "^([0-2][0-9])$", 																																					"field": "bbids", "priority": 40},
-			{"regexp": "^([0-2][0-9\\.\\*]|[0-9\\.\\*][0-9])$", 																															"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "2", "priorities": 			
+			[
+				{"regexp": "^2$", 									"field": "waveid", "priority": 200},
+				                      
+				{"regexp": "^[0-2][0-9\\.\\*]$", 					"field": "bbids", "priority": 100},
+				                    	     
+				{"regexp": "^[0-2\\.\\*][0-9]$", 					"field": "bbids", "priority": 50},
+				{"regexp": "^[0-9\\.\\*]{1,2}$", 					"field": "bbids", "priority": 20},
+				                                     	 
+				{"regexp": "^[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 10},
+
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}
+			]
+		},
 		
-		{"waveid": "3", "priorities": 
-		[
-			{"regexp": "^(([0-2][0-9])|(4[0-9\\.\\*]5[0-9\\.\\*]2)|(4[0-9\\.\\*]2[0-9\\.\\*]5))$", 																							"field": "bbids", "priority": 50},
-			{"regexp": "^(([0-2][0-9])|(4[0-9\\.\\*]5[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}5[0-9\\.\\*]2|4[0-9\\.\\*]{1,}2)|(4[0-9\\.\\*]2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]5|4[0-9\\.\\*]{1,}5))$", 		"field": "bbids", "priority": 40},
-			{"regexp": "^(([0-2][0-9\\.\\*]|[0-9\\.\\*][0-9])|(4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}5[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2)|(4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}5))$", 			"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "3", "priorities": 			
+			[
+				{"regexp": "^3$", 									"field": "waveid", "priority": 200},
+				                      
+				{"regexp": "^[0-2][0-9\\.\\*]$", 					"field": "bbids", "priority": 100},
+				       	       
+				{"regexp": "^4[0-9\\.\\*]5[0-9\\.\\*]2$", 			"field": "bbids", "priority": 90},
+				       	       
+				{"regexp": "^4[0-9\\.\\*]2[0-9\\.\\*]5$", 			"field": "bbids", "priority": 90},
+				         	       
+				{"regexp": "^4[0-9\\.\\*]5[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^4[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}5[0-9\\.\\*]2$", 		"field": "bbids", "priority": 60},
+				         	       
+				{"regexp": "^4[0-9\\.\\*]2[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^4[0-9\\.\\*]{1,}5$", 					"field": "bbids", "priority": 60},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]5$", 		"field": "bbids", "priority": 70},
+				                    	     
+				{"regexp": "^[0-2\\.\\*][0-9]$", 					"field": "bbids", "priority": 50},
+				          	       
+				{"regexp": "^4[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}5[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 20},
+				          	       
+				{"regexp": "^4[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}5$", 					"field": "bbids", "priority": 20},
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}								
+			]	
+		},
 		
-		{"waveid": "4", "priorities": 
-		[
-			{"regexp": "^((5[0-9\\.\\*]4[0-9\\.\\*]2)|(8[0-9\\.\\*]2[0-9\\.\\*]6)|(8[0-9\\.\\*]6[0-9\\.\\*]2))$", 																																	"field": "bbids", "priority": 50},
-			{"regexp": "^((5[0-9\\.\\*]4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}4[0-9\\.\\*]2|5[0-9\\.\\*]{1,}2)|(8[0-9\\.\\*]2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]6|8[0-9\\.\\*]{1,}6)|(8[0-9\\.\\*]6[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}6[0-9\\.\\*]2|8[0-9\\.\\*]{1,}2))$", 		"field": "bbids", "priority": 40},
-			{"regexp": "^((5[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}4[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2)|(8[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}6)|(8[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}6[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2))$", 												"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																																					"field": "bbids", "priority": 20},
+		{"waveid": "4", "priorities": 			
+			[
+				{"regexp": "^4$", 									"field": "waveid", "priority": 200},
+				              
+				{"regexp": "^5[0-9\\.\\*]4[0-9\\.\\*]2$", 			"field": "bbids", "priority": 90},
+				       	       
+				{"regexp": "^8[0-9\\.\\*]2[0-9\\.\\*]6$", 			"field": "bbids", "priority": 90},
+				       	       
+				{"regexp": "^8[0-9\\.\\*]6[0-9\\.\\*]2$", 			"field": "bbids", "priority": 90},
+				         	       
+				{"regexp": "^5[0-9\\.\\*]4[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^5[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}4[0-9\\.\\*]2$", 		"field": "bbids", "priority": 60},
+				         	       
+				{"regexp": "^8[0-9\\.\\*]2[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^8[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 60},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]6$", 		"field": "bbids", "priority": 70},
+				         	       
+				{"regexp": "^8[0-9\\.\\*]6[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^8[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 60},
+				{"regexp": "^[0-9\\.\\*]{1,}6[0-9\\.\\*]2$", 		"field": "bbids", "priority": 70},
+				          	       
+				{"regexp": "^5[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}4[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 20},
+				          	       
+				{"regexp": "^8[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 20},
+				          	       
+				{"regexp": "^8[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}6[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 20},
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			]
+		},
 			
-			{"regexp": "^.*$", 																																																						"field": "name", "priority": 10}
-		]},
-			
-		{"waveid": "5", "priorities": 
-		[
-			{"regexp": "^(7[0-9\\.\\*]1[0-9\\.\\*]2)$", 																																	"field": "bbids", "priority": 50},
-			{"regexp": "^(7[0-9\\.\\*]1[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}1[0-9\\.\\*]2|7[0-9\\.\\*]{1,}2)$", 																							"field": "bbids", "priority": 40},
-			{"regexp": "^(7[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}1[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2)$", 																										"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},	
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "5", "priorities": 			
+			[
+				{"regexp": "^5$", 									"field": "waveid", "priority": 200},
+				              
+				{"regexp": "^7[0-9\\.\\*]1[0-9\\.\\*]2$", 			"field": "bbids", "priority": 90},
+				         	       
+				{"regexp": "^7[0-9\\.\\*]1[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^7[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}1[0-9\\.\\*]2$", 		"field": "bbids", "priority": 60},
+				          	       
+				{"regexp": "^7[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}1[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}2$", 					"field": "bbids", "priority": 20},				
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			]
+		},
 		
-		{"waveid": "6", "priorities": 
-		[
-			{"regexp": "^(8[0-9\\.\\*]2[0-9\\.\\*]6)$", 																																	"field": "bbids", "priority": 50},
-			{"regexp": "^(8[0-9\\.\\*]2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]6|8[0-9\\.\\*]{1,}6)$", 																							"field": "bbids", "priority": 40},
-			{"regexp": "^(8[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}6)$", 																										"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "6", "priorities": 			
+			[
+				{"regexp": "^6$", 									"field": "waveid", "priority": 200},
+				              
+				{"regexp": "^8[0-9\\.\\*]2[0-9\\.\\*]6$", 			"field": "bbids", "priority": 90},
+				         	       
+				{"regexp": "^8[0-9\\.\\*]2[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^8[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]6$", 		"field": "bbids", "priority": 60},
+				          	       
+				{"regexp": "^8[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 20},	
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			]
+		},
 		
-		{"waveid": "7", "priorities": 
-		[
-			{"regexp": "^(9[0-9\\.\\*]2[0-9\\.\\*]6)$", 																																	"field": "bbids", "priority": 50},
-			{"regexp": "^(9[0-9\\.\\*]2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]6|9[0-9\\.\\*]{1,}6)$", 																							"field": "bbids", "priority": 40},
-			{"regexp": "^(9[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}|[0-9\\.\\*]{1,}6)$", 																										"field": "bbids", "priority": 30},
-			{"regexp": "^[0-9\\.\\*]{1,}$", 																																							"field": "bbids", "priority": 20},	
-	
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]},
+		{"waveid": "7", "priorities":        	
+			[
+				{"regexp": "^6$", 									"field": "waveid", "priority": 200},
+				              
+				{"regexp": "^9[0-9\\.\\*]2[0-9\\.\\*]6$", 			"field": "bbids", "priority": 90},
+				         	       
+				{"regexp": "^9[0-9\\.\\*]2[0-9\\.\\*]{1,}$", 		"field": "bbids", "priority": 80},
+				{"regexp": "^9[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 70},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]6$", 		"field": "bbids", "priority": 60},
+				          	       
+				{"regexp": "^9[0-9\\.\\*]{1,}$", 					"field": "bbids", "priority": 40},
+				{"regexp": "^[0-9\\.\\*]{1,}2[0-9\\.\\*]{1,}$", 	"field": "bbids", "priority": 30},
+				{"regexp": "^[0-9\\.\\*]{1,}6$", 					"field": "bbids", "priority": 20},	
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			]
+		},
 		
-		{"waveid": "8", "priorities":
-		[
-			{"regexp": "^A[A-Z]$",																																						"field": "bbids", "priority": 30},	
-			{"regexp": "^A[A-Z\\.]$",																																	"field": "bbids", "priority": 20},	
-			
-			{"regexp": "^.*$", 																																								"field": "name", "priority": 10}
-		]}		
+		{"waveid": "8", "priorities":			          
+			[                                  
+				{"regexp": "^8$", 									"field": "waveid", "priority": 200},
+				
+				{"regexp": "^A[A-Z\\.]$",							"field": "bbids", "priority": 100},
+				
+				{"regexp": "^[A-Z\\.]$",							"field": "bbids", "priority": 50},
+				                                     	 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			]                                       
+		}		
 	],
+	
 	"blindbags":
 	[
 		{"uniqid": "01001", "bbids": ["01", "20415"],				"waveid": "1", "name": "Pinkie Pie",							"wikiurl": "http://mlp.wikia.com/wiki/Pinkie_Pie"},

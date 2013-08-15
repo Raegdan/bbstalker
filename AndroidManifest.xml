@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.raegdan.bbstalker"
-    android:versionCode="1"
+    android:versionCode="1000"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="15" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="DBListActivity"></activity>
+        <activity android:name="org.raegdan.bbstalker.DBListActivity" >
+        </activity>
+        <activity
+            android:name="org.raegdan.bbstalker.ConfigActivity"
+            android:label="@string/title_activity_config" >
+        </activity>
     </application>
 
 </manifest>
