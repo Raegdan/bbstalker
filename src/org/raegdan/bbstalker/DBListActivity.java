@@ -21,7 +21,6 @@ import org.raegdan.bbstalker.MyLocation.LocationResult;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -220,7 +219,6 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			if (bb.count == 0)
 			{
 				dblist.data.remove(CurrentDBListID.intValue());
-				Log.d("pw", "remove");
 				pw.dismiss();
 			}
 		}
@@ -323,6 +321,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	//                 - ActuallyShare w/o geotag
 	//
 	//////////////////////////////////////////////////////////
+	
 	protected void SocialShare(Integer SocialNetwork)
 	{		
 		Time t = new Time();

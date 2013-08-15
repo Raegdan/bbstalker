@@ -89,14 +89,5 @@ public class MainActivity extends Activity implements OnClickListener {
 		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setFocusable(true);
 		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-	}
-	
-	///////////////////////////////////////
-    ///@Override
-   // public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-   //     getMenuInflater().inflate(R.menu.main, menu);
-   //     return true;
-   // }
-    
+	}    
 }

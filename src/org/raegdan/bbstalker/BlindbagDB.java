@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 class RegexpField
 {
@@ -113,9 +112,9 @@ class BlindbagDB extends Activity {
 	@SuppressWarnings("unchecked")
 	BlindbagDB LookupDB(String query)
 	{
-		BlindbagDB OutDB = this;
+		QueryToRegexp(query);
 		
-//		Log.d("Lookup", "Query: '" + query + "'");
+		BlindbagDB OutDB = this;
 		
 		for (int i = 0; i < OutDB.blindbags.size(); i++)
 		{
@@ -126,29 +125,24 @@ class BlindbagDB extends Activity {
 			
 			Integer Priority = 0;
 			for (int j = 0; j < w.priorities.size(); j++)
-			{
-//				Log.d("Lookup", "j = " + Integer.toString(j) + ", Regexp: '" + w.priorities.get(j).regexp + ", " + w.priorities.get(j).priority.toString() + "'");
-				
+			{				
 				if (MatchRegexp(w.priorities.get(j).regexp, query.toUpperCase(Locale.ENGLISH)) && (w.priorities.get(j).priority > Priority))
 				{
-//					Log.d("Lookup", "Regexp Match! Field = '" + w.priorities.get(j).field + "'");
 					String PriorityField = w.priorities.get(j).field;
-					
 					Object field = bb.GetFieldByName(PriorityField);
+					String QueryRegexp = QueryToRegexp(query);
+					
 					// Exception in GFBN
 					if (field == null)
 					{
-//						Log.d("Lookup", "Field is null.");
 						continue;
 					}
 					
 					// Field is string (e.g. name)
 					else if (field instanceof String)
 					{
-//						Log.d("Lookup", "Field is string.");
-						if (((String) field).toUpperCase(Locale.ENGLISH).contains(query.toUpperCase(Locale.ENGLISH)))
+						if (MatchRegexp(QueryRegexp.toUpperCase(Locale.ENGLISH), ((String) field).toUpperCase(Locale.ENGLISH)))
 						{
-//							Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
 							Priority = w.priorities.get(j).priority;
 						}							
 					}
@@ -156,12 +150,10 @@ class BlindbagDB extends Activity {
 					// Field is list (e.g. bbids)
 					else if (field instanceof List)
 					{
-//						Log.d("Lookup", "Field is list.");
 						for (int k = 0; k < bb.bbids.size(); k++)
 						{
-							if (((List<String>) field).get(k).toUpperCase(Locale.ENGLISH).contains(query.toUpperCase(Locale.ENGLISH)))
+							if (MatchRegexp(QueryRegexp.toUpperCase(Locale.ENGLISH), ((List<String>) field).get(k)))
 							{
-//								Log.d("Lookup", "Match! Priority = " + w.priorities.get(j).priority.toString());
 								Priority = w.priorities.get(j).priority;
 							}
 						}							
@@ -171,7 +163,6 @@ class BlindbagDB extends Activity {
 			
 			bb.priority = Priority;
 			
-//			Log.d("Out", bb.name + " --- " + bb.waveid + " --- " + Integer.toString(bb.priority));
 			OutDB.blindbags.set(i, bb);
 		}
 		
@@ -252,10 +243,18 @@ class BlindbagDB extends Activity {
 		return database;
 	}
 	
+	protected String QueryToRegexp(String query)
+	{
+		query = query.replaceAll("([^A-Za-z0-9\\.\\*])", "\\\\$1");
+		query = query.replaceAll("\\*", ".{1,}?");
+		query = ".*?" + query + ".*?";
+		
+		return query;
+	}
+	
 	protected JSONArray GetCollection (Context context) throws JSONException
 	{
 		SharedPreferences sp = ((Activity) context).getPreferences(MODE_PRIVATE);
-		Log.d("x", "GetCollection OK");
 		return new JSONArray(sp.getString(COLLECTION_PREF_ID, "[{\"uniqid\": \"\", \"count\": 0}]"));		
 	}
 	
@@ -288,18 +287,17 @@ class BlindbagDB extends Activity {
 			
 			found = false;
 		}
-		Log.d("x", "ParseCollection OK");
 	}
 	
 	protected String StreamToString(InputStream is) throws IOException {
-		StringBuilder out = new StringBuilder();
+		String s = "";
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		for(String line = br.readLine(); line != null; line = br.readLine()) 
 		{
-			out.append(line);
+			s += line;
 		}
 		br.close();
-		return out.toString();
+		return s;
 	}
 	
 	protected Boolean MatchRegexp(String regexp, String s)
@@ -329,7 +327,6 @@ class BlindbagDB extends Activity {
 				rf.field =  DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getString("field");
 				rf.regexp =  DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getString("regexp");
 				rf.priority = DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").getJSONObject(j).getInt("priority");
-				Log.d("ParseDB", rf.field + " -- " + rf.regexp + " -- "  + Integer.toString(rf.priority));
 				w.priorities.add(rf);
 			}
 			
