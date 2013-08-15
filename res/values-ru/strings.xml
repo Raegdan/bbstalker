@@ -19,7 +19,7 @@
     <string name="social_msg_p1">"YAY! Только что нашёл "</string>
     <string name="social_msg_p2">" волну блиндбагов и "</string>
     <string name="social_msg_p3">" среди них в маг. "</string>
-    <string name="social_msg_p4">""</string>
+    <string name="social_msg_p4">", гео: "</string>
     <string name="social_msg_p5">" #bbstalker"</string>
     <string name="watch_all_db">"Все блиндбаги"</string>
     <string name="code">"Код: "</string>

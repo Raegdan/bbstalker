@@ -1,8 +1,24 @@
 package org.raegdan.bbstalker;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.raegdan.bbstalker.MyLocation.LocationResult;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,10 +28,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,6 +74,10 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	ImageButton ibPWBBUncart;
 	EditText etPWBBShareShopname;
 	
+	ProgressDialog mDialog;
+	MyLocation myLocation;
+	String BitlyLink;
+	
 	final static int HM_BY_COUNT = 1;
 	final static int HM_BY_PRIORITY = 2;
 	
@@ -69,11 +92,6 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			data = new ArrayList<HashMap<String, Object>>();
 		}
 	}
-	
-	protected class Geodata
-	{
-		Double lat, lon;
-	}
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +101,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
 		
 		database = new BlindbagDB();
+		
+		myLocation = new MyLocation();
 		
 		if (!database.LoadDB(this))
 		{
@@ -268,11 +288,135 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		pw.showAtLocation(vPWBBInfo, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
 
-	protected void SocialShare(int SocialNetwork)
+	protected class BitlyRequest extends AsyncTask<String, Integer, String>
 	{
+
+		@Override
+		protected String doInBackground(String... params) {
+			String API_KEY = "a6d306ec04569d71baa6459738622fde5d37262f";
+			String BITLY_API_URL = "https://api-ssl.bitly.com/v3/shorten?access_token=" + API_KEY + "&longUrl=";
+			
+			try {
+				params[0] = URLEncoder.encode(params[0], "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		    HttpClient hc = new DefaultHttpClient(); 
+		    
+		    Log.d("Request", BITLY_API_URL + params[0]);
+		    
+		    HttpGet hg = new HttpGet(BITLY_API_URL + params[0]);
+		    HttpResponse hr;
+		    
+			try {
+				hr = hc.execute(hg);
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			} 
+			
+		    HttpEntity he = hr.getEntity();  
+		    if (he == null)
+		    {  
+		    	return null;
+		    }
+		    
+		    String response  = "";
+		    
+			try {
+				response = EntityUtils.toString(he);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		    
+			Log.d("JSON", response);
+		    
+		    try {
+				return new JSONObject(response).getJSONObject("data").getString("url");
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return null;
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}		
+	}
+	protected void SocialShare(final int SocialNetwork)
+	{		
+		LocationResult locationResult = new LocationResult(){
+			@Override
+			public void gotLocation(Location location, int ErrCode, boolean cached) {
+				switch (ErrCode)
+				{
+					case MyLocation.EC_NO_PROVIDERS:
+					{
+						Log.d ("Geodata", "No providers");
+						break;
+					}
+					
+					case MyLocation.EC_NO_DATA:
+					{
+						Log.d ("Geodata", "No data");
+						break;
+					}
+					
+					case MyLocation.EC_NO_ERR:
+					{
+						Log.d ("Geodata", "OK! Lat:" + Double.toString(location.getLatitude()) + " Lon:" + Double.toString(location.getLongitude()));
+						
+						if (!cached)
+						{
+							try {
+								BitlyLink = new BitlyRequest().execute("http://maps.google.com/maps?q=" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude())).get().replaceAll("http://", "");
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+								return;
+							} catch (ExecutionException e) {
+								e.printStackTrace();
+								return;
+							}
+						
+							if (BitlyLink == null)
+							{
+								return;
+							}							
+						}
+						
+						Log.d ("Geodata", BitlyLink);
+
+						SocialShareStage2(SocialNetwork, BitlyLink);
+						
+						break;
+					}
+				}
+			}
+		};
+		
+		mDialog = new ProgressDialog(this);
+        mDialog.setMessage("Loading...");
+        mDialog.setCancelable(false);
+        mDialog.show();
+        
+		myLocation.getLocation(this, locationResult);
+	}
+	
+	protected void SocialShareStage2(int SocialNetwork, String GeoLink)
+	{
+		mDialog.dismiss();
+		
 		SocialShare ss = new SocialShare(this);
 		
-		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString() + getString(R.string.social_msg_p4) /* + "http://TODO/" */ + getString(R.string.social_msg_p5);
+		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString() + getString(R.string.social_msg_p4)  + GeoLink + getString(R.string.social_msg_p5);
 		
 		String text = getString(R.string.no_social_app_p1);
 		switch (SocialNetwork)
