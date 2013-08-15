@@ -116,22 +116,19 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		lvDBList = (ListView) findViewById(R.id.lvDBList);
 		lvDBList.setOnItemClickListener(this);
 		
+		HideMode = HM_BY_PRIORITY;
+		
 		if (query.equalsIgnoreCase("$"))
 		{
 			tvDBHeader.setText(getString(R.string.my_collection));
 			HideMode = HM_BY_COUNT;
-		} else
+		} else if (query.equalsIgnoreCase("#"))
 		{
-			if (query.equalsIgnoreCase(""))
-			{
-				tvDBHeader.setText(getString(R.string.all_db));
-			} else {
-				tvDBHeader.setText(getString(R.string.results_for) + query + "»");
-			}
-			
+			tvDBHeader.setText(getString(R.string.all_db));
+		} else {
+			tvDBHeader.setText(getString(R.string.results_for) + query + "»");
 			database = database.LookupDB(query);
-			HideMode = HM_BY_PRIORITY;
-		}		
+		}	
 		
 		dblist = PrepareDBList(database, HideMode);
 		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
