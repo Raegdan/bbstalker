@@ -6,12 +6,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -22,6 +20,7 @@ import org.raegdan.bbstalker.MyLocation.LocationResult;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -75,8 +74,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	EditText etPWBBShareShopname;
 	
 	ProgressDialog mDialog;
-	MyLocation myLocation;
-	String BitlyLink;
+	HashMap<String, Object> LocationCache;
 	
 	final static int HM_BY_COUNT = 1;
 	final static int HM_BY_PRIORITY = 2;
@@ -102,7 +100,11 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		
 		database = new BlindbagDB();
 		
-		myLocation = new MyLocation();
+		LocationCache = new HashMap<String, Object>();
+		LocationCache.put("time", new Time().toMillis(true));
+		LocationCache.put("location", String.valueOf(""));
+		LocationCache.put("timeout", Long.valueOf(300000));
+		
 		
 		if (!database.LoadDB(this))
 		{
@@ -287,139 +289,180 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		pw.setFocusable(true);
 		pw.showAtLocation(vPWBBInfo, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
-
-	protected class BitlyRequest extends AsyncTask<String, Integer, String>
-	{
-
-		@Override
-		protected String doInBackground(String... params) {
-			String API_KEY = "a6d306ec04569d71baa6459738622fde5d37262f";
-			String BITLY_API_URL = "https://api-ssl.bitly.com/v3/shorten?access_token=" + API_KEY + "&longUrl=";
-			
-			try {
-				params[0] = URLEncoder.encode(params[0], "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-				return null;
-			}
-			
-		    HttpClient hc = new DefaultHttpClient(); 
-		    
-		    Log.d("Request", BITLY_API_URL + params[0]);
-		    
-		    HttpGet hg = new HttpGet(BITLY_API_URL + params[0]);
-		    HttpResponse hr;
-		    
-			try {
-				hr = hc.execute(hg);
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-				return null;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			} 
-			
-		    HttpEntity he = hr.getEntity();  
-		    if (he == null)
-		    {  
-		    	return null;
-		    }
-		    
-		    String response  = "";
-		    
-			try {
-				response = EntityUtils.toString(he);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		    
-			Log.d("JSON", response);
-		    
-		    try {
-				return new JSONObject(response).getJSONObject("data").getString("url");
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return null;
-			} catch (JSONException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}		
-	}
-	protected void SocialShare(final int SocialNetwork)
+	
+	
+	///////////// SOCIAL SHARING METHODS LOGIC //////////////
+	//
+	// To share, call SocialShare.
+	//
+	// - SocialShare
+	//   - Cached location exists?
+	//     - yes: ActuallyShare with cached location
+	//     - no: 
+	//       - show waiting popup
+	//       - LocationRequest
+	//         - no location providers?
+	//           - hide popup
+	//           - cache null geolocation data
+	//		     - ActuallyShare w/o geotag
+	//         - no location data available? (no GPS satellites visible, no network signal)
+	//  		 - hide popup
+	//           - cache null geolocation data
+	//           - ActuallyShare w/o geotag
+	//         - location data obtained successfully?
+	//           - BitlyRequest
+	//             - change popup text
+	//             - request link compaction
+	//  		   - hide popup
+	//             - Link successfully compacted via Bitly?
+	//               - yes:
+	//                 - cache link
+	//                 - ActuallyShare w/geotag
+	//               - no:
+	//				   - cache null geolocation data	
+	//                 - ActuallyShare w/o geotag
+	//
+	//////////////////////////////////////////////////////////
+	protected void SocialShare(Integer SocialNetwork)
 	{		
-		LocationResult locationResult = new LocationResult(){
-			@Override
-			public void gotLocation(Location location, int ErrCode, boolean cached) {
-				switch (ErrCode)
-				{
-					case MyLocation.EC_NO_PROVIDERS:
-					{
-						Log.d ("Geodata", "No providers");
-						break;
-					}
-					
-					case MyLocation.EC_NO_DATA:
-					{
-						Log.d ("Geodata", "No data");
-						break;
-					}
-					
-					case MyLocation.EC_NO_ERR:
-					{
-						Log.d ("Geodata", "OK! Lat:" + Double.toString(location.getLatitude()) + " Lon:" + Double.toString(location.getLongitude()));
-						
-						if (!cached)
-						{
-							try {
-								BitlyLink = new BitlyRequest().execute("http://maps.google.com/maps?q=" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude())).get().replaceAll("http://", "");
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								return;
-							} catch (ExecutionException e) {
-								e.printStackTrace();
-								return;
-							}
-						
-							if (BitlyLink == null)
-							{
-								return;
-							}							
-						}
-						
-						Log.d ("Geodata", BitlyLink);
-
-						SocialShareStage2(SocialNetwork, BitlyLink);
-						
-						break;
-					}
-				}
-			}
-		};
+		Time t = new Time();
+		t.setToNow();
 		
-		mDialog = new ProgressDialog(this);
-        mDialog.setMessage("Loading...");
-        mDialog.setCancelable(false);
-        mDialog.show();
-        
-		myLocation.getLocation(this, locationResult);
+		if ((t.toMillis(true) - (Long) LocationCache.get("time")) < ((Long) LocationCache.get("timeout")))
+		{
+			ActuallyShare(SocialNetwork, ((String) LocationCache.get("location")));
+		} else {
+			mDialog = new ProgressDialog(this);
+	        mDialog.setMessage(getString(R.string.trying_to_locate));
+	        mDialog.setCancelable(false);
+	        mDialog.show();
+	        
+	    	MyLocation myLocation;
+			myLocation = new MyLocation();
+			LocationResult locationResult = new LocationRequest(SocialNetwork);
+			myLocation.getLocation(this, locationResult);			
+		}
 	}
 	
-	protected void SocialShareStage2(int SocialNetwork, String GeoLink)
+	protected class LocationRequest extends LocationResult
 	{
-		mDialog.dismiss();
+		Integer sn;
 		
+		public LocationRequest(Integer SocialNetwork) {
+			sn = SocialNetwork;
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void gotLocation(Location location, int ErrCode) {
+			switch (ErrCode)
+			{
+				case MyLocation.EC_NO_PROVIDERS:
+				{
+					mDialog.dismiss();
+					Time t = new Time();
+					t.setToNow();
+					LocationCache.put("time", t.toMillis(true));
+					LocationCache.put("location", null);
+					ActuallyShare(sn, null);
+					
+					break;
+				}
+				
+				case MyLocation.EC_NO_DATA:
+				{
+					mDialog.dismiss();
+					Time t = new Time();
+					t.setToNow();
+					LocationCache.put("time", t.toMillis(true));
+					LocationCache.put("location", null);
+					ActuallyShare(sn, null);
+					
+					break;
+				}
+				
+				case MyLocation.EC_NO_ERR:
+				{
+					HashMap<String, Object> query = new HashMap<String, Object>();
+					query.put("sn", sn);
+					query.put("link", "http://maps.google.com/maps?q=" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude()));
+					new BitlyRequest().execute(query);
+					
+					break;
+				}
+			}		
+		}	
+	}
+	
+	protected class BitlyRequest extends AsyncTask<HashMap<String, Object>, Integer, HashMap<String, Object>>
+	{
+		@Override
+	    protected void onPreExecute()
+		{
+			super.onPreExecute();
+			mDialog.setMessage(getString(R.string.trying_to_get_link));
+	    }
+
+		@Override
+		protected HashMap<String, Object> doInBackground(HashMap<String, Object>... params)
+		{
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("link", null);
+				
+			try 
+			{
+				String API_KEY = "a6d306ec04569d71baa6459738622fde5d37262f";
+				String BITLY_API_URL = "https://api-ssl.bitly.com/v3/shorten?access_token=" + API_KEY + "&longUrl=";
+				
+			    HttpClient hc = new DefaultHttpClient(); 
+			    HttpGet hg = new HttpGet(BITLY_API_URL + URLEncoder.encode((String) params[0].get("link"), "UTF-8"));
+			    HttpResponse hr = hc.execute(hg);
+			    HttpEntity he = hr.getEntity();  
+
+			    if (he == null)
+			    {  
+			    	return null;
+			    }
+			    
+			    String response = EntityUtils.toString(he);
+			    
+			    result.put("link", new JSONObject(response).getJSONObject("data").getString("url").replaceAll("http://", "").replaceAll("https://", ""));
+			} 
+			catch (ParseException e) {}
+			catch (JSONException e) {} 
+			catch (UnsupportedEncodingException e) {}
+			catch (IOException e) {}
+			
+			result.put("sn", (Integer) params[0].get("sn"));
+			return result;
+		}
+			
+		@Override
+		protected void onPostExecute (HashMap<String, Object> result)
+		{
+			Time t = new Time();
+			t.setToNow();
+			LocationCache.put("time", t.toMillis(true));
+			LocationCache.put("location", (String) result.get("link"));
+				
+			mDialog.dismiss();
+			ActuallyShare((Integer) result.get("sn"), (String) result.get("link"));		
+		}
+	}
+	
+	protected void ActuallyShare(Integer SocialNetwork, String GeoLink)
+	{
 		SocialShare ss = new SocialShare(this);
 		
-		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString() + getString(R.string.social_msg_p4)  + GeoLink + getString(R.string.social_msg_p5);
+		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();
+		if (GeoLink != null)
+		{
+			message += getString(R.string.social_msg_p4) + GeoLink;
+		}
+		message += getString(R.string.social_msg_p5);
 		
 		String text = getString(R.string.no_social_app_p1);
-		switch (SocialNetwork)
+		switch (SocialNetwork.intValue())
 		{
 			case SocialShare.SN_VK:
 				text += "VK.com ";
@@ -436,11 +479,10 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		
 		text += getString(R.string.no_social_app_p2);
 
-		if (!ss.Share(message, SocialNetwork))
+		if (!ss.Share(message, SocialNetwork.intValue()))
 		{
 			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-		}
-	
+		}	
 	}
 	
 	@Override

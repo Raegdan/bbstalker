@@ -5,17 +5,16 @@ package org.raegdan.bbstalker;
  * Based on the code by @Fedor from StackOverflow (http://stackoverflow.com/users/95313/fedor) 
 /*/
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.format.Time;
 
 public class MyLocation {
     Timer timer1;
@@ -25,7 +24,6 @@ public class MyLocation {
     boolean network_enabled=false;
     
     final static protected int TIMEOUT = 20000;
-    final static protected int CACHE_TIMEOUT = 300000;
     
     final static protected int EC_NO_ERR = 0;
     final static protected int EC_NO_PROVIDERS = 1;
@@ -33,29 +31,15 @@ public class MyLocation {
     
     HashMap<String, Object> Cache;
     
-    public MyLocation()
-    {
-    	Cache = new HashMap<String, Object>();
-    	
-    	Cache.put("time", new Time().toMillis(true));
-    	Cache.put("cache", new Location(""));
-	}
+    Context context;
 
-    public boolean getLocation(Context context, LocationResult result)
+    public boolean getLocation(Context c, LocationResult result)
     {
         //I use LocationResult callback class to pass location value from MyLocation to user code.
         locationResult=result;
-        
-    	Time t = new Time();
-    	t.setToNow();
-    	if ((t.toMillis(true) - (Long) Cache.get("time")) < CACHE_TIMEOUT)
-    	{
-    		locationResult.gotLocation((Location) Cache.get("cache"), EC_NO_ERR, true);
-    		return false;
-    	}
     	
         if(lm==null)
-            lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            lm = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
 
         //exceptions will be thrown if provider is not permitted.
         try {gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);} catch (Exception ex) {}
@@ -64,7 +48,7 @@ public class MyLocation {
         //don't start listeners if no provider is enabled
         if(!gps_enabled && !network_enabled)
         {
-            locationResult.gotLocation(null, EC_NO_PROVIDERS, false);
+            locationResult.gotLocation(null, EC_NO_PROVIDERS);
         	return false;
         }
         
@@ -73,6 +57,7 @@ public class MyLocation {
         if(network_enabled)
             lm.requestLocationUpdates (LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
         timer1=new Timer();
+        context = c;
         timer1.schedule(new NoData(), TIMEOUT);
         return true;
     }
@@ -82,11 +67,7 @@ public class MyLocation {
             timer1.cancel();
             lm.removeUpdates(this);
             lm.removeUpdates(locationListenerNetwork);
-            Cache.put("cache", location);
-            Time t = new Time();
-            t.setToNow();
-            Cache.put("time", t.toMillis(true));
-            locationResult.gotLocation(location, EC_NO_ERR, false);
+            locationResult.gotLocation(location, EC_NO_ERR);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider) {}
@@ -98,11 +79,7 @@ public class MyLocation {
             timer1.cancel();
             lm.removeUpdates(this);
             lm.removeUpdates(locationListenerGps);
-            Cache.put("cache", location);
-            Time t = new Time();
-            t.setToNow();
-            Cache.put("time", t.toMillis(true));
-            locationResult.gotLocation(location, EC_NO_ERR, false);
+            locationResult.gotLocation(location, EC_NO_ERR);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider) {}
@@ -114,12 +91,17 @@ public class MyLocation {
         public void run() {
              lm.removeUpdates(locationListenerGps);
              lm.removeUpdates(locationListenerNetwork);
-
-             locationResult.gotLocation(null, EC_NO_DATA, false);
+             
+             ((Activity) context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					locationResult.gotLocation(null, EC_NO_DATA);
+				}
+             });
         }
     }
 
     public static abstract class LocationResult{
-        public abstract void gotLocation(Location location, int ErrCode, boolean cached);
+        public abstract void gotLocation(Location location, int ErrCode);
     }
 }
