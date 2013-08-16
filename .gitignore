@@ -1,1 +1,3 @@
 bin
+_release/*
+!_release/.stub
