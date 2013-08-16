@@ -1,7 +1,6 @@
 package org.raegdan.bbstalker;
 
 /*/ 
- * MyLocation class
  * Based on the code by @Fedor from StackOverflow (http://stackoverflow.com/users/95313/fedor) 
 /*/
 

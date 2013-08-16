@@ -21,6 +21,7 @@ import org.raegdan.bbstalker.MyLocation.LocationResult;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	DBList dblist;
 	String CurrentBBUniqID = "";
 	Integer CurrentDBListID = 0;
-	Integer HideMode = 0;
+	String query;
+	int mode;
 
 	ListView lvDBList;
 	SimpleAdapter saDBList;
@@ -75,8 +77,14 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	ProgressDialog mDialog;
 	HashMap<String, Object> LocationCache;
 	
-	final static int HM_BY_COUNT = 1;
-	final static int HM_BY_PRIORITY = 2;
+	final static int HM_BY_COUNT 		= 1;
+	final static int HM_BY_PRIORITY 	= 2;
+	
+	final static int MODE_LOOKUP 	 	= 1;
+	final static int MODE_ALL_DB 	 	= 2;
+	final static int MODE_COLLECTION 	= 3;
+	final static int MODE_WAVE 		 	= 4;
+	
 	
 	protected class DBList
 	{
@@ -111,31 +119,55 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 			return;
 		}
 
-		String query = getIntent().getStringExtra("query");
+		query = getIntent().getStringExtra("query");
+		mode = getIntent().getIntExtra("mode", 0);
 		
 		lvDBList = (ListView) findViewById(R.id.lvDBList);
 		lvDBList.setOnItemClickListener(this);
 		
-		HideMode = HM_BY_PRIORITY;
+		//HideMode = HM_BY_PRIORITY;
 		
-		if (query.equalsIgnoreCase("$"))
-		{
-			tvDBHeader.setText(getString(R.string.my_collection));
-			HideMode = HM_BY_COUNT;
-		} else if (query.equalsIgnoreCase("#"))
-		{
-			tvDBHeader.setText(getString(R.string.all_db));
-		} else {
-			tvDBHeader.setText(getString(R.string.results_for) + query + "»");
-			database = database.LookupDB(query);
-		}	
 		
-		dblist = PrepareDBList(database, HideMode);
+		Log.d("x", "'"+query+"'");
+		
+		
+		switch (mode)
+		{
+			case MODE_ALL_DB:
+			{
+				tvDBHeader.setText(getString(R.string.all_db));				
+				break;
+			}
+		
+			case MODE_LOOKUP:
+			{
+				tvDBHeader.setText(getString(R.string.results_for) + query + "»");
+				database = database.LookupDB(query);				
+				break;
+			}
+			
+			case MODE_COLLECTION:
+			{
+				tvDBHeader.setText(getString(R.string.my_collection));
+				database = database.GetCollection();				
+				break;
+			}
+			
+			case MODE_WAVE:
+			{
+				tvDBHeader.setText(getString(R.string.wave) + query);
+				database = database.GetWaveBBs(query);
+				break;
+			}
+		
+		}
+		
+		dblist = PrepareDBList(database);
 		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
 		lvDBList.setAdapter(saDBList);
 	}
 	
-	protected DBList PrepareDBList (BlindbagDB database, Integer HideMode)
+	protected DBList PrepareDBList (BlindbagDB database)
 	{
 		DBList dl = new DBList();
 		dl.fields = new String[] {"name", "misc", "count", "img1"};
@@ -143,9 +175,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		
 		for (int i = 0; i < database.blindbags.size(); i++)
 		{
-			if (
-					(	(HideMode == HM_BY_PRIORITY) && (database.blindbags.get(i).priority == 0)	) ||
-					(	(HideMode == HM_BY_COUNT) && (database.blindbags.get(i).count == 0)	)		)
+			if (database.blindbags.get(i).priority == 0)
 			{
 				continue;
 			}
@@ -211,7 +241,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		
 		tvPWBBInfoMisc.setText(getString(R.string.pcs_in_collection) + database.blindbags.get(i).count.toString());
 		
-		if (HideMode == HM_BY_COUNT)
+		if (mode == MODE_COLLECTION)
 		{
 			if (bb.count == 0)
 			{

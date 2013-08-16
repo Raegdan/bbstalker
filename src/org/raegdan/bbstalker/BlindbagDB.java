@@ -31,6 +31,8 @@ class Wave
 {
 	List<RegexpField> priorities;
 	String waveid;
+	String year;
+	String format;
 	
 	Wave()
 	{
@@ -212,6 +214,51 @@ class BlindbagDB extends Activity {
 		return null;
 	}
 	
+	Wave GetWaveInfo(String waveid, BlindbagDB database)
+	{
+		Wave w = new Wave();
+		
+		for (int i = 0; i < database.waves.size(); i++)
+		{
+			if (database.waves.get(i).waveid.equalsIgnoreCase(waveid))
+			{
+				w = database.waves.get(i);
+			}
+		}
+		
+		return w;
+	}
+	
+	BlindbagDB GetWaveBBs(String waveid)
+	{
+		BlindbagDB OutDB = this;
+		
+		for (int i = 0; i < OutDB.blindbags.size(); i++)
+		{
+			if (OutDB.blindbags.get(i).waveid != waveid)
+			{
+				OutDB.blindbags.get(i).priority = 0;
+			}
+		}
+		
+		return OutDB;
+	}
+	
+	BlindbagDB GetCollection()
+	{
+		BlindbagDB OutDB = this;
+		
+		for (int i = 0; i < OutDB.blindbags.size(); i++)
+		{
+			if (OutDB.blindbags.get(i).count < 1)
+			{
+				OutDB.blindbags.get(i).priority = 0;
+			}
+		}
+		
+		return OutDB;		
+	}
+	
 	///////////////////
 	// P R I V A T E //
 	///////////////////
@@ -320,6 +367,9 @@ class BlindbagDB extends Activity {
 		{
 			Wave w = new Wave();
 			w.waveid = DB.getJSONArray("waves").getJSONObject(i).getString("waveid");
+			w.year = DB.getJSONArray("waves").getJSONObject(i).getString("year");
+			w.format = DB.getJSONArray("waves").getJSONObject(i).getString("format");
+			
 
 			for (int j = 0; j < DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").length(); j++)
 			{
@@ -349,20 +399,5 @@ class BlindbagDB extends Activity {
 			
 			blindbags.add(bb);
 		}
-	}
-	
-	Wave GetWaveInfo(String waveid, BlindbagDB database)
-	{
-		Wave w = new Wave();
-		
-		for (int i = 0; i < database.waves.size(); i++)
-		{
-			if (database.waves.get(i).waveid.equalsIgnoreCase(waveid))
-			{
-				w = database.waves.get(i);
-			}
-		}
-		
-		return w;
 	}
 }

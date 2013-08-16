@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements OnClickListener {
     Button btnMAWatchCollection;
     Button btnMAHelp;
     Button btnMAConfig;
+    Button btnMAWatchWaves;
     EditText etMAQuery;
 	
 	@Override
@@ -38,14 +39,16 @@ public class MainActivity extends Activity implements OnClickListener {
         btnMAHelp.setOnClickListener(this);
         btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
         btnMAConfig.setOnClickListener(this);
+        btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
+        btnMAWatchWaves.setOnClickListener(this);
         etMAQuery = (EditText) findViewById(R.id.etMAQuery);
         etMAQuery.setOnClickListener(this);
 	}
 	
-	// Queries blind bag DB and shows DB activity
-	protected void QueryDatabase(String query) {
+	protected void OpenDBListActivity(String query, int mode) {
     	Intent intent = new Intent(this, DBListActivity.class);
     	intent.putExtra("query", query);
+    	intent.putExtra("mode", mode);    	
     	startActivity(intent);
 	}
 	
@@ -53,6 +56,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	{
     	Intent intent = new Intent(this, ConfigActivity.class);
     	startActivity(intent);		
+	}
+	
+	protected void OpenWavesListActivity()
+	{
+    	Intent intent = new Intent(this, WavesActivity.class);
+    	startActivity(intent);			
 	}
 	
 	@Override
@@ -63,16 +72,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	    	{
 	    		Toast.makeText(getApplicationContext(), getString(R.string.nothing_to_query), Toast.LENGTH_LONG).show();
 	    	} else {
-	    		QueryDatabase(etMAQuery.getText().toString());
+	    		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
 	    	}
 	    	break;
 	    	
 	    case R.id.btnMAWatchDB:
-	    	QueryDatabase("#");
+	    	OpenDBListActivity("", DBListActivity.MODE_ALL_DB);
 	    	break;
 
 	    case R.id.btnMAWatchCollection:
-	    	QueryDatabase("$");
+	    	OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
 	    	break;
 	    	
 	    case R.id.btnMAHelp:
@@ -81,6 +90,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	    	
 	    case R.id.btnMAConfig:
 	    	OpenConfigActivity();
+	    	break;
+	    	
+	    case R.id.btnMAWatchWaves:
+	    	OpenWavesListActivity();
 	    	break;
 	    	
 	    default:

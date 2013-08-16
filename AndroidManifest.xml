@@ -32,6 +32,10 @@
             android:name="org.raegdan.bbstalker.ConfigActivity"
             android:label="@string/title_activity_config" >
         </activity>
+        <activity
+            android:name="org.raegdan.bbstalker.WavesActivity"
+            android:label="@string/title_activity_waves" >
+        </activity>
     </application>
 
 </manifest>

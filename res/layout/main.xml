@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnMAWatchDB"
+        android:layout_below="@+id/btnMAWatchWaves"
         android:text="@string/my_collection" />
 
     <Button
@@ -39,16 +39,25 @@
         android:id="@+id/btnMAWatchDB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnMAWatchCollection"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAQuery"
         android:text="@string/watch_all_db" />
 
     <Button
+        android:id="@+id/btnMAWatchWaves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAWatchDB"
+        android:text="@string/watch_all_waves" />
+        
+    <Button
         android:id="@+id/btnMAQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnMAWatchDB"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tvMATitle"
         android:text="@string/query" />
 
