@@ -170,8 +170,8 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	protected DBList PrepareDBList (BlindbagDB database)
 	{
 		DBList dl = new DBList();
-		dl.fields = new String[] {"name", "misc", "count", "img1"};
-		dl.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.tvLVDBListCollectionCount, R.id.ivVLDBListWavePic};
+		dl.fields = new String[] {"name", "misc", "img1"};
+		dl.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
 		
 		for (int i = 0; i < database.blindbags.size(); i++)
 		{
@@ -180,21 +180,21 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 				continue;
 			}
 			
-			String bbids = "";
+			String BBIDsSlash = "";
 			for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
 			{
-				bbids += database.blindbags.get(i).bbids.get(j);
+				BBIDsSlash += database.blindbags.get(i).bbids.get(j);
 				if (j < database.blindbags.get(i).bbids.size() - 1)
 				{
-					bbids += " / ";
+					BBIDsSlash += " / ";
 				}
 			}
 			
 			Integer wavepic = this.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", this.getPackageName());
 			HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 			hmDBList.put("name", database.blindbags.get(i).name);
-			hmDBList.put("misc", getString(R.string.code) + bbids);
-			hmDBList.put("count", " (" + database.blindbags.get(i).count.toString() + getString(R.string.in_collection));
+			hmDBList.put("bbids_slash", BBIDsSlash);
+			hmDBList.put("misc", getString(R.string.code) + BBIDsSlash + ", " + getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
 			hmDBList.put("img1", wavepic);
 			hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 			hmDBList.put("count_int", database.blindbags.get(i).count);
@@ -237,7 +237,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
-		dblist.data.get(CurrentDBListID).put("count", " (" + bb.count.toString() + getString(R.string.in_collection));
+		dblist.data.get(CurrentDBListID).put("misc", getString(R.string.code) + dblist.data.get(CurrentDBListID).get("bbids_slash") + ", " + getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
 		
 		tvPWBBInfoMisc.setText(getString(R.string.pcs_in_collection) + database.blindbags.get(i).count.toString());
 		

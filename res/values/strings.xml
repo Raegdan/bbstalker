@@ -7,7 +7,7 @@
     <string name="my_collection">"My collection"</string>
     <string name="all_db">"All database"</string>
     <string name="results_for">"Results for «"</string>
-    <string name="in_collection">" in collection)"</string>
+    <string name="in_collection">"in collection: "</string>
     <string name="json_saving_err">"JSON error occurred while saving data."</string>
     <string name="pcs_in_collection">"Pieces in collection: "</string>
     <string name="social_msg_p1">"Hey everypony! Just found W"</string>
@@ -17,7 +17,7 @@
     <string name="social_msg_p5">" using #bbstalker"</string>
     <string name="no_social_app_p1">"Please install official "</string>
     <string name="no_social_app_p2">" client from the Market."</string>
-    <string name="app_title">"(\\ BBStalker v1.0 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.1 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>

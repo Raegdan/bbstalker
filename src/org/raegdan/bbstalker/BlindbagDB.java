@@ -235,7 +235,7 @@ class BlindbagDB extends Activity {
 		
 		for (int i = 0; i < OutDB.blindbags.size(); i++)
 		{
-			if (OutDB.blindbags.get(i).waveid != waveid)
+			if (!OutDB.blindbags.get(i).waveid.equalsIgnoreCase(waveid))
 			{
 				OutDB.blindbags.get(i).priority = 0;
 			}

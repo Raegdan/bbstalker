@@ -9,10 +9,10 @@
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivVLWavesWavePic"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/ibLVWavesShowBBDesign"
+        android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/ivVLWavesWavePic"
         android:gravity="center_vertical"
         android:orientation="vertical" >
@@ -41,28 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:src="@drawable/w1" />
-
-    <ImageButton
-        android:id="@+id/ibLVWavesShowBBDesign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivVLWavesWavePic"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/ibLVWavesQueryBB"
-        android:src="@drawable/loupe" />
-    
-        <ImageButton
-            android:id="@+id/ibLVWavesQueryBB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ibLVWavesShowBBDesign"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/arrow" />
 
 </RelativeLayout>

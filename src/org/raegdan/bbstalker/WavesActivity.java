@@ -7,17 +7,15 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.OnHierarchyChangeListener;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
-public class WavesActivity extends Activity implements OnHierarchyChangeListener
-{
+public class WavesActivity extends Activity implements OnItemClickListener {
 	protected class DBList
 	{
 		List<HashMap<String, Object>> data;
@@ -50,8 +48,8 @@ public class WavesActivity extends Activity implements OnHierarchyChangeListener
 		}
 		
 		DBList dblist = PrepareDBList(database);
-		ClickableButtonSimpleAdapter saDBList = new ClickableButtonSimpleAdapter(this, dblist.data, R.layout.lvwaves, dblist.fields, dblist.views);
-		lvWavesList.setOnHierarchyChangeListener(this);
+		SimpleAdapter saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvwaves, dblist.fields, dblist.views);
+		lvWavesList.setOnItemClickListener(this);
 		lvWavesList.setAdapter(saDBList);
 		
 	}
@@ -72,7 +70,6 @@ public class WavesActivity extends Activity implements OnHierarchyChangeListener
 			hmDBList.put("misc", getString(R.string.format) + database.waves.get(i).format);
 			hmDBList.put("waveid", database.waves.get(i).waveid);			
 			hmDBList.put("img1", wavepic);
-			hmDBList.put(ClickableButtonSimpleAdapter.HASHMAP_ID, dl.data.size());
 			dl.data.add(hmDBList);
 		}
 		
@@ -88,31 +85,7 @@ public class WavesActivity extends Activity implements OnHierarchyChangeListener
 	}
 
 	@Override
-	public void onChildViewAdded(View arg0, final View arg1) {
-		final ImageButton ibLVWavesQueryBB = (ImageButton) arg1.findViewById(R.id.ibLVWavesQueryBB);
-		final ImageButton ibLVWavesShowBBDesign = (ImageButton) arg1.findViewById(R.id.ibLVWavesShowBBDesign);
-		
-		ibLVWavesQueryBB.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				QueryWave(dl.data.get(((Integer) arg1.getTag()).intValue()).get("waveid").toString());
-				
-			}
-		});
-		ibLVWavesShowBBDesign.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Log.d ("SBBD", "ID: " + arg1.getTag().toString());				
-			}
-		});		
-	}
-
-
-	@Override
-	public void onChildViewRemoved(View arg0, View arg1) {
-		// TODO Auto-generated method stub
-		
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		QueryWave((String) dl.data.get(arg2).get("waveid"));
 	}
 }

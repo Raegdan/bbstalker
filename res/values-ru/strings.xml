@@ -4,7 +4,7 @@
     <string name="app_name">"BBStalker"</string>
     <string name="config">"Настройки"</string>
     <string name="help">"Справка"</string>
-    <string name="in_collection">" в коллекции)"</string>
+    <string name="in_collection">"в коллекции: "</string>
     <string name="json_db_err">"Ошибка загрузки базы данных JSON: ошибка ввода/вывода или некорректный JSON. Если вы не изменяли, не удаляли и не переименовывали оригинальный файл «database.json», сообщите мне (Raegdan)."</string>
     <string name="json_saving_err">"Ошибка JSON при сохранении данных."</string>
     <string name="my_collection">"Моя коллекция"</string>
