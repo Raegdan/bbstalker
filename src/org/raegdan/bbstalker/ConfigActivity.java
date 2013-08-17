@@ -11,6 +11,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class ConfigActivity extends Activity implements OnCheckedChangeListener{
 
 	CheckBox cbCAllowGeoloc;
+	CheckBox cbCAllowGeolocByShop;
+	CheckBox cbCSaveShopName;
 	SharedPreferences sp;
 	Editor ed;
 	
@@ -23,8 +25,14 @@ public class ConfigActivity extends Activity implements OnCheckedChangeListener{
 		ed = sp.edit();
 		
 		cbCAllowGeoloc = (CheckBox) findViewById(R.id.cbCAllowGeoloc);
+		cbCAllowGeolocByShop = (CheckBox) findViewById(R.id.cbCAllowGeolocByShop);
+		cbCSaveShopName = (CheckBox) findViewById(R.id.cbCSaveShopName);
 		cbCAllowGeoloc.setChecked(sp.getBoolean("allow_geoloc", true));
+		cbCAllowGeolocByShop.setChecked(sp.getBoolean("allow_geoloc_by_shop", true));		
+		cbCSaveShopName.setChecked(sp.getBoolean("save_shop_name", true));		
 		cbCAllowGeoloc.setOnCheckedChangeListener(this);
+		cbCAllowGeolocByShop.setOnCheckedChangeListener(this);
+		cbCSaveShopName.setOnCheckedChangeListener(this);
 	}
 
 	@Override
@@ -35,6 +43,18 @@ public class ConfigActivity extends Activity implements OnCheckedChangeListener{
 			{
 				ed.putBoolean("allow_geoloc", isChecked).commit();
 			}
+			case R.id.cbCSaveShopName:
+			{
+				ed.putBoolean("save_shop_name", isChecked).commit();
+				if (!isChecked)
+				{
+					ed.putString("shopname", "");
+				}
+			}
+			case R.id.cbCAllowGeolocByShop:
+			{
+				ed.putBoolean("allow_geoloc_by_shop", isChecked).commit();
+			}			
 		}
 	}
 }

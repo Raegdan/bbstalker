@@ -1,0 +1,16 @@
+package org.raegdan.bbstalker;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class DBList {
+	List<HashMap<String, Object>> data;
+	String[] fields;
+	int[] views;
+	
+	DBList()
+	{
+		data = new ArrayList<HashMap<String, Object>>();
+	}
+}

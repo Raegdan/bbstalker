@@ -13,7 +13,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColorLink="@android:color/holo_green_light" />
 

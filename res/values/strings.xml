@@ -33,10 +33,18 @@
     <string name="title_activity_config">ConfigActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="allow_geoloc">Allow geolocation for social networks sharing</string>
+    <string name="allow_geoloc">Geolocation</string>
+    <string name="allow_geoloc_descr">Allow geolocation for social networks sharing.</string>
     <string name="title_activity_waves">WavesActivity</string>
     <string name="all_waves">All waves</string>
     <string name="wave">"Wave "</string>
     <string name="format">"Format: "</string>
-
+    <string name="save_shop_name">Save shop name</string>
+    <string name="no_shop_name">No shop name :(</string>
+    <string name="subst_shop_name">Shop name in geo link</string>
+    <string name="subst_shop_name_descr">Substitute the nearest shop by-name search into the geolocation link.</string>
+    <string name="subst_shop_name_warn">May cause broken geolocation link if the shop name is incorrect or inaccurate.</string>
+    <string name="looking_up">Looking up...</string>
+    <string name="loading">Loading...</string>
+    
 </resources>

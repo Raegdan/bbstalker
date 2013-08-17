@@ -3,9 +3,7 @@ package org.raegdan.bbstalker;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,6 +53,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	Integer CurrentDBListID = 0;
 	String query;
 	int mode;
+	SharedPreferences sp;
 
 	ListView lvDBList;
 	SimpleAdapter saDBList;
@@ -84,124 +83,170 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	final static int MODE_ALL_DB 	 	= 2;
 	final static int MODE_COLLECTION 	= 3;
 	final static int MODE_WAVE 		 	= 4;
-	
-	
-	protected class DBList
-	{
-		List<HashMap<String, Object>> data;
-		String[] fields;
-		int[] views;
 		
-		DBList()
-		{
-			data = new ArrayList<HashMap<String, Object>>();
-		}
-	}
-		
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dblist);
 		
-		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
+		sp = this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 		
-		database = new BlindbagDB();
+		mDialog = new ProgressDialog(this);
+        mDialog.setCancelable(false);
+		
+		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
 		
 		LocationCache = new HashMap<String, Object>();
 		LocationCache.put("time", new Time().toMillis(true));
 		LocationCache.put("location", String.valueOf(""));
 		LocationCache.put("timeout", Long.valueOf(300000));
 		
-		
-		if (!database.LoadDB(this))
-		{
-			tvDBHeader.setText(getString(R.string.json_db_err));
-			return;
-		}
-
 		query = getIntent().getStringExtra("query");
 		mode = getIntent().getIntExtra("mode", 0);
 		
 		lvDBList = (ListView) findViewById(R.id.lvDBList);
-		lvDBList.setOnItemClickListener(this);
+		lvDBList.setOnItemClickListener(this);		
 		
-		//HideMode = HM_BY_PRIORITY;
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("mode", Integer.valueOf(mode));
+		hm.put("query", query);
+		hm.put("context", this);
 		
+        mDialog.setMessage(getString(R.string.looking_up));
+        mDialog.show();
 		
-		Log.d("x", "'"+query+"'");
-		
-		
-		switch (mode)
-		{
-			case MODE_ALL_DB:
-			{
-				tvDBHeader.setText(getString(R.string.all_db));				
-				break;
-			}
-		
-			case MODE_LOOKUP:
-			{
-				tvDBHeader.setText(getString(R.string.results_for) + query + "»");
-				database = database.LookupDB(query);				
-				break;
-			}
-			
-			case MODE_COLLECTION:
-			{
-				tvDBHeader.setText(getString(R.string.my_collection));
-				database = database.GetCollection();				
-				break;
-			}
-			
-			case MODE_WAVE:
-			{
-				tvDBHeader.setText(getString(R.string.wave) + query);
-				database = database.GetWaveBBs(query);
-				break;
-			}
-		
-		}
-		
-		dblist = PrepareDBList(database);
-		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
-		lvDBList.setAdapter(saDBList);
+		new QueryDatabase().execute(hm);
 	}
 	
-	protected DBList PrepareDBList (BlindbagDB database)
+	protected void DBQueryFinished(BlindbagDB db, DBList dl, String TitleMsg)
 	{
-		DBList dl = new DBList();
-		dl.fields = new String[] {"name", "misc", "img1"};
-		dl.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+		tvDBHeader.setText(TitleMsg);
 		
-		for (int i = 0; i < database.blindbags.size(); i++)
+		if (db == null || dl == null)
 		{
-			if (database.blindbags.get(i).priority == 0)
-			{
-				continue;
-			}
-			
-			String BBIDsSlash = "";
-			for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
-			{
-				BBIDsSlash += database.blindbags.get(i).bbids.get(j);
-				if (j < database.blindbags.get(i).bbids.size() - 1)
-				{
-					BBIDsSlash += " / ";
-				}
-			}
-			
-			Integer wavepic = this.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", this.getPackageName());
-			HashMap<String, Object> hmDBList = new HashMap<String, Object>();
-			hmDBList.put("name", database.blindbags.get(i).name);
-			hmDBList.put("bbids_slash", BBIDsSlash);
-			hmDBList.put("misc", getString(R.string.code) + BBIDsSlash + ", " + getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
-			hmDBList.put("img1", wavepic);
-			hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
-			hmDBList.put("count_int", database.blindbags.get(i).count);
-			dl.data.add(hmDBList);
+			return;
 		}
 		
-		return dl;
+		database = db;
+		dblist = dl;
+		
+		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
+		lvDBList.setAdapter(saDBList);
+		
+		mDialog.dismiss();
+	}
+	
+	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, HashMap<String, Object>>
+	{
+		Context context;
+		String TitleMsg;
+		
+		protected DBList PrepareDBList (BlindbagDB database, Context context)
+		{
+			DBList dl = new DBList();
+			dl.fields = new String[] {"name", "misc", "img1"};
+			dl.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+			
+			for (int i = 0; i < database.blindbags.size(); i++)
+			{
+				if (database.blindbags.get(i).priority == 0)
+				{
+					continue;
+				}
+				
+				String BBIDsSlash = "";
+				for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
+				{
+					BBIDsSlash += database.blindbags.get(i).bbids.get(j);
+					if (j < database.blindbags.get(i).bbids.size() - 1)
+					{
+						BBIDsSlash += " / ";
+					}
+				}
+				
+				Integer wavepic = context.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", context.getPackageName());
+				HashMap<String, Object> hmDBList = new HashMap<String, Object>();
+				hmDBList.put("name", database.blindbags.get(i).name);
+				hmDBList.put("bbids_slash", BBIDsSlash);
+				hmDBList.put("misc", context.getString(R.string.code) + BBIDsSlash + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
+				hmDBList.put("img1", wavepic);
+				hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
+				hmDBList.put("count_int", database.blindbags.get(i).count);
+				dl.data.add(hmDBList);
+			}
+			
+			return dl;
+		}
+		
+		@Override
+		protected HashMap<String, Object> doInBackground(HashMap<String, Object>... arg0) {
+			int mode = ((Integer) arg0[0].get("mode")).intValue();
+			String query = ((String) arg0[0].get("query"));
+			context = (Context) arg0[0].get("context");
+			
+			Log.d("xx", "1");
+			BlindbagDB database = new BlindbagDB();
+			
+			HashMap<String, Object> out = new HashMap<String, Object>();
+			Log.d("xx", "2");
+			if (!database.LoadDB(context))
+			{
+				TitleMsg = context.getString(R.string.json_db_err);
+				out.put("error", true);
+				out.put("title_msg", TitleMsg);
+				return out;
+			}
+			Log.d("xx", "3");			
+			switch (mode)
+			{
+				case MODE_ALL_DB:
+				{
+					TitleMsg = context.getString(R.string.all_db);				
+					break;
+				}
+			
+				case MODE_LOOKUP:
+				{
+					TitleMsg = context.getString(R.string.results_for) + query + "»";
+					database = database.LookupDB(query);				
+					break;
+				}
+				
+				case MODE_COLLECTION:
+				{
+					TitleMsg = context.getString(R.string.my_collection);
+					database = database.GetCollection();				
+					break;
+				}
+				
+				case MODE_WAVE:
+				{
+					TitleMsg = context.getString(R.string.wave) + query;
+					database = database.GetWaveBBs(query);
+					break;
+				}
+			
+			}
+			Log.d("xx", "4");
+			out.put("error", false);
+			out.put("title_msg", TitleMsg);
+			out.put("database", database);
+			out.put("dblist", PrepareDBList(database, context));
+			Log.d("xx", "5");			
+			return out;
+		}
+		
+		@Override
+		protected void onPostExecute (HashMap<String, Object> result)
+		{
+			if (!((Boolean) result.get("error")))
+			{
+				DBQueryFinished((BlindbagDB) result.get("database"), (DBList) result.get("dblist"), TitleMsg);				
+			} else {
+				DBQueryFinished(null, null, TitleMsg);				
+			}
+		}
 	}
 	
 	protected void CartUncart(String uniqid, Integer value)
@@ -286,8 +331,10 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
 		
-		final SharedPreferences sp = this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
-		etPWBBShareShopname.setText(sp.getString("shopname", getString(R.string.shop_field)));
+		if (sp.getBoolean("save_shop_name", true))
+		{
+			etPWBBShareShopname.setText(sp.getString("shopname", ""));
+		}
 		etPWBBShareShopname.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -366,7 +413,6 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		{
 			ActuallyShare(SocialNetwork, ((String) LocationCache.get("location")));
 		} else {
-			mDialog = new ProgressDialog(this);
 	        mDialog.setMessage(getString(R.string.trying_to_locate));
 	        mDialog.setCancelable(false);
 	        mDialog.show();
@@ -419,7 +465,14 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 				{
 					HashMap<String, Object> query = new HashMap<String, Object>();
 					query.put("sn", sn);
-					query.put("link", "http://maps.google.com/maps?q=" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude()));
+					
+					if (sp.getBoolean("allow_geoloc_by_shop", true))
+					{
+						query.put("link", "http://maps.google.com/maps?q=" + etPWBBShareShopname.getText().toString() + " loc:" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude()));
+					} else {
+						query.put("link", "http://maps.google.com/maps?q=" + Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude()));
+					}
+					
 					new BitlyRequest().execute(query);
 					
 					break;
@@ -486,6 +539,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	
 	protected void ActuallyShare(Integer SocialNetwork, String GeoLink)
 	{
+		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase(""))
+		{
+			Toast.makeText(this, getString(R.string.no_shop_name), Toast.LENGTH_LONG);
+			return;
+		}
+		
 		SocialShare ss = new SocialShare(this);
 		
 		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();

@@ -107,8 +107,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/tvPWBBSocialShare"
             android:layout_toRightOf="@+id/tvPWBBSocialShareShop"
+            android:hint="@string/shop_field"
             android:lines="1"
-            android:text="@string/shop_field"
             android:textAppearance="?android:attr/textAppearanceSmall" >
 
             <requestFocus />

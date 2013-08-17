@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -75,7 +74,7 @@ class Blindbag
 	}
 }
 
-class BlindbagDB extends Activity {
+class BlindbagDB {
 	
 	/////////////////
 	// P U B L I C //
@@ -193,7 +192,7 @@ class BlindbagDB extends Activity {
 			}
 		}
 		
-		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE);
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 		Editor ed = sp.edit();
 		ed.putString(COLLECTION_PREF_ID, ja.toString());
 		ed.commit();
@@ -301,7 +300,7 @@ class BlindbagDB extends Activity {
 	
 	protected JSONArray GetCollection (Context context) throws JSONException
 	{
-		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE);
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 		return new JSONArray(sp.getString(COLLECTION_PREF_ID, "[{\"uniqid\": \"\", \"count\": 0}]"));		
 	}
 	
