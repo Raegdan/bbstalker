@@ -40,4 +40,7 @@
     <string name="subst_shop_name_warn">Неверно введённое название магазина может привести к нерабочей ссылке.</string>
     <string name="looking_up">Поиск...</string>
 	<string name="loading">Загрузка...</string>
+    <string name="portrait_only">Только книжная ориентация</string>
+    <string name="portrait_only_descr">BBStalker оптимизирован под книжную ориентацию экрана. На устройствах с небольшим разрешением могут возникать проблемы с альбомной ориентацией.</string>
+	
 </resources>

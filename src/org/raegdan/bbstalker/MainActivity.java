@@ -1,7 +1,6 @@
 package org.raegdan.bbstalker;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends ActivityEx implements OnClickListener {
 
     Button btnMAQuery;
     Button btnMAWatchDB;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +15,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
-public class WavesActivity extends Activity implements OnItemClickListener {
+public class WavesActivity extends ActivityEx implements OnItemClickListener {
 
 	TextView tvWavesHeader;
 	ListView lvWavesList;

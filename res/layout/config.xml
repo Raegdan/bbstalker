@@ -1,5 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,80 +8,113 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ConfigActivity" >
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/cbCAllowGeolocByShop"
-            android:text="@string/subst_shop_name_descr"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/textView1"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView2"
-            android:layout_marginBottom="16dp"
-            android:text="@string/subst_shop_name_warn"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/holo_red_dark" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <CheckBox
-            android:id="@+id/cbCAllowGeolocByShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_below="@+id/textView3"
-            android:text="@string/subst_shop_name" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/cbCAllowGeolocByShop"
+                android:text="@string/subst_shop_name_descr"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/cbCAllowGeoloc"
-            android:layout_marginBottom="16dp"
-            android:text="@string/allow_geoloc_descr"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/textView2"
+                android:layout_marginBottom="16dp"
+                android:text="@string/subst_shop_name_warn"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/holo_red_dark" />
 
-        <CheckBox
-            android:id="@+id/cbCSaveShopName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/textView1"
-            android:checked="false"
-            android:text="@string/save_shop_name" />
+            <CheckBox
+                android:id="@+id/cbCAllowGeolocByShop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView2"
+                android:layout_below="@+id/textView3"
+                android:text="@string/subst_shop_name" />
 
-        <TextView
-            android:id="@+id/tvCATitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:text="@string/app_title"
-            android:textAllCaps="false"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_green_light"
-            android:textStyle="normal"
-            android:typeface="monospace" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/cbCAllowGeoloc"
+                android:layout_marginBottom="16dp"
+                android:text="@string/allow_geoloc_descr"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <CheckBox
-            android:id="@+id/cbCAllowGeoloc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tvCATitle"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/allow_geoloc" />
+            <CheckBox
+                android:id="@+id/cbCSaveShopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/textView1"
+                android:layout_marginBottom="16dp"
+                android:checked="false"
+                android:text="@string/save_shop_name" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/tvCATitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:text="@string/app_title"
+                android:textAllCaps="false"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/holo_green_light"
+                android:textStyle="normal"
+                android:typeface="monospace" />
+
+            <CheckBox
+                android:id="@+id/cbCAllowGeoloc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvCATitle"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/allow_geoloc" />
+
+            <CheckBox
+                android:id="@+id/cbCPortraitOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/cbCSaveShopName"
+                android:text="@string/portrait_only" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/cbCPortraitOnly"
+                android:text="@string/portrait_only_descr"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

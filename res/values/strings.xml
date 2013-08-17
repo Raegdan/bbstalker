@@ -17,7 +17,7 @@
     <string name="social_msg_p5">" using #bbstalker"</string>
     <string name="no_social_app_p1">"Please install official "</string>
     <string name="no_social_app_p2">" client from the Market."</string>
-    <string name="app_title">"(\\ BBStalker v1.1 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.2 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -46,5 +46,7 @@
     <string name="subst_shop_name_warn">May cause broken geolocation link if the shop name is incorrect or inaccurate.</string>
     <string name="looking_up">Looking up...</string>
     <string name="loading">Loading...</string>
+    <string name="portrait_only">Portrait orientation only</string>
+    <string name="portrait_only_descr">BBStalker is optimized for portrait orientation and may experience problems with the landscape one on small resolution devices.</string>
     
 </resources>

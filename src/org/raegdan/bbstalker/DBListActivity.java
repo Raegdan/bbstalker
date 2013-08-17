@@ -24,7 +24,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +44,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DBListActivity extends Activity implements OnItemClickListener, OnClickListener {
+public class DBListActivity extends ActivityEx implements OnItemClickListener, OnClickListener {
 	
 	BlindbagDB database;
 	DBList dblist;
@@ -90,6 +89,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dblist);
 		
+		// Init
 		sp = this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 		
 		mDialog = new ProgressDialog(this);
@@ -97,16 +97,17 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 		
 		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
 		
+		lvDBList = (ListView) findViewById(R.id.lvDBList);
+		lvDBList.setOnItemClickListener(this);	
+		
 		LocationCache = new HashMap<String, Object>();
 		LocationCache.put("time", new Time().toMillis(true));
 		LocationCache.put("location", String.valueOf(""));
 		LocationCache.put("timeout", Long.valueOf(300000));
 		
+		// Query
 		query = getIntent().getStringExtra("query");
-		mode = getIntent().getIntExtra("mode", 0);
-		
-		lvDBList = (ListView) findViewById(R.id.lvDBList);
-		lvDBList.setOnItemClickListener(this);		
+		mode = getIntent().getIntExtra("mode", 0);	
 		
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("mode", Integer.valueOf(mode));
@@ -400,6 +401,12 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	
 	protected void SocialShare(Integer SocialNetwork)
 	{		
+		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase(""))
+		{
+			Toast.makeText(getApplicationContext(), getString(R.string.no_shop_name), Toast.LENGTH_LONG).show();
+			return;
+		}
+		
 		if (!this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE).getBoolean("allow_geoloc", true))
 		{
 			ActuallyShare(SocialNetwork, null);
@@ -538,13 +545,7 @@ public class DBListActivity extends Activity implements OnItemClickListener, OnC
 	}
 	
 	protected void ActuallyShare(Integer SocialNetwork, String GeoLink)
-	{
-		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase(""))
-		{
-			Toast.makeText(this, getString(R.string.no_shop_name), Toast.LENGTH_LONG);
-			return;
-		}
-		
+	{		
 		SocialShare ss = new SocialShare(this);
 		
 		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();
