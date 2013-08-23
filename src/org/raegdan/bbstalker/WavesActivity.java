@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-
 public class WavesActivity extends ActivityEx implements OnItemClickListener {
 
 	TextView tvWavesHeader;
@@ -30,6 +29,12 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		
 		tvWavesHeader = (TextView) findViewById(R.id.tvWavesHeader);
 		lvWavesList = (ListView) findViewById(R.id.lvWavesList);
+		
+		try {
+			database = ((BBStalkerApplication) this.getApplication()).database.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 		
 		mDialog = new ProgressDialog(this);
         mDialog.setMessage(getString(R.string.loading));
@@ -88,17 +93,7 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		protected HashMap<String, Object> doInBackground(Context... arg0) {
 			context = (Context) arg0[0];
 			
-			BlindbagDB database = new BlindbagDB();
-			
 			HashMap<String, Object> out = new HashMap<String, Object>();
-
-			if (!database.LoadDB(context))
-			{
-				TitleMsg = context.getString(R.string.json_db_err);
-				out.put("error", true);
-				out.put("title_msg", TitleMsg);
-				return out;
-			}
 
 			out.put("error", false);
 			out.put("title_msg", TitleMsg);
@@ -120,8 +115,6 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 	}
 	
 	//////////////////////////////
-
-
 
 	protected void QueryWave(String waveid)
 	{

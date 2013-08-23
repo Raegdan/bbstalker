@@ -19,14 +19,22 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 
-class RegexpField
+/////////////////////////////////
+// BlindbagDB structure classes
+/////////////////////////////////
+class RegexpField implements Cloneable
 {
 	String regexp;
 	String field;
 	Integer priority;
+	
+    public RegexpField clone() throws CloneNotSupportedException {
+    	RegexpField clone = (RegexpField) super.clone();
+        return clone;
+    }
 }
 
-class Wave
+class Wave implements Cloneable
 {
 	List<RegexpField> priorities;
 	String waveid;
@@ -37,9 +45,16 @@ class Wave
 	{
 		priorities = new ArrayList<RegexpField>();
 	}
+	
+    @SuppressWarnings("unchecked")
+	public Wave clone() throws CloneNotSupportedException {
+        Wave clone = (Wave) super.clone();
+        clone.priorities = (List<RegexpField>) ((ArrayList<RegexpField>) priorities).clone();
+        return clone;
+    }
 }
 
-class Blindbag
+class Blindbag implements Cloneable
 {
 	public List<String> bbids;
 	public String waveid;
@@ -72,9 +87,18 @@ class Blindbag
 			return null;
 		}
 	}
+	
+    public Blindbag clone() throws CloneNotSupportedException {
+        Blindbag clone = (Blindbag) super.clone();
+        return clone;
+    }
 }
 
-class BlindbagDB {
+//////////////////////////////////////////////////
+// BlindbagDB class - handling the main database
+//////////////////////////////////////////////////
+class BlindbagDB implements Cloneable
+{
 	
 	/////////////////
 	// P U B L I C //
@@ -83,46 +107,180 @@ class BlindbagDB {
 	List<Wave> waves;
 	List<Blindbag> blindbags;
 
-	BlindbagDB() {
+	public BlindbagDB() {
 		super();
 		waves = new ArrayList<Wave>();
 		blindbags = new ArrayList<Blindbag>();
 	}
 	
-	Boolean LoadDB(Context context)
+	///////////////////////////////////////////////////////////////////
+	// Loads blind bags database and collection from JSON into class.
+	///////////////////////////////////////////////////////////////////
+	public Boolean LoadDB(Context context)
 	{
-		Boolean success = true;
-		
 		try {
 			ParseDB(GetDB(context));
-			ParseCollection(GetCollection(context));
-
+			ParseCollection(_GetCollection(context));
 		} catch (JSONException e) {
 			e.printStackTrace();
-			success = false;
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
-			success = false;
+			return false;
 		}
-		
-		
-		
-		return success;
+		return true;
 	}
 	
-	@SuppressWarnings("unchecked")
-	BlindbagDB LookupDB(String query)
+	///////////////////////////////////////
+	// Performs lookup through database
+	// using Smart or Fast search methods.
+	///////////////////////////////////////
+	public BlindbagDB LookupDB(String query, Boolean SmartSearch)
 	{
-		QueryToRegexp(query);
+		if (SmartSearch)
+		{
+			PerformSmartSearch(query);
+		} else {
+			PerformFastSearch(query);
+		}
+		
+		return this;
+	}
+	
+	//////////////////////////////////////////////////////////
+	// Commits changes in collection into SharedPreferences.
+	//////////////////////////////////////////////////////////
+	public Boolean CommitDB (Context context)
+	{
+		JSONArray ja = new JSONArray();
+		
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			Integer count = blindbags.get(i).count;
+			
+			if (count > 0)
+			{
+				try {
+					ja.put(new JSONObject().put("uniqid", blindbags.get(i).uniqid).put("count", count));
+				} catch (JSONException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		}
+		
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		Editor ed = sp.edit();
+		ed.putString(COLLECTION_PREF_ID, ja.toString());
+		ed.commit();
+	
+		return true;
+	}
+	
+	//////////////////////////////////////////
+	// Returns the blind bad data by its ID.
+	//////////////////////////////////////////
+	public Blindbag GetBlindbagByUniqID(String uniqid)
+	{
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			if (blindbags.get(i).uniqid.equalsIgnoreCase(uniqid))
+			{
+				return blindbags.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
+	/////////////////////////////////////////////////
+	// Returns all blind bags of a wave by wave id.
+	/////////////////////////////////////////////////
+	public BlindbagDB GetWaveBBs(String waveid)
+	{
+		BlindbagDB OutDB = this;
+		
+		for (int i = 0; i < OutDB.blindbags.size(); i++)
+		{
+			if (!OutDB.blindbags.get(i).waveid.equalsIgnoreCase(waveid))
+			{
+				OutDB.blindbags.get(i).priority = 0;
+			}
+		}
+		
+		return OutDB;
+	}
+	
+	///////////////////////////////////
+	// Gets user collection database.
+	///////////////////////////////////
+	public BlindbagDB GetCollection(Context context)
+	{
+		try {
+			ParseCollection(_GetCollection(context));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		BlindbagDB OutDB = this;
 		
 		for (int i = 0; i < OutDB.blindbags.size(); i++)
 		{
-			Blindbag bb = OutDB.blindbags.get(i);
+			if (OutDB.blindbags.get(i).count < 1)
+			{
+				OutDB.blindbags.get(i).priority = 0;
+			}
+		}
+		
+		return OutDB;		
+	}
+	
+	///////////////////////
+	// Clones the object.
+	///////////////////////
+    public BlindbagDB clone() throws CloneNotSupportedException {
+        BlindbagDB clone = (BlindbagDB) super.clone();
+        clone.waves = new ArrayList<Wave>();
+        clone.blindbags = new ArrayList<Blindbag>();
+        
+        for (int i = 0; i < waves.size(); i++)
+        {
+        	clone.waves.add(waves.get(i).clone());
+        }
+        
+        for (int i = 0; i < blindbags.size(); i++)
+        {
+        	clone.blindbags.add(blindbags.get(i).clone());
+        }
+        
+        return clone;
+    }
+	
+	///////////////////
+	// P R I V A T E //
+	///////////////////
+	
+	protected final static String DB_ASSET = "database.json";
+	protected final static String COLLECTION_PREF_ID = "bbcollection";
+	
+	///////////////////////////////////////////////////////////////////////////////////
+	// Smart Search: recognizes the query type by regexps from database
+	// and sorts the results by priority.
+	// About 10 times slower than Fast Search, but is smarter than Anatoly Wasserman.
+	///////////////////////////////////////////////////////////////////////////////////
+	@SuppressWarnings("unchecked")
+	protected void PerformSmartSearch(String query)
+	{
+		String QueryRegexp = QueryToRegexp(query);
+		BlindbagDB source = this;
+		
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			Blindbag bb = blindbags.get(i);
 			
 			Wave w = new Wave();
-			w = GetWaveInfo(bb.waveid, OutDB);
+			w = GetWaveByWaveID(bb.waveid, source);
 			
 			Integer Priority = 0;
 			for (int j = 0; j < w.priorities.size(); j++)
@@ -131,7 +289,6 @@ class BlindbagDB {
 				{
 					String PriorityField = w.priorities.get(j).field;
 					Object field = bb.GetFieldByName(PriorityField);
-					String QueryRegexp = QueryToRegexp(query);
 					
 					// Exception in GFBN
 					if (field == null)
@@ -164,56 +321,76 @@ class BlindbagDB {
 			
 			bb.priority = Priority;
 			
-			OutDB.blindbags.set(i, bb);
+			blindbags.set(i, bb);
 		}
 		
-		OutDB = PrioritySort(OutDB);
-		
-		return OutDB;
-		
+		PrioritySort();		
 	}
 	
-	Boolean CommitDB (Context context)
+	////////////////////////////////////////////////////////////////////////////////////
+	// Fast search: no query recognition, no sorting.
+	// Just answers the question if the blind bag contains query in any of its fields.
+	// About 10 times faster than Smart Search, but is as stupid as a soldier boot.
+	////////////////////////////////////////////////////////////////////////////////////
+	protected void PerformFastSearch(String query)
 	{
-		JSONArray ja = new JSONArray();
+		String QueryRegexp = QueryToRegexp(query);
 		
 		for (int i = 0; i < blindbags.size(); i++)
 		{
-			Integer count = blindbags.get(i).count;
+			Blindbag bb = blindbags.get(i);
 			
-			if (count > 0)
+			bb.priority = 0;
+			if (MatchRegexp(QueryRegexp.toUpperCase(Locale.ENGLISH), bb.name.toUpperCase(Locale.ENGLISH))	||
+				bb.waveid.equals(query))
 			{
-				try {
-					ja.put(new JSONObject().put("uniqid", blindbags.get(i).uniqid).put("count", count));
-				} catch (JSONException e) {
-					e.printStackTrace();
-					return false;
+				bb.priority = 1;
+				continue;
+			}
+			
+			for (int j = 0; j < bb.bbids.size(); j++)
+			{
+				if (MatchRegexp(QueryRegexp.toUpperCase(Locale.ENGLISH), bb.bbids.get(j).toUpperCase(Locale.ENGLISH)))
+				{
+					bb.priority = 1;
+					break;
 				}
 			}
-		}
-		
-		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-		Editor ed = sp.edit();
-		ed.putString(COLLECTION_PREF_ID, ja.toString());
-		ed.commit();
-	
-		return true;
+			
+			blindbags.set(i, bb);
+		}	
 	}
 	
-	Blindbag GetBlindbagByUniqID(String uniqid)
+	///////////////////////////////
+	// Sorts database by priority
+	///////////////////////////////
+	protected void PrioritySort ()
 	{
-		for (int i = 0; i < blindbags.size(); i++)
+		Boolean f = true;
+		
+		while (f)
 		{
-			if (blindbags.get(i).uniqid.equalsIgnoreCase(uniqid))
+			f = false;
+			for (int i = 0; i < blindbags.size() - 1; i++)
 			{
-				return blindbags.get(i);
+				Blindbag buf = new Blindbag();
+				
+				if (blindbags.get(i).priority < blindbags.get(i + 1).priority)
+				{
+					buf = blindbags.get(i);
+					blindbags.set(i, blindbags.get(i + 1));
+					blindbags.set(i+1, buf);
+					f = true;
+				};
+
 			}
 		}
-		
-		return null;
 	}
 	
-	Wave GetWaveInfo(String waveid, BlindbagDB database)
+	/////////////////////////////////////
+	// Returns the wave data by its ID.
+	/////////////////////////////////////	
+	protected Wave GetWaveByWaveID(String waveid, BlindbagDB database)
 	{
 		Wave w = new Wave();
 		
@@ -228,138 +405,27 @@ class BlindbagDB {
 		return w;
 	}
 	
-	BlindbagDB GetWaveBBs(String waveid)
+	/////////////////////
+	// Storage fetching
+	/////////////////////
+	protected JSONObject GetDB(Context context) throws JSONException, IOException
 	{
-		BlindbagDB OutDB = this;
-		
-		for (int i = 0; i < OutDB.blindbags.size(); i++)
-		{
-			if (!OutDB.blindbags.get(i).waveid.equalsIgnoreCase(waveid))
-			{
-				OutDB.blindbags.get(i).priority = 0;
-			}
-		}
-		
-		return OutDB;
+		AssetManager am = context.getAssets();
+		InputStream is = am.open(DB_ASSET);
+		JSONObject db = new JSONObject(StreamToString(is));
+		is.close();
+		return db;
 	}
 	
-	BlindbagDB GetCollection()
-	{
-		BlindbagDB OutDB = this;
-		
-		for (int i = 0; i < OutDB.blindbags.size(); i++)
-		{
-			if (OutDB.blindbags.get(i).count < 1)
-			{
-				OutDB.blindbags.get(i).priority = 0;
-			}
-		}
-		
-		return OutDB;		
-	}
-	
-	///////////////////
-	// P R I V A T E //
-	///////////////////
-	
-	protected final static String DB_ASSET = "database.json";
-	protected final static String COLLECTION_PREF_ID = "bbcollection";
-	
-	protected BlindbagDB PrioritySort (BlindbagDB database)
-	{
-		Boolean f = true;
-		while (f)
-		{
-			f = false;
-			for (int i = 0; i < database.blindbags.size() - 1; i++)
-			{
-				Blindbag buf = new Blindbag();
-				
-				if (database.blindbags.get(i).priority < database.blindbags.get(i + 1).priority)
-				{
-					buf = database.blindbags.get(i);
-					database.blindbags.set(i, database.blindbags.get(i + 1));
-					database.blindbags.set(i+1, buf);
-					f = true;
-				};
-
-			}
-		}
-		
-		return database;
-	}
-	
-	protected String QueryToRegexp(String query)
-	{
-		query = query.replaceAll("([^A-Za-z0-9\\.\\*])", "\\\\$1");
-		query = query.replaceAll("\\*", ".{1,}?");
-		query = ".*?" + query + ".*?";
-		
-		return query;
-	}
-	
-	protected JSONArray GetCollection (Context context) throws JSONException
+	protected JSONArray _GetCollection (Context context) throws JSONException
 	{
 		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 		return new JSONArray(sp.getString(COLLECTION_PREF_ID, "[{\"uniqid\": \"\", \"count\": 0}]"));		
 	}
 	
-	protected void ParseCollection (JSONArray collection) throws JSONException
-	{
-
-		for (int i = 0; i < blindbags.size(); i++)
-		{
-			Blindbag bb = new Blindbag();
-			bb = blindbags.get(i);
-			Boolean found = false;
-			
-			for (int j = 0; j < collection.length(); j++)
-			{
-				JSONObject jo = collection.getJSONObject(j);
-				
-				if (jo.getString("uniqid").equalsIgnoreCase(blindbags.get(i).uniqid))
-				{
-					bb.count = jo.getInt("count");
-					found = true;
-				}
-			}
-			
-			if (!found)
-			{
-				bb.count = 0;
-			}
-			
-			blindbags.set(i, bb);
-			
-			found = false;
-		}
-	}
-	
-	protected String StreamToString(InputStream is) throws IOException {
-		String s = "";
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		for(String line = br.readLine(); line != null; line = br.readLine()) 
-		{
-			s += line;
-		}
-		br.close();
-		return s;
-	}
-	
-	protected Boolean MatchRegexp(String regexp, String s)
-	{
-		return Pattern.compile(regexp).matcher(s).matches();
-	}
-	
-	protected JSONObject GetDB(Context context) throws JSONException, IOException
-	{
-		AssetManager am = context.getAssets();
-		InputStream is = am.open(DB_ASSET);
-		JSONObject DB = new JSONObject(StreamToString(is));
-		is.close();
-		return DB;
-	}
-	
+	////////////////////
+	// Storage parsing
+	////////////////////
 	protected void ParseDB(JSONObject DB) throws JSONException
 	{
 		for (int i = 0; i < DB.getJSONArray("waves").length(); i++)
@@ -398,5 +464,64 @@ class BlindbagDB {
 			
 			blindbags.add(bb);
 		}
+	}
+	
+	protected void ParseCollection (JSONArray collection) throws JSONException
+	{
+
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			Blindbag bb = new Blindbag();
+			bb = blindbags.get(i);
+			Boolean found = false;
+			
+			for (int j = 0; j < collection.length(); j++)
+			{
+				JSONObject jo = collection.getJSONObject(j);
+				
+				if (jo.getString("uniqid").equalsIgnoreCase(blindbags.get(i).uniqid))
+				{
+					bb.count = jo.getInt("count");
+					found = true;
+				}
+			}
+			
+			if (!found)
+			{
+				bb.count = 0;
+			}
+			
+			blindbags.set(i, bb);
+			
+			found = false;
+		}
+	}
+	
+	//////////////////
+	// Misc routines
+	//////////////////
+	protected String QueryToRegexp(String query)
+	{
+		query = query.replaceAll("([^A-Za-z0-9\\.\\*])", "\\\\$1");
+		query = query.replaceAll("\\*", ".{1,}?");
+		query = ".*?" + query + ".*?";
+		
+		return query;
+	}
+	
+	protected String StreamToString(InputStream is) throws IOException {
+		String s = "";
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		for(String line = br.readLine(); line != null; line = br.readLine()) 
+		{
+			s += line;
+		}
+		br.close();
+		return s;
+	}
+	
+	protected Boolean MatchRegexp(String regexp, String s)
+	{
+		return Pattern.compile(regexp).matcher(s).matches();
 	}
 }

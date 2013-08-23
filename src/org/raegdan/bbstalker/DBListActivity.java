@@ -19,7 +19,6 @@ import org.raegdan.bbstalker.MyLocation.LocationResult;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,6 +104,13 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		LocationCache.put("location", String.valueOf(""));
 		LocationCache.put("timeout", Long.valueOf(300000));
 		
+		try {
+			database = ((BBStalkerApplication) this.getApplication()).database.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		dblist = new DBList();
+		
 		// Query
 		query = getIntent().getStringExtra("query");
 		mode = getIntent().getIntExtra("mode", 0);	
@@ -120,34 +126,20 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		new QueryDatabase().execute(hm);
 	}
 	
-	protected void DBQueryFinished(BlindbagDB db, DBList dl, String TitleMsg)
-	{
+	protected void DBQueryFinished(String TitleMsg)
+	{        
 		tvDBHeader.setText(TitleMsg);
-		
-		if (db == null || dl == null)
-		{
-			return;
-		}
-		
-		database = db;
-		dblist = dl;
-		
+		mDialog.dismiss();
 		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
 		lvDBList.setAdapter(saDBList);
-		
-		mDialog.dismiss();
 	}
 	
-	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, HashMap<String, Object>>
+	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, String>
 	{
-		Context context;
-		String TitleMsg;
-		
-		protected DBList PrepareDBList (BlindbagDB database, Context context)
-		{
-			DBList dl = new DBList();
-			dl.fields = new String[] {"name", "misc", "img1"};
-			dl.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+		protected void PrepareDBList (BlindbagDB database, Context context)
+		{ 
+			dblist.fields = new String[] {"name", "misc", "img1"};
+			dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
 			
 			for (int i = 0; i < database.blindbags.size(); i++)
 			{
@@ -174,79 +166,62 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				hmDBList.put("img1", wavepic);
 				hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 				hmDBList.put("count_int", database.blindbags.get(i).count);
-				dl.data.add(hmDBList);
+				dblist.data.add(hmDBList);
 			}
-			
-			return dl;
 		}
 		
 		@Override
-		protected HashMap<String, Object> doInBackground(HashMap<String, Object>... arg0) {
+		protected String doInBackground(HashMap<String, Object>... arg0)
+		{
+			BlindbagDB db = new BlindbagDB();
+			
+			String TitleMsg = "";
 			int mode = ((Integer) arg0[0].get("mode")).intValue();
 			String query = ((String) arg0[0].get("query"));
-			context = (Context) arg0[0].get("context");
+			Context context = (Context) arg0[0].get("context");
 			
-			Log.d("xx", "1");
-			BlindbagDB database = new BlindbagDB();
-			
-			HashMap<String, Object> out = new HashMap<String, Object>();
-			Log.d("xx", "2");
-			if (!database.LoadDB(context))
-			{
-				TitleMsg = context.getString(R.string.json_db_err);
-				out.put("error", true);
-				out.put("title_msg", TitleMsg);
-				return out;
-			}
-			Log.d("xx", "3");			
 			switch (mode)
 			{
 				case MODE_ALL_DB:
 				{
-					TitleMsg = context.getString(R.string.all_db);				
+					TitleMsg = context.getString(R.string.all_db);
+					db = database;
 					break;
 				}
 			
 				case MODE_LOOKUP:
 				{
 					TitleMsg = context.getString(R.string.results_for) + query + "»";
-					database = database.LookupDB(query);				
+					db = database.LookupDB(query, sp.getBoolean("smart_search", true));				
 					break;
 				}
 				
 				case MODE_COLLECTION:
 				{
 					TitleMsg = context.getString(R.string.my_collection);
-					database = database.GetCollection();				
+					db = database.GetCollection(context);
+					
 					break;
 				}
 				
 				case MODE_WAVE:
 				{
 					TitleMsg = context.getString(R.string.wave) + query;
-					database = database.GetWaveBBs(query);
+					db = database.GetWaveBBs(query);
 					break;
 				}
 			
 			}
-			Log.d("xx", "4");
-			out.put("error", false);
-			out.put("title_msg", TitleMsg);
-			out.put("database", database);
-			out.put("dblist", PrepareDBList(database, context));
-			Log.d("xx", "5");			
-			return out;
+
+			PrepareDBList(db, context);
+			
+			return TitleMsg;
 		}
 		
 		@Override
-		protected void onPostExecute (HashMap<String, Object> result)
+		protected void onPostExecute (String result)
 		{
-			if (!((Boolean) result.get("error")))
-			{
-				DBQueryFinished((BlindbagDB) result.get("database"), (DBList) result.get("dblist"), TitleMsg);				
-			} else {
-				DBQueryFinished(null, null, TitleMsg);				
-			}
+				DBQueryFinished(result);				
 		}
 	}
 	
