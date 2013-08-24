@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import org.raegdan.bbstalker.MyLocation.LocationResult;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.view.Gravity;
@@ -67,6 +68,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	ImageButton ibPWBBShareVK;
 	ImageButton ibPWBBShareGPlus;
 	ImageButton ibPWBBShareTwi;
+	ImageButton ibPWBBShareCommon;
 	ImageButton ibPWBBCart;
 	ImageButton ibPWBBUncart;
 	EditText etPWBBShareShopname;
@@ -128,10 +130,33 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	
 	protected void DBQueryFinished(String TitleMsg)
 	{        
-		tvDBHeader.setText(TitleMsg);
-		mDialog.dismiss();
+		switch (mode)
+		{
+			case MODE_COLLECTION:
+			{
+				tvDBHeader.setText(TitleMsg + " (" + Integer.toString(dblist.total_count) + ")");
+				break;
+			}
+			
+			default:
+			{
+				tvDBHeader.setText(TitleMsg);				
+			}
+		}
+		
 		saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvdblist, dblist.fields, dblist.views);
 		lvDBList.setAdapter(saDBList);
+		
+		mDialog.dismiss();
+		
+		if (dblist.data.size() == 0)
+		{
+			tvDBHeader.setText(TitleMsg + "\n\n" + getString(R.string.empty_list));
+			return;
+		} else if (dblist.data.size() == 1)
+		{
+			lvDBListItemClicked(0);
+		}
 	}
 	
 	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, String>
@@ -140,6 +165,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		{ 
 			dblist.fields = new String[] {"name", "misc", "img1"};
 			dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+			dblist.total_count = 0;
 			
 			for (int i = 0; i < database.blindbags.size(); i++)
 			{
@@ -166,6 +192,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				hmDBList.put("img1", wavepic);
 				hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 				hmDBList.put("count_int", database.blindbags.get(i).count);
+				dblist.total_count += database.blindbags.get(i).count;
 				dblist.data.add(hmDBList);
 			}
 		}
@@ -244,6 +271,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				}
 				
 				bb.count += value;
+				dblist.total_count += value;
 				break;
 			}
 		}
@@ -254,6 +282,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		{
 			Toast.makeText(getApplicationContext(), errmsg, Toast.LENGTH_LONG).show();
 			bb.count -= value;
+			dblist.total_count -= value;
 			database.blindbags.set(i, bb);
 		}
 		
@@ -268,6 +297,13 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			{
 				dblist.data.remove(CurrentDBListID.intValue());
 				pw.dismiss();
+			}
+			
+			tvDBHeader.setText(getString(R.string.my_collection) + " (" + Integer.toString(dblist.total_count) + ")");
+			
+			if (dblist.total_count == 0)
+			{
+				tvDBHeader.setText(getString(R.string.my_collection) + " (" + Integer.toString(dblist.total_count) + ")\n\n" + getString(R.string.empty_list));				
 			}
 		}
 		
@@ -293,6 +329,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		ibPWBBShareVK = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareVK);
 		ibPWBBShareGPlus = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareGPlus);
 		ibPWBBShareTwi = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareTwi);	
+		ibPWBBShareCommon = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareCommon);
 		etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
 		ibPWBBCart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBCart);
 		ibPWBBUncart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBUncart);
@@ -300,10 +337,13 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		tvPWBBInfoName.setText(database.GetBlindbagByUniqID(CurrentBBUniqID).name);
 		tvPWBBInfoMisc.setText(getString(R.string.pcs_in_collection) + database.GetBlindbagByUniqID(CurrentBBUniqID).count);
 		ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + CurrentBBUniqID, "drawable", this.getPackageName()));
+		etPWBBShareShopname.setEllipsize(TextUtils.TruncateAt.END);
+		
 		ibPWBBWiki.setOnClickListener(this);
 		ibPWBBShareVK.setOnClickListener(this);
 		ibPWBBShareGPlus.setOnClickListener(this);
 		ibPWBBShareTwi.setOnClickListener(this);
+		ibPWBBShareCommon.setOnClickListener(this);
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
 		
@@ -335,6 +375,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setFocusable(true);
+		
 		pw.showAtLocation(vPWBBInfo, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
 	
@@ -584,6 +625,10 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 
 			case R.id.ibPWBBShareTwi:
 				SocialShare(SocialShare.SN_TWITTER);
+				break;
+
+			case R.id.ibPWBBShareCommon:
+				SocialShare(SocialShare.SN_COMMON);			
 				break;
 				
 			case R.id.ibPWBBCart:

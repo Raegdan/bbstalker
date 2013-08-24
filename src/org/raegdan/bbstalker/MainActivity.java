@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -110,6 +111,8 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 	    {
 	    case R.id.btnMAQuery:
     		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
+    		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+    		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     		break;
 	    	
 	    case R.id.btnMAWatchDB:

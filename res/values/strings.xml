@@ -50,5 +50,6 @@
     <string name="portrait_only_descr">BBStalker is optimized for portrait orientation and may experience problems with the landscape one on small resolution devices.</string>
 	<string name="smart_search">Smart search</string>
 	<string name="smart_search_descr">Smart search performs a lot of computations. If your device CPU is not so fast and queries are processed slowly, you can disable it. The search results will always be sorted by wave number, then by blind bag number.</string>
+	<string name="empty_list">Empty... :(</string>
     
 </resources>

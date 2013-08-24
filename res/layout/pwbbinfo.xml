@@ -32,14 +32,6 @@
          android:text="Small Text"
          android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <ImageView
-        android:id="@+id/ivPWBBInfoPonyPic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvPWBBInfoMisc"
-        android:scaleType="center"
-        android:src="@drawable/bb01001" />
-
     <LinearLayout
         android:id="@+id/llPWBBCartUncartWiki"
         android:layout_width="wrap_content"
@@ -98,6 +90,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/tw" />
+
+            <ImageButton
+                android:id="@+id/ibPWBBShareCommon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/share" />
+
         </LinearLayout>
 
         <EditText
@@ -126,5 +126,14 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivPWBBInfoPonyPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPWBBInfoMisc"
+        android:layout_centerHorizontal="true"
+        android:scaleType="center"
+        android:src="@drawable/bb01001" />
 
 </RelativeLayout>

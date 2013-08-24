@@ -13,6 +13,8 @@ public class SocialShare extends Activity {
 	static final int SN_VK = 1;
 	static final int SN_GPLUS = 2;
 	
+	static final int SN_COMMON = 255;
+	
 	// Array order must match constants above!
 	private String[] PackageNames = {
 			"com.twitter.android",
@@ -31,29 +33,40 @@ public class SocialShare extends Activity {
 	{
 		Intent ss = new Intent(Intent.ACTION_SEND);
 		ss.putExtra(Intent.EXTRA_TEXT, text);
-		
 		ss.setType("text/plain");
-		
-		List<ResolveInfo> ril = context.getPackageManager().queryIntentActivities(ss, PackageManager.MATCH_DEFAULT_ONLY);
-	
-		boolean SNAppFound = false;
-		ResolveInfo ri;
-		for (int i = 0; i < ril.size(); i++)
+
+		switch (SocialNetwork)
 		{
-			ri = ril.get(i);
-			if (ri.activityInfo.packageName.startsWith(PackageNames[SocialNetwork]))
+			case SN_COMMON:
 			{
-				ss.setClassName(ri.activityInfo.packageName, ri.activityInfo.name);
-				SNAppFound = true;
-				break;
-			}				
+				context.startActivity(Intent.createChooser(ss, "Share via"));
+				return true;
+			}
+			
+			default:
+			{
+				List<ResolveInfo> ril = context.getPackageManager().queryIntentActivities(ss, PackageManager.MATCH_DEFAULT_ONLY);
+				
+				boolean SNAppFound = false;
+				ResolveInfo ri;
+				for (int i = 0; i < ril.size(); i++)
+				{
+					ri = ril.get(i);
+					if (ri.activityInfo.packageName.startsWith(PackageNames[SocialNetwork]))
+					{
+						ss.setClassName(ri.activityInfo.packageName, ri.activityInfo.name);
+						SNAppFound = true;
+						break;
+					}				
+				}
+				
+				if (SNAppFound)
+				{
+					context.startActivity(ss);
+				}
+				
+				return SNAppFound;				
+			}
 		}
-		
-		if (SNAppFound)
-		{
-			context.startActivity(ss);
-		}
-		
-		return SNAppFound;
 	}
 }

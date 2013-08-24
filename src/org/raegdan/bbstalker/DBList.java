@@ -11,6 +11,7 @@ public class DBList {
 	List<HashMap<String, Object>> data;
 	String[] fields;
 	int[] views;
+	int total_count;
 	
 	DBList()
 	{

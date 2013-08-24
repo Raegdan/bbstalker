@@ -216,21 +216,22 @@ public final class R {
         public static final int cart=0x7f0200c0;
         public static final int gplus=0x7f0200c1;
         public static final int ic_launcher=0x7f0200c2;
-        public static final int tw=0x7f0200c3;
-        public static final int uncart=0x7f0200c4;
-        public static final int vk=0x7f0200c5;
-        public static final int w1=0x7f0200c6;
-        public static final int w2=0x7f0200c7;
-        public static final int w3=0x7f0200c8;
-        public static final int w4=0x7f0200c9;
-        public static final int w5=0x7f0200ca;
-        public static final int w6=0x7f0200cb;
-        public static final int w7=0x7f0200cc;
-        public static final int w8=0x7f0200cd;
-        public static final int wiki=0x7f0200ce;
+        public static final int share=0x7f0200c3;
+        public static final int tw=0x7f0200c4;
+        public static final int uncart=0x7f0200c5;
+        public static final int vk=0x7f0200c6;
+        public static final int w1=0x7f0200c7;
+        public static final int w2=0x7f0200c8;
+        public static final int w3=0x7f0200c9;
+        public static final int w4=0x7f0200ca;
+        public static final int w5=0x7f0200cb;
+        public static final int w6=0x7f0200cc;
+        public static final int w7=0x7f0200cd;
+        public static final int w8=0x7f0200ce;
+        public static final int wiki=0x7f0200cf;
     }
     public static final class id {
-        public static final int action_settings=0x7f080032;
+        public static final int action_settings=0x7f080033;
         public static final int btnMAConfig=0x7f080019;
         public static final int btnMAHelp=0x7f080018;
         public static final int btnMAQuery=0x7f08001b;
@@ -245,6 +246,7 @@ public final class R {
         public static final int etMAQuery=0x7f08001d;
         public static final int etPWBBSocialShareShopname=0x7f080027;
         public static final int ibPWBBCart=0x7f080023;
+        public static final int ibPWBBShareCommon=0x7f08002b;
         public static final int ibPWBBShareGPlus=0x7f080029;
         public static final int ibPWBBShareTwi=0x7f08002a;
         public static final int ibPWBBShareVK=0x7f080028;
@@ -256,9 +258,9 @@ public final class R {
         public static final int linearLayout1=0x7f080010;
         public static final int llPWBBCartUncartWiki=0x7f080022;
         public static final int lvDBList=0x7f08000e;
-        public static final int lvWavesList=0x7f08002f;
+        public static final int lvWavesList=0x7f080030;
         public static final int rlPWBBInfo=0x7f08001e;
-        public static final int rlPWHelp=0x7f08002c;
+        public static final int rlPWHelp=0x7f08002d;
         public static final int scrollView1=0x7f080001;
         public static final int textView1=0x7f080004;
         public static final int textView2=0x7f080002;
@@ -276,11 +278,11 @@ public final class R {
         public static final int tvPWBBInfoMisc=0x7f080021;
         public static final int tvPWBBInfoName=0x7f08001f;
         public static final int tvPWBBSocialShare=0x7f080026;
-        public static final int tvPWBBSocialShareShop=0x7f08002b;
-        public static final int tvPWHelpHeader=0x7f08002d;
-        public static final int tvPWHelpText=0x7f08002e;
-        public static final int tvWavesHeader=0x7f080030;
-        public static final int tvWavesTitle=0x7f080031;
+        public static final int tvPWBBSocialShareShop=0x7f08002c;
+        public static final int tvPWHelpHeader=0x7f08002e;
+        public static final int tvPWHelpText=0x7f08002f;
+        public static final int tvWavesHeader=0x7f080031;
+        public static final int tvWavesTitle=0x7f080032;
     }
     public static final class layout {
         public static final int config=0x7f030000;
@@ -307,6 +309,7 @@ public final class R {
         public static final int app_title=0x7f050010;
         public static final int code=0x7f050018;
         public static final int config=0x7f050017;
+        public static final int empty_list=0x7f050031;
         public static final int format=0x7f050025;
         public static final int hello_world=0x7f05001f;
         public static final int help=0x7f050016;
