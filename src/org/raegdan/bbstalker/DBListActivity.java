@@ -21,9 +21,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +44,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class DBListActivity extends ActivityEx implements OnItemClickListener, OnClickListener {
@@ -65,9 +68,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	TextView tvPWBBInfoMisc;
 	ImageView ivPWBBInfoPonyPic;
 	ImageButton ibPWBBWiki;
-	ImageButton ibPWBBShareVK;
-	ImageButton ibPWBBShareGPlus;
-	ImageButton ibPWBBShareTwi;
 	ImageButton ibPWBBShareCommon;
 	ImageButton ibPWBBCart;
 	ImageButton ibPWBBUncart;
@@ -173,25 +173,35 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				{
 					continue;
 				}
-				
-				String BBIDsSlash = "";
-				for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
+
+				HashMap<String, Object> hmDBList = new HashMap<String, Object>();
+
+				if (Integer.parseInt(database.blindbags.get(i).waveid) <= 100)
 				{
-					BBIDsSlash += database.blindbags.get(i).bbids.get(j);
-					if (j < database.blindbags.get(i).bbids.size() - 1)
+					String BBIDsSlash = "";
+					for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
 					{
-						BBIDsSlash += " / ";
+						BBIDsSlash += database.blindbags.get(i).bbids.get(j);
+						if (j < database.blindbags.get(i).bbids.size() - 1)
+						{
+							BBIDsSlash += " / ";
+						}
 					}
+					
+					hmDBList.put("bbids_slash", BBIDsSlash);
+					hmDBList.put("misc", context.getString(R.string.code) + BBIDsSlash + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
+				} else {
+					hmDBList.put("misc", context.getString(R.string.set) + database.GetWaveByWaveID(database.blindbags.get(i).waveid).name + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());					
+					hmDBList.put("wave_name", database.GetWaveByWaveID(database.blindbags.get(i).waveid).name);					
 				}
+
 				
 				Integer wavepic = context.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", context.getPackageName());
-				HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 				hmDBList.put("name", database.blindbags.get(i).name);
-				hmDBList.put("bbids_slash", BBIDsSlash);
-				hmDBList.put("misc", context.getString(R.string.code) + BBIDsSlash + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
 				hmDBList.put("img1", wavepic);
 				hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 				hmDBList.put("count_int", database.blindbags.get(i).count);
+				hmDBList.put("waveid", database.blindbags.get(i).waveid);	
 				dblist.total_count += database.blindbags.get(i).count;
 				dblist.data.add(hmDBList);
 			}
@@ -233,7 +243,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				
 				case MODE_WAVE:
 				{
-					TitleMsg = context.getString(R.string.wave) + query;
+					if (Integer.parseInt(query) <= 100)
+					{
+						TitleMsg = context.getString(R.string.wave) + query;
+					} else {
+						TitleMsg = database.GetWaveByWaveID(query).name;
+					}
 					db = database.GetWaveBBs(query);
 					break;
 				}
@@ -287,9 +302,8 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
-		dblist.data.get(CurrentDBListID).put("misc", getString(R.string.code) + dblist.data.get(CurrentDBListID).get("bbids_slash") + ", " + getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
-		
-		tvPWBBInfoMisc.setText(getString(R.string.pcs_in_collection) + database.blindbags.get(i).count.toString());
+
+		tvPWBBInfoMisc.setText(GeneratePWBBMiscText());
 		
 		if (mode == MODE_COLLECTION)
 		{
@@ -310,6 +324,16 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		saDBList.notifyDataSetChanged();
 	}
 	
+	protected String GeneratePWBBMiscText()
+	{
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
+		{
+			return getString(R.string.wave) + (String) dblist.data.get(CurrentDBListID).get("waveid") + "\n" + getString(R.string.code) + (String) dblist.data.get(CurrentDBListID).get("bbids_slash") + "\n" + getString(R.string.pcs_in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString();			
+		} else {
+			return getString(R.string.set) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + "\n" + getString(R.string.pcs_in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString();			
+		}		
+	}
+	
 	protected void lvDBListItemClicked(Integer index)
 	{
 		CurrentBBUniqID = (String) dblist.data.get(index).get("uniqid");
@@ -326,23 +350,17 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		tvPWBBInfoMisc = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoMisc);
 		ivPWBBInfoPonyPic = (ImageView) rlPWBBInfo.findViewById(R.id.ivPWBBInfoPonyPic);
 		ibPWBBWiki = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWiki);
-		ibPWBBShareVK = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareVK);
-		ibPWBBShareGPlus = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareGPlus);
-		ibPWBBShareTwi = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareTwi);	
 		ibPWBBShareCommon = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBShareCommon);
 		etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
 		ibPWBBCart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBCart);
 		ibPWBBUncart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBUncart);
 		
-		tvPWBBInfoName.setText(database.GetBlindbagByUniqID(CurrentBBUniqID).name);
-		tvPWBBInfoMisc.setText(getString(R.string.pcs_in_collection) + database.GetBlindbagByUniqID(CurrentBBUniqID).count);
+		tvPWBBInfoName.setText((String) dblist.data.get(CurrentDBListID).get("name"));
+		tvPWBBInfoMisc.setText(GeneratePWBBMiscText());
 		ivPWBBInfoPonyPic.setImageResource(this.getResources().getIdentifier("bb" + CurrentBBUniqID, "drawable", this.getPackageName()));
 		etPWBBShareShopname.setEllipsize(TextUtils.TruncateAt.END);
 		
 		ibPWBBWiki.setOnClickListener(this);
-		ibPWBBShareVK.setOnClickListener(this);
-		ibPWBBShareGPlus.setOnClickListener(this);
-		ibPWBBShareTwi.setOnClickListener(this);
 		ibPWBBShareCommon.setOnClickListener(this);
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
@@ -356,6 +374,11 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			@Override
 			public void afterTextChanged(Editable s) {
 				sp.edit().putString("shopname", etPWBBShareShopname.getText().toString()).commit();
+				
+				if (s.toString().charAt(s.toString().length() - 1) == '\n')
+				{
+					SocialShare();
+				}
 			}
 
 			@Override
@@ -366,6 +389,19 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
+			}
+		});
+		
+		etPWBBShareShopname.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		    	if (actionId == EditorInfo.IME_ACTION_GO)
+		    	{ 
+		    		SocialShare();
+		    	}
+		    	   
+		    	return true;
 			}
 		});
 		
@@ -415,7 +451,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	//
 	//////////////////////////////////////////////////////////
 	
-	protected void SocialShare(Integer SocialNetwork)
+	protected void SocialShare()
 	{		
 		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase(""))
 		{
@@ -425,7 +461,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		if (!this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE).getBoolean("allow_geoloc", true))
 		{
-			ActuallyShare(SocialNetwork, null);
+			ActuallyShare(null);
 			return;
 		}
 		
@@ -434,7 +470,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		if ((t.toMillis(true) - (Long) LocationCache.get("time")) < ((Long) LocationCache.get("timeout")))
 		{
-			ActuallyShare(SocialNetwork, ((String) LocationCache.get("location")));
+			ActuallyShare(((String) LocationCache.get("location")));
 		} else {
 	        mDialog.setMessage(getString(R.string.trying_to_locate));
 	        mDialog.setCancelable(false);
@@ -442,18 +478,13 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	        
 	    	MyLocation myLocation;
 			myLocation = new MyLocation();
-			LocationResult locationResult = new LocationRequest(SocialNetwork);
+			LocationResult locationResult = new LocationRequest();
 			myLocation.getLocation(this, locationResult);			
 		}
 	}
 	
 	protected class LocationRequest extends LocationResult
 	{
-		Integer sn;
-		
-		public LocationRequest(Integer SocialNetwork) {
-			sn = SocialNetwork;
-		}
 		
 		@SuppressWarnings("unchecked")
 		@Override
@@ -467,7 +498,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					t.setToNow();
 					LocationCache.put("time", t.toMillis(true));
 					LocationCache.put("location", null);
-					ActuallyShare(sn, null);
+					ActuallyShare(null);
 					
 					break;
 				}
@@ -479,7 +510,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					t.setToNow();
 					LocationCache.put("time", t.toMillis(true));
 					LocationCache.put("location", null);
-					ActuallyShare(sn, null);
+					ActuallyShare(null);
 					
 					break;
 				}
@@ -487,7 +518,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				case MyLocation.EC_NO_ERR:
 				{
 					HashMap<String, Object> query = new HashMap<String, Object>();
-					query.put("sn", sn);
 					
 					if (sp.getBoolean("allow_geoloc_by_shop", true))
 					{
@@ -543,7 +573,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			catch (UnsupportedEncodingException e) {}
 			catch (IOException e) {}
 			
-			result.put("sn", (Integer) params[0].get("sn"));
 			return result;
 		}
 			
@@ -556,43 +585,36 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			LocationCache.put("location", (String) result.get("link"));
 				
 			mDialog.dismiss();
-			ActuallyShare((Integer) result.get("sn"), (String) result.get("link"));		
+			ActuallyShare((String) result.get("link"));		
 		}
 	}
 	
-	protected void ActuallyShare(Integer SocialNetwork, String GeoLink)
+	protected void ActuallyShare(String GeoLink)
 	{		
-		SocialShare ss = new SocialShare(this);
+		String message = "";
 		
-		String message = getString(R.string.social_msg_p1) + database.GetBlindbagByUniqID(CurrentBBUniqID).waveid + getString(R.string.social_msg_p2) + database.GetBlindbagByUniqID(CurrentBBUniqID).name + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
+		{
+			message = getString(R.string.social_msg_p1) + (String) dblist.data.get(CurrentDBListID).get("waveid") + getString(R.string.social_msg_p2) + (String) dblist.data.get(CurrentDBListID).get("name") + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();			
+		} else {
+			message = getString(R.string.social_msg_set_p1) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + getString(R.string.social_msg_set_p2) + etPWBBShareShopname.getText().toString();						
+		}
 		if (GeoLink != null)
 		{
 			message += getString(R.string.social_msg_p4) + GeoLink;
 		}
 		message += getString(R.string.social_msg_p5);
 		
-		String text = getString(R.string.no_social_app_p1);
-		switch (SocialNetwork.intValue())
-		{
-			case SocialShare.SN_VK:
-				text += "VK.com ";
-				break;
-				
-			case SocialShare.SN_TWITTER:
-				text += "Twitter ";
-				break;
-				
-			case SocialShare.SN_GPLUS:
-				text += "Google+ ";
-				break;
-		}
-		
-		text += getString(R.string.no_social_app_p2);
+		Share(message);
+	}
+	
+	void Share(String text)
+	{
+		Intent ss = new Intent(Intent.ACTION_SEND);
+		ss.putExtra(Intent.EXTRA_TEXT, text);
+		ss.setType("text/plain");
 
-		if (!ss.Share(message, SocialNetwork.intValue()))
-		{
-			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-		}	
+		this.startActivity(Intent.createChooser(ss, getString(R.string.share)));
 	}
 	
 	@Override
@@ -615,20 +637,8 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CurrentBlindbag.wikiurl)));
 				break;
 				
-			case R.id.ibPWBBShareVK:
-				SocialShare(SocialShare.SN_VK);
-				break;
-
-			case R.id.ibPWBBShareGPlus:
-				SocialShare(SocialShare.SN_GPLUS);
-				break;
-
-			case R.id.ibPWBBShareTwi:
-				SocialShare(SocialShare.SN_TWITTER);
-				break;
-
 			case R.id.ibPWBBShareCommon:
-				SocialShare(SocialShare.SN_COMMON);			
+				SocialShare();			
 				break;
 				
 			case R.id.ibPWBBCart:

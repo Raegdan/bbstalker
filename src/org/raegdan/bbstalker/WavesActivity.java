@@ -79,8 +79,14 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 				
 				HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 				
-				hmDBList.put("name", getString(R.string.wave) + database.waves.get(i).waveid + " (" + database.waves.get(i).year + ")");
-				hmDBList.put("misc", getString(R.string.format) + database.waves.get(i).format);
+				if (Integer.parseInt(database.waves.get(i).waveid) <= 100)
+				{
+					hmDBList.put("name", getString(R.string.wave) + database.waves.get(i).waveid + " (" + database.waves.get(i).year + ")");
+					hmDBList.put("misc", getString(R.string.format) + database.waves.get(i).format);
+				} else {
+					hmDBList.put("name", database.waves.get(i).name);
+					hmDBList.put("misc", getString(R.string.collection_set));					
+				}
 				hmDBList.put("waveid", database.waves.get(i).waveid);			
 				hmDBList.put("img1", wavepic);
 				dl.data.add(hmDBList);

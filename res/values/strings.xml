@@ -15,9 +15,11 @@
     <string name="social_msg_p3">" among them @ "</string>
     <string name="social_msg_p4">", geo: "</string>
     <string name="social_msg_p5">" using #bbstalker"</string>
+    <string name="social_msg_set_p1">"Hey everypony! Just found "</string>
+    <string name="social_msg_set_p2">" collection set @ "</string>
     <string name="no_social_app_p1">"Please install official "</string>
     <string name="no_social_app_p2">" client from the Market."</string>
-    <string name="app_title">"(\\ BBStalker v1.3 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.4 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -51,5 +53,9 @@
 	<string name="smart_search">Smart search</string>
 	<string name="smart_search_descr">Smart search performs a lot of computations. If your device CPU is not so fast and queries are processed slowly, you can disable it. The search results will always be sorted by wave number, then by blind bag number.</string>
 	<string name="empty_list">Empty... :(</string>
+	<string name="share">Share...</string>
+	<string name="set">"Set: "</string>
+	<string name="collection_set">Collection set</string>
+	
     
 </resources>

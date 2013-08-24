@@ -40,6 +40,7 @@ class Wave implements Cloneable
 	String waveid;
 	String year;
 	String format;
+	String name;
 	
 	Wave()
 	{
@@ -193,6 +194,24 @@ class BlindbagDB implements Cloneable
 		return null;
 	}
 	
+	/////////////////////////////////////
+	// Returns the wave data by its ID.
+	/////////////////////////////////////	
+	public Wave GetWaveByWaveID(String waveid)
+	{
+		Wave w = new Wave();
+		
+		for (int i = 0; i < waves.size(); i++)
+		{
+			if (waves.get(i).waveid.equalsIgnoreCase(waveid))
+			{
+				w = waves.get(i);
+			}
+		}
+		
+		return w;
+	}
+	
 	/////////////////////////////////////////////////
 	// Returns all blind bags of a wave by wave id.
 	/////////////////////////////////////////////////
@@ -280,7 +299,7 @@ class BlindbagDB implements Cloneable
 			Blindbag bb = blindbags.get(i);
 			
 			Wave w = new Wave();
-			w = GetWaveByWaveID(bb.waveid, source);
+			w = source.GetWaveByWaveID(bb.waveid);
 			
 			Integer Priority = 0;
 			for (int j = 0; j < w.priorities.size(); j++)
@@ -387,24 +406,6 @@ class BlindbagDB implements Cloneable
 		}
 	}
 	
-	/////////////////////////////////////
-	// Returns the wave data by its ID.
-	/////////////////////////////////////	
-	protected Wave GetWaveByWaveID(String waveid, BlindbagDB database)
-	{
-		Wave w = new Wave();
-		
-		for (int i = 0; i < database.waves.size(); i++)
-		{
-			if (database.waves.get(i).waveid.equalsIgnoreCase(waveid))
-			{
-				w = database.waves.get(i);
-			}
-		}
-		
-		return w;
-	}
-	
 	/////////////////////
 	// Storage fetching
 	/////////////////////
@@ -434,7 +435,7 @@ class BlindbagDB implements Cloneable
 			w.waveid = DB.getJSONArray("waves").getJSONObject(i).getString("waveid");
 			w.year = DB.getJSONArray("waves").getJSONObject(i).getString("year");
 			w.format = DB.getJSONArray("waves").getJSONObject(i).getString("format");
-			
+			w.name = DB.getJSONArray("waves").getJSONObject(i).getString("name"); 
 
 			for (int j = 0; j < DB.getJSONArray("waves").getJSONObject(i).getJSONArray("priorities").length(); j++)
 			{

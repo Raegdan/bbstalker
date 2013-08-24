@@ -53,12 +53,14 @@ public class ConfigActivity extends ActivityEx implements OnCheckedChangeListene
 	// Click handlers
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		
 		switch (buttonView.getId())
 		{
 			case R.id.cbCAllowGeoloc:
 			{
 				ed.putBoolean("allow_geoloc", isChecked).commit();
 				cbCAllowGeolocByShop.setEnabled(isChecked);
+				break;
 			}
 			
 			case R.id.cbCSaveShopName:
@@ -66,22 +68,26 @@ public class ConfigActivity extends ActivityEx implements OnCheckedChangeListene
 				ed.putBoolean("save_shop_name", isChecked).commit();
 				if (!isChecked)
 				{
-					ed.putString("shopname", "");
+					ed.putString("shopname", "").commit();
 				}
+				break;
 			}
 			
 			case R.id.cbCAllowGeolocByShop:
 			{
 				ed.putBoolean("allow_geoloc_by_shop", isChecked).commit();
+				break;
 			}			
 			
 			case R.id.cbCPortraitOnly:
 			{
 				ed.putBoolean("portrait_only", isChecked).commit();
+				break;
 			}	
 			
 			case R.id.cbCSmartSearch:
 				ed.putBoolean("smart_search", isChecked).commit();
+				break;
 		}
 	}
 }

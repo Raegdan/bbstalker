@@ -25,6 +25,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}
 			],
 			"year": "2010",
+			"name": "",
 			"format": "xy / 2x4y5"
 		},
 		
@@ -45,6 +46,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}
 			],
 			"year": "2011",
+			"name": "",
 			"format": "xy"
 		},
 		
@@ -82,6 +84,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}								
 			],
 			"year": "2012",
+			"name": "",
 			"format": "xy / 4x5y2 / 4x2y5"	
 		},
 		
@@ -125,6 +128,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
 			],
 			"year": "2012",
+			"name": "",
 			"format": "5x4y2 / 8x2y6 / 8x6y2"
 		},
 			
@@ -148,6 +152,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
 			],
 			"year": "2012",
+			"name": "",
 			"format": "7x1y2"
 		},
 		
@@ -171,6 +176,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
 			],
 			"year": "2012",
+			"name": "",
 			"format": "8x2y6"
 		},
 		
@@ -194,6 +200,7 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
 			],
 			"year": "2013",
+			"name": "",
 			"format": "9x2y6"
 		},
 		
@@ -211,7 +218,107 @@
 				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
 			],
 			"year": "2013",
+			"name": "",
 			"format": "Ax"                                       
+		},
+
+		{
+			"waveid": "101", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Apple Family Set",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "102", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Cloudsdale Set",
+			"format": ""                                       
+		},
+
+		{
+			"waveid": "103", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Pony Wedding Set",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "104", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Friendship Celebration Collection",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "105", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Pony Rainbow Collection",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "106", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Spa Pony Set",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "107", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Class of Cutie Marks Set",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "108", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Famous Friends Set",
+			"format": ""                                       
+		},		
+
+		{
+			"waveid": "109", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Pinkie Pie and Friends Mini Collection",
+			"format": ""                                       
 		}		
 	],
 	
@@ -415,6 +522,64 @@
 		{"uniqid": "08021", "bbids": ["AW"],						"waveid": "8", "name": "Rarity",								"wikiurl": "http://mlp.wikia.com/wiki/Rarity"},
 		{"uniqid": "08022", "bbids": ["AX"],						"waveid": "8", "name": "Ribbon Wishes",							"wikiurl": "http://mlp.wikia.com/wiki/Ribbon_Wishes"},
 		{"uniqid": "08023", "bbids": ["AY"],						"waveid": "8", "name": "Lotus Blossom",							"wikiurl": "http://mlp.wikia.com/wiki/Lotus_Blossom"},
-		{"uniqid": "08024", "bbids": ["AZ"],						"waveid": "8", "name": "Twilight Sparkle",						"wikiurl": "http://mlp.wikia.com/wiki/Twilight_Sparkle"}
+		{"uniqid": "08024", "bbids": ["AZ"],						"waveid": "8", "name": "Twilight Sparkle",						"wikiurl": "http://mlp.wikia.com/wiki/Twilight_Sparkle"},
+		
+		{"uniqid": "101001", "bbids": [""],							"waveid": "101", "name": "Granny Smith",						"wikiurl": "http://mlp.wikia.com/wiki/Granny_Smith"},
+		{"uniqid": "101002", "bbids": [""],							"waveid": "101", "name": "Big Macintosh",						"wikiurl": "http://mlp.wikia.com/wiki/Big_Macintosh"},
+		{"uniqid": "101003", "bbids": [""],							"waveid": "101", "name": "Applejack",							"wikiurl": "http://mlp.wikia.com/wiki/Applejack"},
+		
+		{"uniqid": "102001", "bbids": [""],							"waveid": "102", "name": "Rainbow Dash",						"wikiurl": "http://mlp.wikia.com/wiki/Rainbow_Dash"},
+		{"uniqid": "102002", "bbids": [""],							"waveid": "102", "name": "Gilda",								"wikiurl": "http://mlp.wikia.com/wiki/Gilda"},
+		{"uniqid": "102003", "bbids": [""],							"waveid": "102", "name": "Wonderbolt",							"wikiurl": "http://mlp.wikia.com/wiki/Wonderbolts"},
+			
+		{"uniqid": "103001", "bbids": [""],							"waveid": "103", "name": "Shining Armor",						"wikiurl": "http://mlp.wikia.com/wiki/Shining_Armor"},
+		{"uniqid": "103002", "bbids": [""],							"waveid": "103", "name": "Princess Cadance",					"wikiurl": "http://mlp.wikia.com/wiki/Princess_Cadance"},
+		{"uniqid": "103003", "bbids": [""],							"waveid": "103", "name": "Twilight Sparkle",					"wikiurl": "http://mlp.wikia.com/wiki/Twilight_Sparkle"},
+	
+		{"uniqid": "104001", "bbids": [""],							"waveid": "104", "name": "Sweetie Swirl",						"wikiurl": "http://mlp.wikia.com/wiki/Sweetie_Swirl"},
+		{"uniqid": "104002", "bbids": [""],							"waveid": "104", "name": "Firecracker Burst",					"wikiurl": "http://mlp.wikia.com/wiki/Firecracker_Burst"},
+		{"uniqid": "104003", "bbids": [""],							"waveid": "104", "name": "Lily Blossom",						"wikiurl": "http://mlp.wikia.com/wiki/Lily_Blossom"},
+		{"uniqid": "104004", "bbids": [""],							"waveid": "104", "name": "Bumblesweet",							"wikiurl": "http://mlp.wikia.com/wiki/Bumblesweet"},
+		{"uniqid": "104005", "bbids": [""],							"waveid": "104", "name": "Lemon Hearts",						"wikiurl": "http://mlp.wikia.com/wiki/Lemon_Hearts"},
+		{"uniqid": "104006", "bbids": [""],							"waveid": "104", "name": "Pepperdance",							"wikiurl": "http://mlp.wikia.com/wiki/Pepperdance"},
+		{"uniqid": "104007", "bbids": [""],							"waveid": "104", "name": "Sugar Grape",							"wikiurl": "http://mlp.wikia.com/wiki/Sugar_Grape"},
+		{"uniqid": "104008", "bbids": [""],							"waveid": "104", "name": "Lulu Luck",							"wikiurl": "http://mlp.wikia.com/wiki/Lulu_Luck"},
+		{"uniqid": "104009", "bbids": [""],							"waveid": "104", "name": "Rainbow Flash",						"wikiurl": "http://mlp.wikia.com/wiki/Rainbow_Flash"},
+		{"uniqid": "104010", "bbids": [""],							"waveid": "104", "name": "Sweetie Blue",						"wikiurl": "http://mlp.wikia.com/wiki/Sweetie_Blue"},
+		{"uniqid": "104011", "bbids": [""],							"waveid": "104", "name": "Blossomforth",						"wikiurl": "http://mlp.wikia.com/wiki/Blossomforth"},
+		{"uniqid": "104012", "bbids": [""],							"waveid": "104", "name": "Flower Wishes",						"wikiurl": "http://mlp.wikia.com/wiki/Flower_Wishes"},
+
+		{"uniqid": "105001", "bbids": [""],							"waveid": "105", "name": "Pinkie Pie",							"wikiurl": "http://mlp.wikia.com/wiki/Pinkie_Pie"},
+		{"uniqid": "105002", "bbids": [""],							"waveid": "105", "name": "Applejack",							"wikiurl": "http://mlp.wikia.com/wiki/Applejack"},
+		{"uniqid": "105003", "bbids": [""],							"waveid": "105", "name": "Fluttershy",							"wikiurl": "http://mlp.wikia.com/wiki/Fluttershy"},
+		{"uniqid": "105004", "bbids": [""],							"waveid": "105", "name": "Emerald Ray",							"wikiurl": "http://mlp.wikia.com/wiki/Emerald_Ray"},
+		{"uniqid": "105005", "bbids": [""],							"waveid": "105", "name": "Rainbow Dash",						"wikiurl": "http://mlp.wikia.com/wiki/Rainbow_Dash"},
+		{"uniqid": "105006", "bbids": [""],							"waveid": "105", "name": "Twilight Sparkle",					"wikiurl": "http://mlp.wikia.com/wiki/Twilight_Sparkle"},
+		{"uniqid": "105007", "bbids": [""],							"waveid": "105", "name": "Rarity",								"wikiurl": "http://mlp.wikia.com/wiki/Rarity"},
+
+		{"uniqid": "106001", "bbids": [""],							"waveid": "106", "name": "Lotus Blossom",						"wikiurl": "http://mlp.wikia.com/wiki/Lotus_Blossom"},
+		{"uniqid": "106002", "bbids": [""],							"waveid": "106", "name": "Zecora",								"wikiurl": "http://mlp.wikia.com/wiki/Zecora"},
+		{"uniqid": "106003", "bbids": [""],							"waveid": "106", "name": "Pinkie Pie",							"wikiurl": "http://mlp.wikia.com/wiki/Pinkie_Pie"},
+
+		{"uniqid": "107001", "bbids": [""],							"waveid": "107", "name": "Apple Bloom",							"wikiurl": "http://mlp.wikia.com/wiki/Apple_Bloom"},
+		{"uniqid": "107002", "bbids": [""],							"waveid": "107", "name": "Diamond Tiara",						"wikiurl": "http://mlp.wikia.com/wiki/Diamond_Tiara"},
+		{"uniqid": "107003", "bbids": [""],							"waveid": "107", "name": "Applejack",							"wikiurl": "http://mlp.wikia.com/wiki/Applejack"},
+
+		{"uniqid": "108001", "bbids": [""],							"waveid": "108", "name": "Hoity Toity",							"wikiurl": "http://mlp.wikia.com/wiki/Hoity_Toity"},
+		{"uniqid": "108002", "bbids": [""],							"waveid": "108", "name": "Photo Finish",						"wikiurl": "http://mlp.wikia.com/wiki/Photo_Finish"},
+		{"uniqid": "108003", "bbids": [""],							"waveid": "108", "name": "Rarity",								"wikiurl": "http://mlp.wikia.com/wiki/Rarity"},
+
+		{"uniqid": "109001", "bbids": [""],							"waveid": "109", "name": "Rainbow Dash",						"wikiurl": "http://mlp.wikia.com/wiki/Rainbow_Dash"},
+		{"uniqid": "109002", "bbids": [""],							"waveid": "109", "name": "Pinkie Pie",							"wikiurl": "http://mlp.wikia.com/wiki/Pinkie_Pie"},
+		{"uniqid": "109003", "bbids": [""],							"waveid": "109", "name": "Kiwi Tart",							"wikiurl": "http://mlp.wikia.com/wiki/Kiwi_Tart"},
+		{"uniqid": "109004", "bbids": [""],							"waveid": "109", "name": "Seascape",							"wikiurl": "http://mlp.wikia.com/wiki/Seascape"},
+		{"uniqid": "109005", "bbids": [""],							"waveid": "109", "name": "Star Dasher",							"wikiurl": "http://mlp.wikia.com/wiki/Star_Dasher"},
+		{"uniqid": "109006", "bbids": [""],							"waveid": "109", "name": "Dainty Daisy",						"wikiurl": "http://mlp.wikia.com/wiki/Dainty_Daisy"},
+		{"uniqid": "109007", "bbids": [""],							"waveid": "109", "name": "Periwinkle",							"wikiurl": "http://mlp.wikia.com/wiki/Periwinkle"},
+		{"uniqid": "109008", "bbids": [""],							"waveid": "109", "name": "Applejack",							"wikiurl": "http://mlp.wikia.com/wiki/Applejack"},
+		{"uniqid": "109009", "bbids": [""],							"waveid": "109", "name": "Rarity",								"wikiurl": "http://mlp.wikia.com/wiki/Rarity"},
+		{"uniqid": "109010", "bbids": [""],							"waveid": "109", "name": "Waterfire",							"wikiurl": "http://mlp.wikia.com/wiki/Waterfire"},
+		{"uniqid": "109011", "bbids": [""],							"waveid": "109", "name": "Pick-a-Lily",							"wikiurl": "http://mlp.wikia.com/wiki/Pick-a-Lily"},
+		{"uniqid": "109012", "bbids": [""],							"waveid": "109", "name": "Rainbow Swirl",						"wikiurl": "http://mlp.wikia.com/wiki/Rainbow_Swirl"}		
 	]
 }

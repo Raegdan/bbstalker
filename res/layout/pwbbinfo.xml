@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
         android:gravity="center_horizontal"
-        android:text="Large Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
      <TextView
@@ -29,7 +29,7 @@
          android:layout_centerHorizontal="true"
          android:layout_marginBottom="16dp"
          android:gravity="center_horizontal"
-         android:text="Small Text"
+         android:text=""
          android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <LinearLayout
@@ -63,51 +63,21 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivPWBBInfoPonyPic"
+        android:layout_alignRight="@+id/ivPWBBInfoPonyPic"
         android:layout_below="@id/llPWBBCartUncartWiki"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" >
-
-        <LinearLayout
-            android:id="@+id/tvPWBBSocialShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/etPWBBSocialShareShopname" >
-
-            <ImageButton
-                android:id="@+id/ibPWBBShareVK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/vk" />
-
-            <ImageButton
-                android:id="@+id/ibPWBBShareGPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/gplus" />
-
-            <ImageButton
-                android:id="@+id/ibPWBBShareTwi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/tw" />
-
-            <ImageButton
-                android:id="@+id/ibPWBBShareCommon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:src="@drawable/share" />
-
-        </LinearLayout>
 
         <EditText
             android:id="@+id/etPWBBSocialShareShopname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/tvPWBBSocialShare"
             android:layout_toRightOf="@+id/tvPWBBSocialShareShop"
             android:hint="@string/shop_field"
+            android:imeOptions="actionGo"
+            android:inputType="text"
             android:lines="1"
             android:textAppearance="?android:attr/textAppearanceSmall" >
 
@@ -124,6 +94,16 @@
             android:paddingLeft="4dp"
             android:text="@string/shop_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageButton
+            android:id="@+id/ibPWBBShareCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/etPWBBSocialShareShopname"
+            android:scaleType="center"
+            android:src="@drawable/share" />
 
     </RelativeLayout>
 

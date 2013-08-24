@@ -71,6 +71,7 @@
         android:layout_below="@+id/tvMATitle"
         android:layout_toLeftOf="@id/btnMAQuery"
         android:ems="10"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         android:maxLines="1" />
 

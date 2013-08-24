@@ -3,21 +3,25 @@ package org.raegdan.bbstalker;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 
-public class MainActivity extends ActivityEx implements OnClickListener {
+public class MainActivity extends ActivityEx implements OnClickListener, OnEditorActionListener {
 
 	// Controls
     Button btnMAQuery;
@@ -100,6 +104,7 @@ public class MainActivity extends ActivityEx implements OnClickListener {
         btnMAConfig.setOnClickListener(this);
         btnMAWatchWaves.setOnClickListener(this);
         etMAQuery.setOnClickListener(this);
+        etMAQuery.setOnEditorActionListener(this);
 	}
 	
 	//////////////////////////
@@ -111,8 +116,7 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 	    {
 	    case R.id.btnMAQuery:
     		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
-    		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
-    		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    		HideKB();
     		break;
 	    	
 	    case R.id.btnMAWatchDB:
@@ -137,6 +141,12 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 	    }
 	}
 	
+	
+	protected void HideKB()
+	{
+		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);		
+	}
 	///////////////////////////////
 	// Activities calling methods
 	///////////////////////////////
@@ -182,5 +192,23 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setFocusable(true);
 		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+	}
+
+	@Override
+	public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+	    switch (arg0.getId())
+	    {
+		    case R.id.etMAQuery:
+		    {
+		    	if (arg1 == EditorInfo.IME_ACTION_SEARCH)
+		    	{ 
+		    		OpenDBListActivity(arg0.getText().toString(), DBListActivity.MODE_LOOKUP);
+		    		HideKB();
+		    	}
+		    	   
+		    	return true;
+		    }
+	    }
+		return false;
 	}    
 }
