@@ -1,7 +1,10 @@
 package org.raegdan.bbstalker;
 
+import java.util.List;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 
 public class MainActivity extends ActivityEx implements OnClickListener {
 
@@ -26,6 +30,7 @@ public class MainActivity extends ActivityEx implements OnClickListener {
     Button btnMAHelp;
     Button btnMAConfig;
     Button btnMAWatchWaves;
+    Button btnMAScanBarcode;
     EditText etMAQuery;
     ProgressDialog mDialog;
     
@@ -91,7 +96,9 @@ public class MainActivity extends ActivityEx implements OnClickListener {
         btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
         btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
         btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
+        btnMAScanBarcode = (Button) findViewById(R.id.btnMAScanBarcode);
         etMAQuery = (EditText) findViewById(R.id.etMAQuery);
+        
 
         btnMAQuery.setOnClickListener(this);
         btnMAWatchDB.setOnClickListener(this);
@@ -100,6 +107,7 @@ public class MainActivity extends ActivityEx implements OnClickListener {
         btnMAConfig.setOnClickListener(this);
         btnMAWatchWaves.setOnClickListener(this);
         etMAQuery.setOnClickListener(this);
+        btnMAScanBarcode.setOnClickListener(this);
 	}
 	
 	//////////////////////////
@@ -109,32 +117,37 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 	public void onClick(View v) {
 	    switch (v.getId())
 	    {
-	    case R.id.btnMAQuery:
-    		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
-    		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
-    		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    		break;
-	    	
-	    case R.id.btnMAWatchDB:
-	    	OpenDBListActivity("", DBListActivity.MODE_ALL_DB);
-	    	break;
-
-	    case R.id.btnMAWatchCollection:
-	    	OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
-	    	break;
-	    	
-	    case R.id.btnMAHelp:
-	    	ShowHelp();
-	    	break;
-	    	
-	    case R.id.btnMAConfig:
-	    	OpenConfigActivity();
-	    	break;
-	    	
-	    case R.id.btnMAWatchWaves:
-	    	OpenWavesListActivity();
-	    	break;
+		    case R.id.btnMAQuery:
+	    		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
+	    		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
+	    		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	    		break;
+		    	
+		    case R.id.btnMAWatchDB:
+		    	OpenDBListActivity("", DBListActivity.MODE_ALL_DB);
+		    	break;
+	
+		    case R.id.btnMAWatchCollection:
+		    	OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
+		    	break;
+		    	
+		    case R.id.btnMAHelp:
+		    	ShowHelp();
+		    	break;
+		    	
+		    case R.id.btnMAConfig:
+		    	OpenConfigActivity();
+		    	break;
+		    	
+		    case R.id.btnMAWatchWaves:
+		    	OpenWavesListActivity();
+		    	break;
+		    
+		    case R.id.btnMAScanBarcode:
+		    	ScanBarcode();
+		    	break;
 	    }
+
 	}
 	
 	///////////////////////////////
@@ -182,5 +195,47 @@ public class MainActivity extends ActivityEx implements OnClickListener {
 		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setFocusable(true);
 		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-	}    
+	}
+
+	protected Boolean TestZXBS()
+	{
+    	List<ApplicationInfo> apps = getPackageManager().getInstalledApplications(0);
+    	
+    	for (int i = 0; i < apps.size(); i++)
+    	{
+    		if (apps.get(i).packageName.startsWith("com.google.zxing.client.android"))
+    		{
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+	}
+	
+    protected void ScanBarcode()
+    {
+    		if (!TestZXBS())
+    		{
+    			Toast.makeText(getApplicationContext(), getString(R.string.install_zxing), Toast.LENGTH_SHORT).show();
+    			return;
+    		}
+    		
+	        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+	        startActivityForResult(intent, 0);
+	};
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	    if (requestCode == 0) {
+	        if (resultCode == RESULT_OK) {
+	            String contents = intent.getStringExtra("SCAN_RESULT");
+	            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+	            
+	            etMAQuery.setText(contents);
+	            OpenDBListActivity(contents, DBListActivity.MODE_LOOKUP);
+	        } else if (resultCode == RESULT_CANCELED) {
+	        	//Cancelled - do nothing
+	        }
+	    }
+	}
 }

@@ -58,6 +58,7 @@ class Blindbag implements Cloneable
 {
 	public List<String> bbids;
 	public String waveid;
+	public String barcode;
 	public String name;
 	public String uniqid;
 	public String wikiurl;
@@ -342,7 +343,8 @@ class BlindbagDB implements Cloneable
 			
 			bb.priority = 0;
 			if (MatchRegexp(QueryRegexp.toUpperCase(Locale.ENGLISH), bb.name.toUpperCase(Locale.ENGLISH))	||
-				bb.waveid.equals(query))
+				bb.waveid.equals(query) ||
+				bb.barcode.equals(query))
 			{
 				bb.priority = 1;
 				continue;
@@ -454,6 +456,7 @@ class BlindbagDB implements Cloneable
 			bb.name = DB.getJSONArray("blindbags").getJSONObject(i).getString("name");
 			bb.uniqid = DB.getJSONArray("blindbags").getJSONObject(i).getString("uniqid");
 			bb.waveid = DB.getJSONArray("blindbags").getJSONObject(i).getString("waveid");
+			bb.barcode = DB.getJSONArray("blindbags").getJSONObject(i).getString("barcode");
 			bb.wikiurl = DB.getJSONArray("blindbags").getJSONObject(i).getString("wikiurl");
 			bb.priority = 1;
 			

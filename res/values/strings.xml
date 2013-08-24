@@ -51,5 +51,7 @@
 	<string name="smart_search">Smart search</string>
 	<string name="smart_search_descr">Smart search performs a lot of computations. If your device CPU is not so fast and queries are processed slowly, you can disable it. The search results will always be sorted by wave number, then by blind bag number.</string>
 	<string name="empty_list">Empty... :(</string>
+	<string name="install_zxing">Please install ZXing Barcode Scanner (com.google.zxing.client.android)</string>
+	<string name="bc">BC</string>
     
 </resources>
