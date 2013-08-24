@@ -45,7 +45,5 @@
 	<string name="smart_search">Интеллектуальный поиск</string>
 	<string name="smart_search_descr">Интеллектуальный поиск требует большого объёма расчётов. Если у вашего устройства слабый процессор и интеллектуальный поиск работает медленно - отключите его. Поисковая выдача всегда будет отсортирована по возрастанию номера блиндбага и номера волны.</string>
 	<string name="empty_list">Пусто... :(</string>
-	<string name="install_zxing">Пожалуйста, установите ZXing Barcode Scanner (com.google.zxing.client.android)</string>
-	<string name="bc">ШК</string>
-			
+	
 </resources>

@@ -231,11 +231,10 @@ public final class R {
         public static final int wiki=0x7f0200cf;
     }
     public static final class id {
-        public static final int action_settings=0x7f080034;
+        public static final int action_settings=0x7f080033;
         public static final int btnMAConfig=0x7f080019;
         public static final int btnMAHelp=0x7f080018;
         public static final int btnMAQuery=0x7f08001b;
-        public static final int btnMAScanBarcode=0x7f08001e;
         public static final int btnMAWatchCollection=0x7f080016;
         public static final int btnMAWatchDB=0x7f08001a;
         public static final int btnMAWatchWaves=0x7f080017;
@@ -245,23 +244,23 @@ public final class R {
         public static final int cbCSaveShopName=0x7f080007;
         public static final int cbCSmartSearch=0x7f08000b;
         public static final int etMAQuery=0x7f08001d;
-        public static final int etPWBBSocialShareShopname=0x7f080028;
-        public static final int ibPWBBCart=0x7f080024;
-        public static final int ibPWBBShareCommon=0x7f08002c;
-        public static final int ibPWBBShareGPlus=0x7f08002a;
-        public static final int ibPWBBShareTwi=0x7f08002b;
-        public static final int ibPWBBShareVK=0x7f080029;
-        public static final int ibPWBBUncart=0x7f080025;
-        public static final int ibPWBBWiki=0x7f080026;
-        public static final int ivPWBBInfoPonyPic=0x7f080021;
+        public static final int etPWBBSocialShareShopname=0x7f080027;
+        public static final int ibPWBBCart=0x7f080023;
+        public static final int ibPWBBShareCommon=0x7f08002b;
+        public static final int ibPWBBShareGPlus=0x7f080029;
+        public static final int ibPWBBShareTwi=0x7f08002a;
+        public static final int ibPWBBShareVK=0x7f080028;
+        public static final int ibPWBBUncart=0x7f080024;
+        public static final int ibPWBBWiki=0x7f080025;
+        public static final int ivPWBBInfoPonyPic=0x7f080020;
         public static final int ivVLDBListWavePic=0x7f08000f;
         public static final int ivVLWavesWavePic=0x7f080013;
         public static final int linearLayout1=0x7f080010;
-        public static final int llPWBBCartUncartWiki=0x7f080023;
+        public static final int llPWBBCartUncartWiki=0x7f080022;
         public static final int lvDBList=0x7f08000e;
-        public static final int lvWavesList=0x7f080031;
-        public static final int rlPWBBInfo=0x7f08001f;
-        public static final int rlPWHelp=0x7f08002e;
+        public static final int lvWavesList=0x7f080030;
+        public static final int rlPWBBInfo=0x7f08001e;
+        public static final int rlPWHelp=0x7f08002d;
         public static final int scrollView1=0x7f080001;
         public static final int textView1=0x7f080004;
         public static final int textView2=0x7f080002;
@@ -276,14 +275,14 @@ public final class R {
         public static final int tvLVWavesMisc=0x7f080015;
         public static final int tvLVWavesName=0x7f080014;
         public static final int tvMATitle=0x7f08001c;
-        public static final int tvPWBBInfoMisc=0x7f080022;
-        public static final int tvPWBBInfoName=0x7f080020;
-        public static final int tvPWBBSocialShare=0x7f080027;
-        public static final int tvPWBBSocialShareShop=0x7f08002d;
-        public static final int tvPWHelpHeader=0x7f08002f;
-        public static final int tvPWHelpText=0x7f080030;
-        public static final int tvWavesHeader=0x7f080032;
-        public static final int tvWavesTitle=0x7f080033;
+        public static final int tvPWBBInfoMisc=0x7f080021;
+        public static final int tvPWBBInfoName=0x7f08001f;
+        public static final int tvPWBBSocialShare=0x7f080026;
+        public static final int tvPWBBSocialShareShop=0x7f08002c;
+        public static final int tvPWHelpHeader=0x7f08002e;
+        public static final int tvPWHelpText=0x7f08002f;
+        public static final int tvWavesHeader=0x7f080031;
+        public static final int tvWavesTitle=0x7f080032;
     }
     public static final class layout {
         public static final int config=0x7f030000;
@@ -308,7 +307,6 @@ public final class R {
         public static final int allow_geoloc_descr=0x7f050021;
         public static final int app_name=0x7f050000;
         public static final int app_title=0x7f050010;
-        public static final int bc=0x7f050033;
         public static final int code=0x7f050018;
         public static final int config=0x7f050017;
         public static final int empty_list=0x7f050031;
@@ -318,7 +316,6 @@ public final class R {
         public static final int help_header=0x7f050019;
         public static final int help_text=0x7f05001a;
         public static final int in_collection=0x7f050006;
-        public static final int install_zxing=0x7f050032;
         public static final int json_db_err=0x7f050002;
         public static final int json_saving_err=0x7f050007;
         public static final int loading=0x7f05002c;
