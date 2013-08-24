@@ -302,6 +302,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
+		{
+			dblist.data.get(CurrentDBListID).put("misc", getString(R.string.code) + (String) dblist.data.get(CurrentDBListID).get("bbids_slash") + ", " + getString(R.string.in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString());
+		} else {
+			dblist.data.get(CurrentDBListID).put("misc", getString(R.string.set) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + ", " + getString(R.string.in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString());					
+		}
 
 		tvPWBBInfoMisc.setText(GeneratePWBBMiscText());
 		
