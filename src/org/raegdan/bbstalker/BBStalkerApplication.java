@@ -19,8 +19,8 @@ public class BBStalkerApplication extends Application {
 		return database.LoadDB(context);
     }
     
-    public BlindbagDB GetDB() throws CloneNotSupportedException
+    public BlindbagDB GetDB(Context context) throws CloneNotSupportedException
     {
-    	return database.clone();
+    	return database.clone(context);
     }
 }

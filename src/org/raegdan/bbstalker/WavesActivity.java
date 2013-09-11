@@ -31,7 +31,7 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		lvWavesList = (ListView) findViewById(R.id.lvWavesList);
 		
 		try {
-			database = ((BBStalkerApplication) this.getApplication()).database.clone();
+			database = ((BBStalkerApplication) this.getApplication()).GetDB(this);
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}

@@ -107,7 +107,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		LocationCache.put("timeout", Long.valueOf(300000));
 		
 		try {
-			database = ((BBStalkerApplication) this.getApplication()).database.clone();
+			database = ((BBStalkerApplication) this.getApplication()).GetDB(this);
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -228,7 +228,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			
 				case MODE_LOOKUP:
 				{
-					TitleMsg = context.getString(R.string.results_for) + query + "»";
+					TitleMsg = context.getString(R.string.results_for) + query + "Â»";
 					db = database.LookupDB(query, sp.getBoolean("smart_search", true));				
 					break;
 				}
@@ -380,11 +380,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			@Override
 			public void afterTextChanged(Editable s) {
 				sp.edit().putString("shopname", etPWBBShareShopname.getText().toString()).commit();
-				
-				if (s.toString().charAt(s.toString().length() - 1) == '\n')
-				{
-					SocialShare();
-				}
 			}
 
 			@Override

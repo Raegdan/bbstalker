@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /////////////////////////////////
 // BlindbagDB structure classes
@@ -174,6 +175,8 @@ class BlindbagDB implements Cloneable
 		Editor ed = sp.edit();
 		ed.putString(COLLECTION_PREF_ID, ja.toString());
 		ed.commit();
+		
+		Log.e("collection", ja.toString());
 	
 		return true;
 	}
@@ -258,7 +261,7 @@ class BlindbagDB implements Cloneable
 	///////////////////////
 	// Clones the object.
 	///////////////////////
-    public BlindbagDB clone() throws CloneNotSupportedException {
+    public BlindbagDB clone(Context context) throws CloneNotSupportedException {
         BlindbagDB clone = (BlindbagDB) super.clone();
         clone.waves = new ArrayList<Wave>();
         clone.blindbags = new ArrayList<Blindbag>();
@@ -272,6 +275,13 @@ class BlindbagDB implements Cloneable
         {
         	clone.blindbags.add(blindbags.get(i).clone());
         }
+        
+        try {
+			clone.ParseCollection(_GetCollection(context));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         return clone;
     }
