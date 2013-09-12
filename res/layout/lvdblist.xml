@@ -38,4 +38,12 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/ivVLDBStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivVLDBListWavePic"
+        android:layout_alignTop="@+id/linearLayout1"
+        android:src="@drawable/star_off" />
+
 </RelativeLayout>

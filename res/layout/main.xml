@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnMAWatchCollection"
+        android:layout_below="@+id/btnMAWishlist"
         android:text="@string/help" />
 
     <Button
@@ -87,5 +87,14 @@
         android:textColor="#ff99cc00"
         android:textStyle="normal"
         android:typeface="monospace" />
+
+    <Button
+        android:id="@+id/btnMAWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAWatchCollection"
+        android:text="@string/wishlist" />
 
 </RelativeLayout>

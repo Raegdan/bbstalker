@@ -30,6 +30,8 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
     Button btnMAHelp;
     Button btnMAConfig;
     Button btnMAWatchWaves;
+    Button btnMAWishlist;
+    
     EditText etMAQuery;
     ProgressDialog mDialog;
     
@@ -95,6 +97,8 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
         btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
         btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
         btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
+        btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);        
+        
         etMAQuery = (EditText) findViewById(R.id.etMAQuery);
 
         btnMAQuery.setOnClickListener(this);
@@ -103,6 +107,8 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
         btnMAHelp.setOnClickListener(this);
         btnMAConfig.setOnClickListener(this);
         btnMAWatchWaves.setOnClickListener(this);
+        btnMAWishlist.setOnClickListener(this);
+        
         etMAQuery.setOnClickListener(this);
         etMAQuery.setOnEditorActionListener(this);
 	}
@@ -125,6 +131,10 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 
 	    case R.id.btnMAWatchCollection:
 	    	OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
+	    	break;
+	    	
+	    case R.id.btnMAWishlist:
+	    	OpenDBListActivity("", DBListActivity.MODE_WISHLIST);
 	    	break;
 	    	
 	    case R.id.btnMAHelp:

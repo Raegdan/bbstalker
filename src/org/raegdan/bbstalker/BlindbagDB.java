@@ -65,6 +65,7 @@ class Blindbag implements Cloneable
 	public String wikiurl;
 	public Integer count;
 	public Integer priority;
+	public Boolean wanted;
 	
 	Blindbag()
 	{
@@ -123,6 +124,7 @@ class BlindbagDB implements Cloneable
 		try {
 			ParseDB(GetDB(context));
 			ParseCollection(_GetCollection(context));
+			ParseWishlist(_GetWishlist(context));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return false;
@@ -149,35 +151,42 @@ class BlindbagDB implements Cloneable
 		return this;
 	}
 	
-	//////////////////////////////////////////////////////////
-	// Commits changes in collection into SharedPreferences.
-	//////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////
+	// Commits changes in collection and wishlist into SharedPreferences.
+	///////////////////////////////////////////////////////////////////////
 	public Boolean CommitDB (Context context)
 	{
-		JSONArray ja = new JSONArray();
+		JSONArray coll = new JSONArray();
+		JSONArray wl   = new JSONArray();	
 		
 		for (int i = 0; i < blindbags.size(); i++)
 		{
-			Integer count = blindbags.get(i).count;
+			Integer count  = blindbags.get(i).count;
+			Boolean wanted = blindbags.get(i).wanted;
 			
-			if (count > 0)
+			try
 			{
-				try {
-					ja.put(new JSONObject().put("uniqid", blindbags.get(i).uniqid).put("count", count));
-				} catch (JSONException e) {
-					e.printStackTrace();
-					return false;
+				if (count > 0)
+				{	
+					coll.put(new JSONObject().put("uniqid", blindbags.get(i).uniqid).put("count", count));
 				}
+				
+				if (wanted)
+				{
+					wl.put(blindbags.get(i).uniqid);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
 			}
 		}
 		
 		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
 		Editor ed = sp.edit();
-		ed.putString(COLLECTION_PREF_ID, ja.toString());
+		ed.putString(COLLECTION_PREF_ID, coll.toString());
+		ed.putString(WISHLIST_PREF_ID, wl.toString());
 		ed.commit();
-		
-		Log.e("collection", ja.toString());
-	
+
 		return true;
 	}
 	
@@ -258,6 +267,31 @@ class BlindbagDB implements Cloneable
 		return OutDB;		
 	}
 	
+	/////////////////////////////////
+	// Gets user wishlist database.
+	/////////////////////////////////
+	public BlindbagDB GetWishlist(Context context)
+	{
+		try {
+			ParseWishlist(_GetWishlist(context));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		BlindbagDB OutDB = this;
+		
+		for (int i = 0; i < OutDB.blindbags.size(); i++)
+		{
+			if (!OutDB.blindbags.get(i).wanted)
+			{
+				OutDB.blindbags.get(i).priority = 0;
+			}
+		}
+		
+		return OutDB;		
+	}
+	
 	///////////////////////
 	// Clones the object.
 	///////////////////////
@@ -278,8 +312,8 @@ class BlindbagDB implements Cloneable
         
         try {
 			clone.ParseCollection(_GetCollection(context));
+			clone.ParseWishlist(_GetWishlist(context));
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -292,6 +326,7 @@ class BlindbagDB implements Cloneable
 	
 	protected final static String DB_ASSET = "database.json";
 	protected final static String COLLECTION_PREF_ID = "bbcollection";
+	protected final static String WISHLIST_PREF_ID = "bbwishlist";
 	
 	///////////////////////////////////////////////////////////////////////////////////
 	// Smart Search: recognizes the query type by regexps from database
@@ -434,6 +469,12 @@ class BlindbagDB implements Cloneable
 		return new JSONArray(sp.getString(COLLECTION_PREF_ID, "[{\"uniqid\": \"\", \"count\": 0}]"));		
 	}
 	
+	protected JSONArray _GetWishlist (Context context) throws JSONException
+	{
+		SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+		return new JSONArray(sp.getString(WISHLIST_PREF_ID, "[]"));		
+	}
+	
 	////////////////////
 	// Storage parsing
 	////////////////////
@@ -490,10 +531,11 @@ class BlindbagDB implements Cloneable
 			{
 				JSONObject jo = collection.getJSONObject(j);
 				
-				if (jo.getString("uniqid").equalsIgnoreCase(blindbags.get(i).uniqid))
+				if (jo.getString("uniqid").equalsIgnoreCase(bb.uniqid))
 				{
 					bb.count = jo.getInt("count");
 					found = true;
+					break;
 				}
 			}
 			
@@ -505,6 +547,30 @@ class BlindbagDB implements Cloneable
 			blindbags.set(i, bb);
 			
 			found = false;
+		}
+	}
+	
+	protected void ParseWishlist (JSONArray wishlist) throws JSONException
+	{
+
+		for (int i = 0; i < blindbags.size(); i++)
+		{
+			Blindbag bb = new Blindbag();
+			bb = blindbags.get(i);
+			bb.wanted = false;
+			
+			for (int j = 0; j < wishlist.length(); j++)
+			{
+				String wanted_bb = wishlist.getString(j);
+				
+				if ((wanted_bb.equalsIgnoreCase(bb.uniqid)) && (bb.count < 1))
+				{
+					bb.wanted = true;
+					break;
+				}
+			}
+			
+			blindbags.set(i, bb);
 		}
 	}
 	

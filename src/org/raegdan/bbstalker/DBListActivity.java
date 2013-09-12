@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +21,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -71,6 +74,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	ImageButton ibPWBBShareCommon;
 	ImageButton ibPWBBCart;
 	ImageButton ibPWBBUncart;
+	ImageButton ibPWBBWish;
 	EditText etPWBBShareShopname;
 	
 	ProgressDialog mDialog;
@@ -83,6 +87,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	final static int MODE_ALL_DB 	 	= 2;
 	final static int MODE_COLLECTION 	= 3;
 	final static int MODE_WAVE 		 	= 4;
+	final static int MODE_WISHLIST		= 5;
 		
 	@SuppressWarnings("unchecked")
 	@Override
@@ -138,6 +143,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				break;
 			}
 			
+			case MODE_WISHLIST:
+			{
+				tvDBHeader.setText(TitleMsg + " (" + Integer.toString(dblist.data.size()) + ")");
+				break;
+			}
+			
 			default:
 			{
 				tvDBHeader.setText(TitleMsg);				
@@ -163,8 +174,8 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	{
 		protected void PrepareDBList (BlindbagDB database, Context context)
 		{ 
-			dblist.fields = new String[] {"name", "misc", "img1"};
-			dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic};
+			dblist.fields = new String[] {"name", "misc", "img1", "star_img"};
+			dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic, R.id.ivVLDBStar};
 			dblist.total_count = 0;
 			
 			for (int i = 0; i < database.blindbags.size(); i++)
@@ -176,6 +187,8 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 
 				HashMap<String, Object> hmDBList = new HashMap<String, Object>();
 
+				String misctext = "";
+				
 				if (Integer.parseInt(database.blindbags.get(i).waveid) <= 100)
 				{
 					String BBIDsSlash = "";
@@ -189,19 +202,32 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					}
 					
 					hmDBList.put("bbids_slash", BBIDsSlash);
-					hmDBList.put("misc", context.getString(R.string.code) + BBIDsSlash + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());
+					misctext = context.getString(R.string.code) + BBIDsSlash;
 				} else {
-					hmDBList.put("misc", context.getString(R.string.set) + database.GetWaveByWaveID(database.blindbags.get(i).waveid).name + ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString());					
+					misctext = context.getString(R.string.set) + database.GetWaveByWaveID(database.blindbags.get(i).waveid).name;					
 					hmDBList.put("wave_name", database.GetWaveByWaveID(database.blindbags.get(i).waveid).name);					
 				}
 
+				if (mode != MODE_WISHLIST)
+				{
+					misctext += ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString();
+				}
+				
+				hmDBList.put("misc", misctext);
 				
 				Integer wavepic = context.getResources().getIdentifier("w" + database.blindbags.get(i).waveid, "drawable", context.getPackageName());
 				hmDBList.put("name", database.blindbags.get(i).name);
 				hmDBList.put("img1", wavepic);
 				hmDBList.put("uniqid", database.blindbags.get(i).uniqid);
 				hmDBList.put("count_int", database.blindbags.get(i).count);
-				hmDBList.put("waveid", database.blindbags.get(i).waveid);	
+				hmDBList.put("waveid", database.blindbags.get(i).waveid);
+				hmDBList.put("wanted", database.blindbags.get(i).wanted);
+				if (database.blindbags.get(i).wanted)
+				{
+					hmDBList.put("star_img", R.drawable.star_on);
+				} else {
+					hmDBList.put("star_img", null);					
+				}
 				dblist.total_count += database.blindbags.get(i).count;
 				dblist.data.add(hmDBList);
 			}
@@ -241,6 +267,14 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					break;
 				}
 				
+				case MODE_WISHLIST:
+				{
+					TitleMsg = context.getString(R.string.wishlist);
+					db = database.GetWishlist(context);
+					
+					break;
+				}
+				
 				case MODE_WAVE:
 				{
 					if (Integer.parseInt(query) <= 100)
@@ -267,9 +301,8 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 	}
 	
-	protected void CartUncart(String uniqid, Integer value)
+	protected void CartUncart(Integer value)
 	{
-		String errmsg = getString(R.string.json_saving_err);
 		Blindbag bb = new Blindbag();
 		
 		int i;
@@ -278,7 +311,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		{
 			bb = database.blindbags.get(i);
 			
-			if (bb.uniqid.equalsIgnoreCase(uniqid))
+			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID))
 			{
 				if (bb.count + value < 0)
 				{
@@ -287,6 +320,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				
 				bb.count += value;
 				dblist.total_count += value;
+				
 				break;
 			}
 		}
@@ -295,10 +329,18 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		if (!database.CommitDB(this))
 		{
-			Toast.makeText(getApplicationContext(), errmsg, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.json_saving_err), Toast.LENGTH_LONG).show();
 			bb.count -= value;
 			dblist.total_count -= value;
 			database.blindbags.set(i, bb);
+		}
+		
+		if (bb.count > 0)
+		{
+			bb.wanted = false;
+			dblist.data.get(CurrentDBListID).put("wanted", false);
+			dblist.data.get(CurrentDBListID).put("star_img", null);
+			ibPWBBWish.setImageResource(R.drawable.star_off);
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
@@ -324,6 +366,80 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			if (dblist.total_count == 0)
 			{
 				tvDBHeader.setText(getString(R.string.my_collection) + " (" + Integer.toString(dblist.total_count) + ")\n\n" + getString(R.string.empty_list));				
+			}
+		} else if (mode == MODE_WISHLIST) {
+			if (!bb.wanted)
+			{
+				dblist.data.remove(CurrentDBListID.intValue());
+				pw.dismiss();
+			}
+			
+			tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")");
+			
+			if (dblist.data.size() == 0)
+			{
+				tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")\n\n" + getString(R.string.empty_list));				
+			}
+		}
+		
+		saDBList.notifyDataSetChanged();
+	}
+	
+	protected void WishUnwish()
+	{
+		Blindbag bb = new Blindbag();
+		
+		int i;
+		
+		for (i = 0; i < database.blindbags.size(); i++)
+		{
+			bb = database.blindbags.get(i);
+			
+			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID))
+			{
+				if (bb.count > 0)
+				{
+					Toast.makeText(getApplicationContext(), getString(R.string.cant_wish_existing), Toast.LENGTH_LONG).show();					
+					return;
+				}
+				bb.wanted = !bb.wanted;
+				break;
+			}
+		}
+		
+		database.blindbags.set(i, bb);
+		
+		if (!database.CommitDB(this))
+		{
+			Toast.makeText(getApplicationContext(), getString(R.string.json_saving_err), Toast.LENGTH_LONG).show();
+			bb.wanted = !bb.wanted;
+			database.blindbags.set(i, bb);
+		}
+		
+		dblist.data.get(CurrentDBListID).put("wanted", bb.wanted);
+		
+		if (bb.wanted)
+		{
+			dblist.data.get(CurrentDBListID).put("star_img", R.drawable.star_on);
+			ibPWBBWish.setImageResource(R.drawable.star_on);
+		} else {
+			dblist.data.get(CurrentDBListID).put("star_img", null);
+			ibPWBBWish.setImageResource(R.drawable.star_off);
+		}
+
+		if (mode == MODE_WISHLIST)
+		{
+			if (!bb.wanted)
+			{
+				dblist.data.remove(CurrentDBListID.intValue());
+				pw.dismiss();
+			}
+			
+			tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")");
+			
+			if (dblist.data.size() == 0)
+			{
+				tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")\n\n" + getString(R.string.empty_list));				
 			}
 		}
 		
@@ -360,6 +476,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		etPWBBShareShopname = (EditText) rlPWBBInfo.findViewById(R.id.etPWBBSocialShareShopname);
 		ibPWBBCart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBCart);
 		ibPWBBUncart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBUncart);
+		ibPWBBWish = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWish);
+
+		if ((Boolean) dblist.data.get(CurrentDBListID).get("wanted"))
+		{
+			ibPWBBWish.setImageResource(R.drawable.star_on);
+		}		
 		
 		tvPWBBInfoName.setText((String) dblist.data.get(CurrentDBListID).get("name"));
 		tvPWBBInfoMisc.setText(GeneratePWBBMiscText());
@@ -370,6 +492,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		ibPWBBShareCommon.setOnClickListener(this);
 		ibPWBBCart.setOnClickListener(this);
 		ibPWBBUncart.setOnClickListener(this);
+		ibPWBBWish.setOnClickListener(this);
 		
 		if (sp.getBoolean("save_shop_name", true))
 		{
@@ -643,11 +766,15 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				break;
 				
 			case R.id.ibPWBBCart:
-				CartUncart(CurrentBBUniqID, +1);
+				CartUncart(+1);
 				break;
 
 			case R.id.ibPWBBUncart:
-				CartUncart(CurrentBBUniqID, -1);
+				CartUncart(-1);
+				break;
+
+			case R.id.ibPWBBWish:
+				WishUnwish();
 				break;
 
 		}
