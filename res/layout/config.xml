@@ -111,6 +111,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/cbCPortraitOnly"
+                android:layout_marginBottom="16dp"
                 android:text="@string/portrait_only_descr"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -132,6 +133,16 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/smart_search_descr"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <Button
+                android:id="@+id/btnCImportExport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/textView4"
+                android:text="@string/import_export" />
+
         </RelativeLayout>
     </ScrollView>
 

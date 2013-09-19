@@ -320,6 +320,56 @@ class BlindbagDB implements Cloneable
         return clone;
     }
 	
+    public String DumpDB(Context context)
+    {
+    	JSONObject dump = new JSONObject();
+    	try {
+    		dump.put("collection", _GetCollection(context));
+			dump.put("wishlist", _GetWishlist(context));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	
+    	return dump.toString();
+    }
+    
+    public Boolean RestoreDB(String dump, Context context)
+    {
+    	JSONObject jsondump;
+    	
+		try {
+			jsondump = new JSONObject(dump);
+		} catch (JSONException e) {
+			return false;
+		}
+		
+    	try {
+			ParseCollection(jsondump.getJSONArray("collection"));
+		} catch (JSONException e) {
+			try {
+				ParseCollection(_GetCollection(context));
+				return false;
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+		}
+    	
+    	try {
+			ParseWishlist(jsondump.getJSONArray("wishlist"));
+		} catch (JSONException e) {
+			try {
+				ParseCollection(_GetCollection(context));
+				ParseWishlist(_GetWishlist(context));
+				return false;
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}		
+		}
+    	
+    	CommitDB(context);
+    	return true;
+    }
+    
 	///////////////////
 	// P R I V A T E //
 	///////////////////

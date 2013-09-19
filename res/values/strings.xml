@@ -58,6 +58,7 @@
 	<string name="collection_set">Collection set</string>
 	<string name="wishlist">My wishlist</string>
 	<string name="cant_wish_existing">You already have this pony in collection! It makes no sense to wish for it...</string>
+	<string name="import_export">Import / Export</string>
 	
     
 </resources>
