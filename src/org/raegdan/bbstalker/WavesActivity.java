@@ -15,7 +15,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class WavesActivity extends ActivityEx implements OnItemClickListener {
-
 	TextView tvWavesHeader;
 	ListView lvWavesList;
 	DBList dblist;
@@ -37,11 +36,11 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		}
 		
 		mDialog = new ProgressDialog(this);
-        mDialog.setMessage(getString(R.string.loading));
-        mDialog.setCancelable(false);
-        mDialog.show();
-        
-        new QueryDatabase().execute(this);
+		mDialog.setMessage(getString(R.string.loading));
+		mDialog.setCancelable(false);
+		mDialog.show();
+		
+		new QueryDatabase().execute(this);
 	}
 
 	protected void DBQueryFinished(BlindbagDB db, DBList dl, String TitleMsg)
@@ -124,10 +123,10 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 
 	protected void QueryWave(String waveid)
 	{
-    	Intent intent = new Intent(this, DBListActivity.class);
-    	intent.putExtra("query", waveid);
-    	intent.putExtra("mode", DBListActivity.MODE_WAVE);    	
-    	startActivity(intent);		
+		Intent intent = new Intent(this, DBListActivity.class);
+		intent.putExtra("query", waveid);
+		intent.putExtra("mode", DBListActivity.MODE_WAVE);	
+		startActivity(intent);		
 	}
 
 	@Override

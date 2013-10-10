@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,7 +20,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,7 +32,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -86,7 +83,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	final static int MODE_LOOKUP 	 	= 1;
 	final static int MODE_ALL_DB 	 	= 2;
 	final static int MODE_COLLECTION 	= 3;
-	final static int MODE_WAVE 		 	= 4;
+	final static int MODE_WAVE 	 	= 4;
 	final static int MODE_WISHLIST		= 5;
 		
 	@SuppressWarnings("unchecked")
@@ -99,12 +96,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		sp = this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 		
 		mDialog = new ProgressDialog(this);
-        mDialog.setCancelable(false);
+		mDialog.setCancelable(false);
 		
-		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);		  
+		tvDBHeader = (TextView) findViewById(R.id.tvDBHeader);  
 		
 		lvDBList = (ListView) findViewById(R.id.lvDBList);
-		lvDBList.setOnItemClickListener(this);	
+		lvDBList.setOnItemClickListener(this);
 		
 		LocationCache = new HashMap<String, Object>();
 		LocationCache.put("time", new Time().toMillis(true));
@@ -120,38 +117,33 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		// Query
 		query = getIntent().getStringExtra("query");
-		mode = getIntent().getIntExtra("mode", 0);	
+		mode = getIntent().getIntExtra("mode", 0);
 		
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("mode", Integer.valueOf(mode));
 		hm.put("query", query);
 		hm.put("context", this);
 		
-        mDialog.setMessage(getString(R.string.looking_up));
-        mDialog.show();
+		mDialog.setMessage(getString(R.string.looking_up));
+		mDialog.show();
 		
 		new QueryDatabase().execute(hm);
 	}
 	
-	protected void DBQueryFinished(String TitleMsg)
-	{        
-		switch (mode)
-		{
-			case MODE_COLLECTION:
-			{
+	protected void DBQueryFinished(String TitleMsg) {
+		switch (mode) {
+			case MODE_COLLECTION: {
 				tvDBHeader.setText(TitleMsg + " (" + Integer.toString(dblist.total_count) + ")");
 				break;
 			}
 			
-			case MODE_WISHLIST:
-			{
+			case MODE_WISHLIST: {
 				tvDBHeader.setText(TitleMsg + " (" + Integer.toString(dblist.data.size()) + ")");
 				break;
 			}
 			
-			default:
-			{
-				tvDBHeader.setText(TitleMsg);				
+			default: {
+				tvDBHeader.setText(TitleMsg);
 			}
 		}
 		
@@ -160,28 +152,22 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		mDialog.dismiss();
 		
-		if (dblist.data.size() == 0)
-		{
+		if (dblist.data.size() == 0) {
 			tvDBHeader.setText(TitleMsg + "\n\n" + getString(R.string.empty_list));
 			return;
-		} else if (dblist.data.size() == 1)
-		{
+		} else if (dblist.data.size() == 1) {
 			lvDBListItemClicked(0);
 		}
 	}
 	
-	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, String>
-	{
-		protected void PrepareDBList (BlindbagDB database, Context context)
-		{ 
+	protected class QueryDatabase extends AsyncTask<HashMap<String, Object>, Integer, String> {
+		protected void PrepareDBList (BlindbagDB database, Context context) { 
 			dblist.fields = new String[] {"name", "misc", "img1", "star_img"};
 			dblist.views = new int[] {R.id.tvLVDBListName, R.id.tvLVDBListMisc, R.id.ivVLDBListWavePic, R.id.ivVLDBStar};
 			dblist.total_count = 0;
 			
-			for (int i = 0; i < database.blindbags.size(); i++)
-			{
-				if (database.blindbags.get(i).priority == 0)
-				{
+			for (int i = 0; i < database.blindbags.size(); i++) {
+				if (database.blindbags.get(i).priority == 0) {
 					continue;
 				}
 
@@ -189,14 +175,11 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 
 				String misctext = "";
 				
-				if (Integer.parseInt(database.blindbags.get(i).waveid) <= 100)
-				{
+				if (Integer.parseInt(database.blindbags.get(i).waveid) <= 100) {
 					String BBIDsSlash = "";
-					for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++)
-					{
+					for (int j = 0; j < database.blindbags.get(i).bbids.size(); j++) {
 						BBIDsSlash += database.blindbags.get(i).bbids.get(j);
-						if (j < database.blindbags.get(i).bbids.size() - 1)
-						{
+						if (j < database.blindbags.get(i).bbids.size() - 1) {
 							BBIDsSlash += " / ";
 						}
 					}
@@ -204,12 +187,11 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					hmDBList.put("bbids_slash", BBIDsSlash);
 					misctext = context.getString(R.string.code) + BBIDsSlash;
 				} else {
-					misctext = context.getString(R.string.set) + database.GetWaveByWaveID(database.blindbags.get(i).waveid).name;					
+					misctext = context.getString(R.string.set) + database.GetWaveByWaveID(database.blindbags.get(i).waveid).name;
 					hmDBList.put("wave_name", database.GetWaveByWaveID(database.blindbags.get(i).waveid).name);					
 				}
 
-				if (mode != MODE_WISHLIST)
-				{
+				if (mode != MODE_WISHLIST) {
 					misctext += ", " + context.getString(R.string.in_collection) + database.blindbags.get(i).count.toString();
 				}
 				
@@ -222,8 +204,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 				hmDBList.put("count_int", database.blindbags.get(i).count);
 				hmDBList.put("waveid", database.blindbags.get(i).waveid);
 				hmDBList.put("wanted", database.blindbags.get(i).wanted);
-				if (database.blindbags.get(i).wanted)
-				{
+				if (database.blindbags.get(i).wanted) {
 					hmDBList.put("star_img", R.drawable.star_on);
 				} else {
 					hmDBList.put("star_img", null);					
@@ -234,8 +215,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 		
 		@Override
-		protected String doInBackground(HashMap<String, Object>... arg0)
-		{
+		protected String doInBackground(HashMap<String, Object>... arg0) {
 			BlindbagDB db = new BlindbagDB();
 			
 			String TitleMsg = "";
@@ -243,42 +223,33 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			String query = ((String) arg0[0].get("query"));
 			Context context = (Context) arg0[0].get("context");
 			
-			switch (mode)
-			{
-				case MODE_ALL_DB:
-				{
+			switch (mode) {
+				case MODE_ALL_DB: {
 					TitleMsg = context.getString(R.string.all_db);
 					db = database;
 					break;
 				}
 			
-				case MODE_LOOKUP:
-				{
+				case MODE_LOOKUP: {
 					TitleMsg = context.getString(R.string.results_for) + query + "»";
 					db = database.LookupDB(query, sp.getBoolean("smart_search", true));				
 					break;
 				}
 				
-				case MODE_COLLECTION:
-				{
+				case MODE_COLLECTION: {
 					TitleMsg = context.getString(R.string.my_collection);
 					db = database.GetCollection(context);
-					
 					break;
 				}
 				
-				case MODE_WISHLIST:
-				{
+				case MODE_WISHLIST: {
 					TitleMsg = context.getString(R.string.wishlist);
 					db = database.GetWishlist(context);
-					
 					break;
 				}
 				
-				case MODE_WAVE:
-				{
-					if (Integer.parseInt(query) <= 100)
-					{
+				case MODE_WAVE: {
+					if (Integer.parseInt(query) <= 100) {
 						TitleMsg = context.getString(R.string.wave) + query;
 					} else {
 						TitleMsg = database.GetWaveByWaveID(query).name;
@@ -286,7 +257,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					db = database.GetWaveBBs(query);
 					break;
 				}
-			
 			}
 
 			PrepareDBList(db, context);
@@ -295,26 +265,21 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 		
 		@Override
-		protected void onPostExecute (String result)
-		{
-				DBQueryFinished(result);				
+		protected void onPostExecute (String result) {
+			DBQueryFinished(result);				
 		}
 	}
 	
-	protected void CartUncart(Integer value)
-	{
+	protected void CartUncart(Integer value) {
 		Blindbag bb = new Blindbag();
 		
 		int i;
 		
-		for (i = 0; i < database.blindbags.size(); i++)
-		{
+		for (i = 0; i < database.blindbags.size(); i++) {
 			bb = database.blindbags.get(i);
 			
-			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID))
-			{
-				if (bb.count + value < 0)
-				{
+			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID)) {
+				if (bb.count + value < 0) {
 					return;
 				}
 				
@@ -327,16 +292,14 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		database.blindbags.set(i, bb);
 		
-		if (!database.CommitDB(this))
-		{
+		if (!database.CommitDB(this)) {
 			Toast.makeText(getApplicationContext(), getString(R.string.json_saving_err), Toast.LENGTH_LONG).show();
 			bb.count -= value;
 			dblist.total_count -= value;
 			database.blindbags.set(i, bb);
 		}
 		
-		if (bb.count > 0)
-		{
+		if (bb.count > 0) {
 			bb.wanted = false;
 			dblist.data.get(CurrentDBListID).put("wanted", false);
 			dblist.data.get(CurrentDBListID).put("star_img", null);
@@ -344,8 +307,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 		
 		dblist.data.get(CurrentDBListID).put("count_int", bb.count);
-		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
-		{
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100) {
 			dblist.data.get(CurrentDBListID).put("misc", getString(R.string.code) + (String) dblist.data.get(CurrentDBListID).get("bbids_slash") + ", " + getString(R.string.in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString());
 		} else {
 			dblist.data.get(CurrentDBListID).put("misc", getString(R.string.set) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + ", " + getString(R.string.in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString());					
@@ -353,31 +315,26 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 
 		tvPWBBInfoMisc.setText(GeneratePWBBMiscText());
 		
-		if (mode == MODE_COLLECTION)
-		{
-			if (bb.count == 0)
-			{
+		if (mode == MODE_COLLECTION) {
+			if (bb.count == 0) {
 				dblist.data.remove(CurrentDBListID.intValue());
 				pw.dismiss();
 			}
 			
 			tvDBHeader.setText(getString(R.string.my_collection) + " (" + Integer.toString(dblist.total_count) + ")");
 			
-			if (dblist.total_count == 0)
-			{
+			if (dblist.total_count == 0) {
 				tvDBHeader.setText(getString(R.string.my_collection) + " (" + Integer.toString(dblist.total_count) + ")\n\n" + getString(R.string.empty_list));				
 			}
 		} else if (mode == MODE_WISHLIST) {
-			if (!bb.wanted)
-			{
+			if (!bb.wanted) {
 				dblist.data.remove(CurrentDBListID.intValue());
 				pw.dismiss();
 			}
 			
 			tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")");
 			
-			if (dblist.data.size() == 0)
-			{
+			if (dblist.data.size() == 0) {
 				tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")\n\n" + getString(R.string.empty_list));				
 			}
 		}
@@ -385,20 +342,16 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		saDBList.notifyDataSetChanged();
 	}
 	
-	protected void WishUnwish()
-	{
+	protected void WishUnwish() {
 		Blindbag bb = new Blindbag();
 		
 		int i;
 		
-		for (i = 0; i < database.blindbags.size(); i++)
-		{
+		for (i = 0; i < database.blindbags.size(); i++) {
 			bb = database.blindbags.get(i);
 			
-			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID))
-			{
-				if (bb.count > 0)
-				{
+			if (bb.uniqid.equalsIgnoreCase(CurrentBBUniqID)) {
+				if (bb.count > 0) {
 					Toast.makeText(getApplicationContext(), getString(R.string.cant_wish_existing), Toast.LENGTH_LONG).show();					
 					return;
 				}
@@ -409,8 +362,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		database.blindbags.set(i, bb);
 		
-		if (!database.CommitDB(this))
-		{
+		if (!database.CommitDB(this)) {
 			Toast.makeText(getApplicationContext(), getString(R.string.json_saving_err), Toast.LENGTH_LONG).show();
 			bb.wanted = !bb.wanted;
 			database.blindbags.set(i, bb);
@@ -418,8 +370,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		
 		dblist.data.get(CurrentDBListID).put("wanted", bb.wanted);
 		
-		if (bb.wanted)
-		{
+		if (bb.wanted) {
 			dblist.data.get(CurrentDBListID).put("star_img", R.drawable.star_on);
 			ibPWBBWish.setImageResource(R.drawable.star_on);
 		} else {
@@ -427,18 +378,15 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			ibPWBBWish.setImageResource(R.drawable.star_off);
 		}
 
-		if (mode == MODE_WISHLIST)
-		{
-			if (!bb.wanted)
-			{
+		if (mode == MODE_WISHLIST) {
+			if (!bb.wanted) {
 				dblist.data.remove(CurrentDBListID.intValue());
 				pw.dismiss();
 			}
 			
 			tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")");
 			
-			if (dblist.data.size() == 0)
-			{
+			if (dblist.data.size() == 0) {
 				tvDBHeader.setText(getString(R.string.wishlist) + " (" + Integer.toString(dblist.data.size()) + ")\n\n" + getString(R.string.empty_list));				
 			}
 		}
@@ -446,25 +394,21 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		saDBList.notifyDataSetChanged();
 	}
 	
-	protected String GeneratePWBBMiscText()
-	{
-		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
-		{
+	protected String GeneratePWBBMiscText() {
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100) {
 			return getString(R.string.wave) + (String) dblist.data.get(CurrentDBListID).get("waveid") + "\n" + getString(R.string.code) + (String) dblist.data.get(CurrentDBListID).get("bbids_slash") + "\n" + getString(R.string.pcs_in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString();			
 		} else {
 			return getString(R.string.set) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + "\n" + getString(R.string.pcs_in_collection) + ((Integer) dblist.data.get(CurrentDBListID).get("count_int")).toString();			
 		}		
 	}
 	
-	protected void lvDBListItemClicked(Integer index)
-	{
+	protected void lvDBListItemClicked(Integer index) {
 		CurrentBBUniqID = (String) dblist.data.get(index).get("uniqid");
 		CurrentDBListID = index;
 		ShowBBInfo();
 	}
 	
-	protected void ShowBBInfo ()
-	{
+	protected void ShowBBInfo () {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		vPWBBInfo = inflater.inflate(R.layout.pwbbinfo, null);
 		rlPWBBInfo = (RelativeLayout) vPWBBInfo.findViewById(R.id.rlPWBBInfo);
@@ -478,8 +422,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		ibPWBBUncart = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBUncart);
 		ibPWBBWish = (ImageButton) rlPWBBInfo.findViewById(R.id.ibPWBBWish);
 
-		if ((Boolean) dblist.data.get(CurrentDBListID).get("wanted"))
-		{
+		if ((Boolean) dblist.data.get(CurrentDBListID).get("wanted")) {
 			ibPWBBWish.setImageResource(R.drawable.star_on);
 		}		
 		
@@ -494,8 +437,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		ibPWBBUncart.setOnClickListener(this);
 		ibPWBBWish.setOnClickListener(this);
 		
-		if (sp.getBoolean("save_shop_name", true))
-		{
+		if (sp.getBoolean("save_shop_name", true)) {
 			etPWBBShareShopname.setText(sp.getString("shopname", ""));
 		}
 		etPWBBShareShopname.addTextChangedListener(new TextWatcher() {
@@ -520,12 +462,11 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		    	if (actionId == EditorInfo.IME_ACTION_GO)
-		    	{ 
-		    		SocialShare();
-		    	}
-		    	   
-		    	return true;
+				if (actionId == EditorInfo.IME_ACTION_GO) { 
+					SocialShare();
+				}
+				   
+				return true;
 			}
 		});
 		
@@ -544,47 +485,44 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	//
 	// To share, call SocialShare.
 	//
-	// - SocialShare
-	//   - Geolocation allowed in config?
-	//     - no: ActuallyShare w/o geotag
-	//   - Cached location exists?
-	//     - yes: ActuallyShare with cached location
-	//     - no: 
-	//       - show waiting popup
-	//       - LocationRequest
-	//         - no location providers?
-	//           - hide popup
-	//           - cache null geolocation data
-	//		     - ActuallyShare w/o geotag
-	//         - no location data available? (no GPS satellites visible, no network signal)
-	//  		 - hide popup
-	//           - cache null geolocation data
-	//           - ActuallyShare w/o geotag
-	//         - location data obtained successfully?
-	//           - BitlyRequest
-	//             - change popup text
-	//             - request link compaction
-	//  		   - hide popup
-	//             - Link successfully compacted via Bitly?
-	//               - yes:
-	//                 - cache link
-	//                 - ActuallyShare w/geotag
-	//               - no:
-	//				   - cache null geolocation data	
-	//                 - ActuallyShare w/o geotag
+	//	- SocialShare
+	//		- Geolocation allowed in config?
+	//			- no: ActuallyShare w/o geotag
+	//		- Cached location exists?
+	//			- yes: ActuallyShare with cached location
+	//			- no: 
+	//				- show waiting popup
+	//				- LocationRequest
+	//					- no location providers?
+	//						- hide popup
+	//						- cache null geolocation data
+	//						- ActuallyShare w/o geotag
+	//					- no location data available? (no GPS satellites visible, no network signal)
+	//						- hide popup
+	//						- cache null geolocation data
+	//						- ActuallyShare w/o geotag
+	//					- location data obtained successfully?
+	//						- BitlyRequest
+	//						- change popup text
+	//						- request link compaction
+	//						- change popup to link compacting popup
+	//						- Link successfully compacted via Bitly?
+	//							- yes:
+	//								- cache link
+	//								- ActuallyShare w/geotag
+	//							- no:
+	//								- cache null geolocation data	
+	//								- ActuallyShare w/o geotag
 	//
 	//////////////////////////////////////////////////////////
 	
-	protected void SocialShare()
-	{		
-		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase(""))
-		{
+	protected void SocialShare() {		
+		if (etPWBBShareShopname.getText().toString().trim().equalsIgnoreCase("")) {
 			Toast.makeText(getApplicationContext(), getString(R.string.no_shop_name), Toast.LENGTH_LONG).show();
 			return;
 		}
 		
-		if (!this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE).getBoolean("allow_geoloc", true))
-		{
+		if (!this.getSharedPreferences(this.getPackageName(), MODE_PRIVATE).getBoolean("allow_geoloc", true)) {
 			ActuallyShare(null);
 			return;
 		}
@@ -592,55 +530,46 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		Time t = new Time();
 		t.setToNow();
 		
-		if ((t.toMillis(true) - (Long) LocationCache.get("time")) < ((Long) LocationCache.get("timeout")))
-		{
+		if ((t.toMillis(true) - (Long) LocationCache.get("time")) < ((Long) LocationCache.get("timeout"))) {
 			ActuallyShare(((String) LocationCache.get("location")));
 		} else {
-	        mDialog.setMessage(getString(R.string.trying_to_locate));
-	        mDialog.setCancelable(false);
-	        mDialog.show();
-	        
-	    	MyLocation myLocation;
+			mDialog.setMessage(getString(R.string.trying_to_locate));
+			mDialog.setCancelable(false);
+			mDialog.show();
+			
+			MyLocation myLocation;
 			myLocation = new MyLocation();
 			LocationResult locationResult = new LocationRequest();
 			myLocation.getLocation(this, locationResult);			
 		}
 	}
 	
-	protected class LocationRequest extends LocationResult
-	{
-		
+	protected class LocationRequest extends LocationResult {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void gotLocation(Location location, int ErrCode) {
-			switch (ErrCode)
-			{
-				case MyLocation.EC_NO_PROVIDERS:
-				{
+			switch (ErrCode) {
+				case MyLocation.EC_NO_PROVIDERS: {
 					mDialog.dismiss();
 					Time t = new Time();
 					t.setToNow();
 					LocationCache.put("time", t.toMillis(true));
 					LocationCache.put("location", null);
 					ActuallyShare(null);
-					
 					break;
 				}
 				
-				case MyLocation.EC_NO_DATA:
-				{
+				case MyLocation.EC_NO_DATA: {
 					mDialog.dismiss();
 					Time t = new Time();
 					t.setToNow();
 					LocationCache.put("time", t.toMillis(true));
 					LocationCache.put("location", null);
 					ActuallyShare(null);
-					
 					break;
 				}
 				
-				case MyLocation.EC_NO_ERR:
-				{
+				case MyLocation.EC_NO_ERR: {
 					HashMap<String, Object> query = new HashMap<String, Object>();
 					
 					if (sp.getBoolean("allow_geoloc_by_shop", true))
@@ -651,7 +580,6 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					}
 					
 					new BitlyRequest().execute(query);
-					
 					break;
 				}
 			}		
@@ -661,48 +589,51 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	protected class BitlyRequest extends AsyncTask<HashMap<String, Object>, Integer, HashMap<String, Object>>
 	{
 		@Override
-	    protected void onPreExecute()
-		{
+		protected void onPreExecute() {
 			super.onPreExecute();
 			mDialog.setMessage(getString(R.string.trying_to_get_link));
-	    }
+		}
 
 		@Override
-		protected HashMap<String, Object> doInBackground(HashMap<String, Object>... params)
-		{
+		protected HashMap<String, Object> doInBackground(HashMap<String, Object>... params) {
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("link", null);
 				
-			try 
-			{
+			try {
 				String API_KEY = "a6d306ec04569d71baa6459738622fde5d37262f";
 				String BITLY_API_URL = "https://api-ssl.bitly.com/v3/shorten?access_token=" + API_KEY + "&longUrl=";
 				
-			    HttpClient hc = new DefaultHttpClient(); 
-			    HttpGet hg = new HttpGet(BITLY_API_URL + URLEncoder.encode((String) params[0].get("link"), "UTF-8"));
-			    HttpResponse hr = hc.execute(hg);
-			    HttpEntity he = hr.getEntity();  
+				HttpClient hc = new DefaultHttpClient(); 
+				HttpGet hg = new HttpGet(BITLY_API_URL + URLEncoder.encode((String) params[0].get("link"), "UTF-8"));
+				HttpResponse hr = hc.execute(hg);
+				HttpEntity he = hr.getEntity();  
 
-			    if (he == null)
-			    {  
-			    	return null;
-			    }
-			    
-			    String response = EntityUtils.toString(he);
-			    
-			    result.put("link", new JSONObject(response).getJSONObject("data").getString("url").replaceAll("http://", "").replaceAll("https://", ""));
+				if (he == null) {  
+					return null;
+				}
+				
+				String response = EntityUtils.toString(he);
+				
+				result.put("link", new JSONObject(response).getJSONObject("data").getString("url").replaceAll("http://", "").replaceAll("https://", ""));
 			} 
-			catch (ParseException e) {}
-			catch (JSONException e) {} 
-			catch (UnsupportedEncodingException e) {}
-			catch (IOException e) {}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			catch (JSONException e) {
+				e.printStackTrace();
+			} 
+			catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			return result;
 		}
 			
 		@Override
-		protected void onPostExecute (HashMap<String, Object> result)
-		{
+		protected void onPostExecute (HashMap<String, Object> result) {
 			Time t = new Time();
 			t.setToNow();
 			LocationCache.put("time", t.toMillis(true));
@@ -713,27 +644,25 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}
 	}
 	
-	protected void ActuallyShare(String GeoLink)
-	{		
+	protected void ActuallyShare(String GeoLink) {		
 		String message = "";
 		
-		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100)
-		{
-			message = getString(R.string.social_msg_p1) + (String) dblist.data.get(CurrentDBListID).get("waveid") + getString(R.string.social_msg_p2) + (String) dblist.data.get(CurrentDBListID).get("name") + getString(R.string.social_msg_p3) + etPWBBShareShopname.getText().toString();			
+		if (GeoLink != null) {
+			GeoLink = String.format(getString(R.string.social_msg_geo), GeoLink);
 		} else {
-			message = getString(R.string.social_msg_set_p1) + (String) dblist.data.get(CurrentDBListID).get("wave_name") + getString(R.string.social_msg_set_p2) + etPWBBShareShopname.getText().toString();						
+			GeoLink = "";
 		}
-		if (GeoLink != null)
-		{
-			message += getString(R.string.social_msg_p4) + GeoLink;
+		
+		if (Integer.parseInt((String) dblist.data.get(CurrentDBListID).get("waveid")) <= 100) {
+			message = String.format(getString(R.string.social_msg_bb), (String) dblist.data.get(CurrentDBListID).get("waveid"), (String) dblist.data.get(CurrentDBListID).get("name"), etPWBBShareShopname.getText().toString(), GeoLink);
+		} else {
+			message = String.format(getString(R.string.social_msg_set), (String) dblist.data.get(CurrentDBListID).get("wave_name"), etPWBBShareShopname.getText().toString(), GeoLink);
 		}
-		message += getString(R.string.social_msg_p5);
 		
 		Share(message);
 	}
 	
-	void Share(String text)
-	{
+	void Share(String text) {
 		Intent ss = new Intent(Intent.ACTION_SEND);
 		ss.putExtra(Intent.EXTRA_TEXT, text);
 		ss.setType("text/plain");
@@ -743,8 +672,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		switch (arg0.getId())
-		{
+		switch (arg0.getId()) {
 			case R.id.lvDBList:
 				lvDBListItemClicked(arg2);
 				break;
@@ -755,28 +683,31 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	public void onClick(View v) {
 		Blindbag CurrentBlindbag = database.GetBlindbagByUniqID(CurrentBBUniqID);
 		
-		switch (v.getId())
-		{
-			case R.id.ibPWBBWiki:
+		switch (v.getId()) 	{
+			case R.id.ibPWBBWiki: {
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CurrentBlindbag.wikiurl)));
 				break;
-				
-			case R.id.ibPWBBShareCommon:
+			}
+			
+			case R.id.ibPWBBShareCommon: {
 				SocialShare();			
 				break;
-				
-			case R.id.ibPWBBCart:
+			}
+			
+			case R.id.ibPWBBCart: {
 				CartUncart(+1);
 				break;
-
-			case R.id.ibPWBBUncart:
+			}
+			
+			case R.id.ibPWBBUncart: {
 				CartUncart(-1);
 				break;
-
-			case R.id.ibPWBBWish:
+			}
+			
+			case R.id.ibPWBBWish: {
 				WishUnwish();
 				break;
-
+			}
 		}
 	}
 }

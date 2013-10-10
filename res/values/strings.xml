@@ -10,16 +10,10 @@
     <string name="in_collection">"in collection: "</string>
     <string name="json_saving_err">"JSON error occurred while saving data."</string>
     <string name="pcs_in_collection">"Pieces in collection: "</string>
-    <string name="social_msg_p1">"Hey everypony! Just found W"</string>
-    <string name="social_msg_p2">" blind bags &amp; "</string>
-    <string name="social_msg_p3">" among them @ "</string>
-    <string name="social_msg_p4">", geo: "</string>
-    <string name="social_msg_p5">" using #bbstalker"</string>
-    <string name="social_msg_set_p1">"Hey everypony! Just found "</string>
-    <string name="social_msg_set_p2">" collection set @ "</string>
-    <string name="no_social_app_p1">"Please install official "</string>
-    <string name="no_social_app_p2">" client from the Market."</string>
-    <string name="app_title">"(\\ BBStalker v1.7.1 /)"</string>
+    <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
+	<string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
+    <string name="social_msg_geo">", geo: %1$s"</string>
+    <string name="app_title">"(\\ BBStalker v1.8.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -59,6 +53,13 @@
 	<string name="wishlist">My wishlist</string>
 	<string name="cant_wish_existing">You already have this pony in collection! It makes no sense to wish for it...</string>
 	<string name="import_export">Import / Export</string>
-	
-    
+	<string name="btn_import">Import...</string>
+	<string name="btn_export">Export...</string>
+	<string name="btn_copy">Copy</string>
+	<string name="btn_paste">Paste</string>
+	<string name="import_fault">Import failed! Double check the code you pasted.</string>
+	<string name="import_success">Import succeeded!</string>
+	<string name="export_success">Export succeeded!</string>
+	<string name="copied">Copied to clipboard.</string>
+	<string name="pasted">Pasted from clipboard.</string>
 </resources>

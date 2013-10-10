@@ -12,9 +12,8 @@ public class DBList {
 	String[] fields;
 	int[] views;
 	int total_count;
-	
-	DBList()
-	{
+
+	public DBList() {
 		data = new ArrayList<HashMap<String, Object>>();
 	}
 }

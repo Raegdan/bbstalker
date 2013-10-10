@@ -24,43 +24,41 @@ import android.content.Intent;
 public class MainActivity extends ActivityEx implements OnClickListener, OnEditorActionListener {
 
 	// Controls
-    Button btnMAQuery;
-    Button btnMAWatchDB;
-    Button btnMAWatchCollection;
-    Button btnMAHelp;
-    Button btnMAConfig;
-    Button btnMAWatchWaves;
-    Button btnMAWishlist;
-    
-    EditText etMAQuery;
-    ProgressDialog mDialog;
-    
-    // Success DB load flag
-    Boolean DBLoadedSuccessfully = true;
+	Button btnMAQuery;
+	Button btnMAWatchDB;
+	Button btnMAWatchCollection;
+	Button btnMAHelp;
+	Button btnMAConfig;
+	Button btnMAWatchWaves;
+	Button btnMAWishlist;
+	
+	EditText etMAQuery;
+	ProgressDialog mDialog;
+	
+	// Success DB load flag
+	Boolean DBLoadedSuccessfully = true;
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        
-        // Dialog init
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		
+		// Dialog init
 		mDialog = new ProgressDialog(this);
-        
+		
 		// Start async database loading
-        new DBLoader().execute(this);
+		new DBLoader().execute(this);
 	}
 	
 	//////////////////////////////////////////////
 	// AsyncTask for loading global DB from JSON
 	//////////////////////////////////////////////
-	protected class DBLoader extends AsyncTask<Activity, Integer, Void>
-	{
+	protected class DBLoader extends AsyncTask<Activity, Integer, Void> {
 		@Override
-		protected void onPreExecute ()
-		{
-	        mDialog.setCancelable(false);
-	        mDialog.setMessage(getString(R.string.loading));
-	        mDialog.show();
+		protected void onPreExecute () {
+			mDialog.setCancelable(false);
+			mDialog.setMessage(getString(R.string.loading));
+			mDialog.show();
 		}
 		
 		@Override
@@ -70,8 +68,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		}
 		
 		@Override
-		protected void onPostExecute (Void arg0)
-		{
+		protected void onPostExecute (Void arg0) {
 			mDialog.dismiss();
 			ContinueInit();
 		}
@@ -80,37 +77,35 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	////////////////////////////////////////////////////
 	// Continues activity init after DBLoader finishes
 	////////////////////////////////////////////////////
-	protected void ContinueInit()
-	{
+	protected void ContinueInit() {
 		// Don't init controls in case of DB loading failure.
 		// Show toast and leave the form dead.
-		if (!DBLoadedSuccessfully)
-		{
+		if (!DBLoadedSuccessfully) {
 			Toast.makeText(getApplicationContext(), getString(R.string.json_db_err), Toast.LENGTH_LONG).show();
 			return;
 		}
 		
-        // Controls init
-        btnMAQuery = (Button) findViewById(R.id.btnMAQuery);
-        btnMAWatchDB = (Button) findViewById(R.id.btnMAWatchDB);
-        btnMAWatchCollection = (Button) findViewById(R.id.btnMAWatchCollection);
-        btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
-        btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
-        btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
-        btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);        
-        
-        etMAQuery = (EditText) findViewById(R.id.etMAQuery);
+		// Controls init
+		btnMAQuery = (Button) findViewById(R.id.btnMAQuery);
+		btnMAWatchDB = (Button) findViewById(R.id.btnMAWatchDB);
+		btnMAWatchCollection = (Button) findViewById(R.id.btnMAWatchCollection);
+		btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
+		btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
+		btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
+		btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);		
+		
+		etMAQuery = (EditText) findViewById(R.id.etMAQuery);
 
-        btnMAQuery.setOnClickListener(this);
-        btnMAWatchDB.setOnClickListener(this);
-        btnMAWatchCollection.setOnClickListener(this);
-        btnMAHelp.setOnClickListener(this);
-        btnMAConfig.setOnClickListener(this);
-        btnMAWatchWaves.setOnClickListener(this);
-        btnMAWishlist.setOnClickListener(this);
-        
-        etMAQuery.setOnClickListener(this);
-        etMAQuery.setOnEditorActionListener(this);
+		btnMAQuery.setOnClickListener(this);
+		btnMAWatchDB.setOnClickListener(this);
+		btnMAWatchCollection.setOnClickListener(this);
+		btnMAHelp.setOnClickListener(this);
+		btnMAConfig.setOnClickListener(this);
+		btnMAWatchWaves.setOnClickListener(this);
+		btnMAWishlist.setOnClickListener(this);
+		
+		etMAQuery.setOnClickListener(this);
+		etMAQuery.setOnEditorActionListener(this);
 	}
 	
 	//////////////////////////
@@ -118,78 +113,79 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	//////////////////////////
 	@Override
 	public void onClick(View v) {
-	    switch (v.getId())
-	    {
-	    case R.id.btnMAQuery:
-    		OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
-    		HideKB();
-    		break;
-	    	
-	    case R.id.btnMAWatchDB:
-	    	OpenDBListActivity("", DBListActivity.MODE_ALL_DB);
-	    	break;
-
-	    case R.id.btnMAWatchCollection:
-	    	OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
-	    	break;
-	    	
-	    case R.id.btnMAWishlist:
-	    	OpenDBListActivity("", DBListActivity.MODE_WISHLIST);
-	    	break;
-	    	
-	    case R.id.btnMAHelp:
-	    	ShowHelp();
-	    	break;
-	    	
-	    case R.id.btnMAConfig:
-	    	OpenConfigActivity();
-	    	break;
-	    	
-	    case R.id.btnMAWatchWaves:
-	    	OpenWavesListActivity();
-	    	break;
-	    }
+		switch (v.getId()) {
+			case R.id.btnMAQuery: {
+				OpenDBListActivity(etMAQuery.getText().toString(), DBListActivity.MODE_LOOKUP);
+				HideKB();
+				break;
+			}
+				
+			case R.id.btnMAWatchDB: {
+				OpenDBListActivity("", DBListActivity.MODE_ALL_DB);
+				break;
+			}
+	
+			case R.id.btnMAWatchCollection: {
+				OpenDBListActivity("", DBListActivity.MODE_COLLECTION);
+				break;
+			}
+				
+			case R.id.btnMAWishlist: {
+				OpenDBListActivity("", DBListActivity.MODE_WISHLIST);
+				break;
+			}
+				
+			case R.id.btnMAHelp: {
+				ShowHelp();
+				break;
+			}
+				
+			case R.id.btnMAConfig: {
+				OpenConfigActivity();
+				break;
+			}
+				
+			case R.id.btnMAWatchWaves: {
+				OpenWavesListActivity();
+				break;
+			}
+		}
 	}
 	
 	
-	protected void HideKB()
-	{
+	protected void HideKB() {
 		InputMethodManager im = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE); 
 		im.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);		
 	}
+	
 	///////////////////////////////
 	// Activities calling methods
 	///////////////////////////////
-	protected void OpenDBListActivity(String query, int mode)
-	{
-		if (mode == DBListActivity.MODE_LOOKUP && etMAQuery.getText().toString().equalsIgnoreCase(""))
-		{
+	protected void OpenDBListActivity(String query, int mode) {
+		if (mode == DBListActivity.MODE_LOOKUP && etMAQuery.getText().toString().equalsIgnoreCase("")) {
 			Toast.makeText(getApplicationContext(), getString(R.string.nothing_to_query), Toast.LENGTH_LONG).show();
 			return;
 		}
-    	Intent intent = new Intent(this, DBListActivity.class);
-    	intent.putExtra("query", query);
-    	intent.putExtra("mode", mode);
-    	startActivity(intent);
+		Intent intent = new Intent(this, DBListActivity.class);
+		intent.putExtra("query", query);
+		intent.putExtra("mode", mode);
+		startActivity(intent);
 	}
 	
-	protected void OpenConfigActivity()
-	{
-    	Intent intent = new Intent(this, ConfigActivity.class);
-    	startActivity(intent);		
+	protected void OpenConfigActivity() {
+		Intent intent = new Intent(this, ConfigActivity.class);
+		startActivity(intent);		
 	}
 	
-	protected void OpenWavesListActivity()
-	{
-    	Intent intent = new Intent(this, WavesActivity.class);
-    	startActivity(intent);			
+	protected void OpenWavesListActivity() {
+		Intent intent = new Intent(this, WavesActivity.class);
+		startActivity(intent);			
 	}
 	
 	//////////////////////////////
 	// Show help in popup window
 	//////////////////////////////
-	protected void ShowHelp()
-	{
+	protected void ShowHelp() {
 		PopupWindow pw;
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View vPWHelp = inflater.inflate(R.layout.pwhelp, null);
@@ -206,19 +202,16 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 
 	@Override
 	public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-	    switch (arg0.getId())
-	    {
-		    case R.id.etMAQuery:
-		    {
-		    	if (arg1 == EditorInfo.IME_ACTION_SEARCH)
-		    	{ 
-		    		OpenDBListActivity(arg0.getText().toString(), DBListActivity.MODE_LOOKUP);
-		    		HideKB();
-		    	}
-		    	   
-		    	return true;
-		    }
-	    }
+		switch (arg0.getId()) {
+			case R.id.etMAQuery: {
+				if (arg1 == EditorInfo.IME_ACTION_SEARCH) { 
+					OpenDBListActivity(arg0.getText().toString(), DBListActivity.MODE_LOOKUP);
+					HideKB();
+				}
+				   
+				return true;
+			}
+		}
 		return false;
-	}    
+	}	
 }
