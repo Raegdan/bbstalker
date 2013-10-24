@@ -5,16 +5,6 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp" >
 
-    <ImageView
-        android:id="@+id/ivVLDBListWavePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/w1" />
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
@@ -22,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/ivVLDBListWavePic"
+        android:layout_toRightOf="@+id/rlVLDBListWavePic"
         android:orientation="vertical" >
 
         <TextView
@@ -38,12 +28,31 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/ivVLDBStar"
+    <RelativeLayout
+        android:id="@+id/rlVLDBListWavePic"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ivVLDBListWavePic"
-        android:layout_alignTop="@+id/linearLayout1"
-        android:src="@drawable/star_off" />
+        android:layout_height="wrap_content" 
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" >
+        
+            <ImageView
+	        android:id="@+id/ivVLDBListWavePic"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/w1" />
+
+            <ImageView
+		    android:id="@+id/ivVLDBStar"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignLeft="@+id/ivVLDBListWavePic"
+		    android:layout_alignTop="@+id/ivVLDBListWavePic"
+		    android:src="@drawable/star_off" />
+                
+	</RelativeLayout>
 
 </RelativeLayout>

@@ -33,8 +33,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/app_title"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ff99cc00"
+        android:textSize="20dp"
         android:textStyle="normal"
         android:typeface="monospace" />
 

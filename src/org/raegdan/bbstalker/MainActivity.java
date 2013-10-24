@@ -35,19 +35,20 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	EditText etMAQuery;
 	ProgressDialog mDialog;
 	
-	// Success DB load flag
-	Boolean DBLoadedSuccessfully = true;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		// Dialog init
-		mDialog = new ProgressDialog(this);
-		
-		// Start async database loading
-		new DBLoader().execute(this);
+		if (((BBStalkerApplication) getApplication()).DBLoaded) {
+			ContinueInit();
+		} else {
+			// Dialog init
+			mDialog = new ProgressDialog(this);
+			
+			// Start async database loading
+			new DBLoader().execute(this);
+		}
 	}
 	
 	//////////////////////////////////////////////
@@ -63,7 +64,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		
 		@Override
 		protected Void doInBackground(Activity... arg0) {
-			DBLoadedSuccessfully = ((BBStalkerApplication) arg0[0].getApplication()).LoadDB(arg0[0]);
+			((BBStalkerApplication) getApplication()).DBLoaded = ((BBStalkerApplication) arg0[0].getApplication()).LoadDB(arg0[0]);
 			return null;
 		}
 		
@@ -80,7 +81,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	protected void ContinueInit() {
 		// Don't init controls in case of DB loading failure.
 		// Show toast and leave the form dead.
-		if (!DBLoadedSuccessfully) {
+		if (!((BBStalkerApplication) getApplication()).DBLoaded) {
 			Toast.makeText(getApplicationContext(), getString(R.string.json_db_err), Toast.LENGTH_LONG).show();
 			return;
 		}

@@ -7,11 +7,13 @@ public class BBStalkerApplication extends Application {
 
 	// Global database variable and methods for it
 	public BlindbagDB database;
+	public Boolean DBLoaded;
 
 	public BBStalkerApplication() {
 		super();
 
 		database = new BlindbagDB();
+		DBLoaded = false;
 	}
 
 	public Boolean LoadDB(Context context) {
