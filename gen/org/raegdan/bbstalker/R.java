@@ -317,7 +317,7 @@ public final class R {
         public static final int wiki=0x7f020125;
     }
     public static final class id {
-        public static final int action_settings=0x7f08003a;
+        public static final int action_settings=0x7f08003f;
         public static final int btnCImportExport=0x7f08000c;
         public static final int btnMAConfig=0x7f080023;
         public static final int btnMAHelp=0x7f080021;
@@ -330,6 +330,7 @@ public final class R {
         public static final int btnPWIEExport=0x7f080013;
         public static final int btnPWIEImport=0x7f080012;
         public static final int btnPWIEPaste=0x7f080015;
+        public static final int btnPWWhatsNewClose=0x7f08003b;
         public static final int cbCAllowGeoloc=0x7f080006;
         public static final int cbCAllowGeolocByShop=0x7f080003;
         public static final int cbCPortraitOnly=0x7f080009;
@@ -350,12 +351,14 @@ public final class R {
         public static final int linearLayout1=0x7f080016;
         public static final int llPWBBCartUncartWiki=0x7f08002c;
         public static final int lvDBList=0x7f08000f;
-        public static final int lvWavesList=0x7f080037;
+        public static final int lvWavesList=0x7f08003c;
         public static final int rlPWBBInfo=0x7f080028;
         public static final int rlPWHelp=0x7f080034;
         public static final int rlPWIE=0x7f080010;
+        public static final int rlPWWhatsNew=0x7f080037;
         public static final int rlVLDBListWavePic=0x7f080017;
         public static final int scrollView1=0x7f080001;
+        public static final int scrollView2=0x7f080039;
         public static final int textView1=0x7f080004;
         public static final int textView2=0x7f080002;
         public static final int textView3=0x7f080005;
@@ -374,8 +377,10 @@ public final class R {
         public static final int tvPWBBSocialShareShop=0x7f080032;
         public static final int tvPWHelpHeader=0x7f080035;
         public static final int tvPWHelpText=0x7f080036;
-        public static final int tvWavesHeader=0x7f080038;
-        public static final int tvWavesTitle=0x7f080039;
+        public static final int tvPWWhatsNewHeader=0x7f080038;
+        public static final int tvPWWhatsNewText=0x7f08003a;
+        public static final int tvWavesHeader=0x7f08003d;
+        public static final int tvWavesTitle=0x7f08003e;
     }
     public static final class layout {
         public static final int config=0x7f030000;
@@ -386,7 +391,8 @@ public final class R {
         public static final int main=0x7f030005;
         public static final int pwbbinfo=0x7f030006;
         public static final int pwhelp=0x7f030007;
-        public static final int waves=0x7f030008;
+        public static final int pwwhatsnew=0x7f030008;
+        public static final int waves=0x7f030009;
     }
     public static final class menu {
         public static final int config=0x7f070000;
@@ -406,6 +412,7 @@ public final class R {
         public static final int btn_import=0x7f050034;
         public static final int btn_paste=0x7f050037;
         public static final int cant_wish_existing=0x7f050032;
+        public static final int close=0x7f05003d;
         public static final int code=0x7f050014;
         public static final int collection_set=0x7f050030;
         public static final int config=0x7f050013;
@@ -427,8 +434,8 @@ public final class R {
         public static final int looking_up=0x7f050027;
         public static final int my_collection=0x7f050003;
         public static final int no_shop_name=0x7f050023;
-        public static final int no_social_app_p1=0x7f05003d;
-        public static final int no_social_app_p2=0x7f05003e;
+        public static final int no_social_app_p1=0x7f050040;
+        public static final int no_social_app_p2=0x7f050041;
         public static final int nothing_to_query=0x7f050001;
         public static final int pasted=0x7f05003c;
         public static final int pcs_in_collection=0x7f050008;
@@ -456,6 +463,8 @@ public final class R {
         public static final int watch_all_db=0x7f050010;
         public static final int watch_all_waves=0x7f050011;
         public static final int wave=0x7f050020;
+        public static final int whatsnew_text=0x7f05003f;
+        public static final int whatsnew_title=0x7f05003e;
         public static final int wishlist=0x7f050031;
     }
     public static final class style {

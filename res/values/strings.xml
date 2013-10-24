@@ -13,7 +13,7 @@
     <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
 	<string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
     <string name="social_msg_geo">", geo: %1$s"</string>
-    <string name="app_title">"(\\ BBStalker v1.8.1 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.9.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -62,4 +62,7 @@
 	<string name="export_success">Export succeeded!</string>
 	<string name="copied">Copied to clipboard.</string>
 	<string name="pasted">Pasted from clipboard.</string>
+	<string name="close">Close</string>
+	<string name="whatsnew_title"><b>What\'s new?</b></string>
+	<string name="whatsnew_text"><b>1.9.0</b>\n&#8211; Now you can <b>swipe the pony card left and right</b> to go to previous/next card in the list rapidly.\n&#8211; <b>What\'s new window</b> (you are looking on it now) added.\n&#8211; BBStalker can be moved to SD card now.</string>
 </resources>

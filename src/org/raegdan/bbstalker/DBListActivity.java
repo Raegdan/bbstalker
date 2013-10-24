@@ -47,7 +47,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class DBListActivity extends ActivityEx implements OnItemClickListener, OnClickListener {
+public class DBListActivity extends ActivityEx implements OnItemClickListener, OnClickListener, SwipeInterface {
 	
 	BlindbagDB database;
 	DBList dblist;
@@ -402,6 +402,15 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 		}		
 	}
 	
+	protected void SwipeBBInfo (Integer shift) {
+		if ((CurrentDBListID + shift < 0) || (CurrentDBListID + shift > dblist.data.size() - 1)) {
+			return;
+		}
+		
+		pw.dismiss();
+		lvDBListItemClicked(CurrentDBListID + shift);
+	}
+	
 	protected void lvDBListItemClicked(Integer index) {
 		CurrentBBUniqID = (String) dblist.data.get(index).get("uniqid");
 		CurrentDBListID = index;
@@ -410,7 +419,11 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	
 	protected void ShowBBInfo () {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		vPWBBInfo = inflater.inflate(R.layout.pwbbinfo, null);
+		ActivitySwipeDetector swipe = new ActivitySwipeDetector(this);
+		vPWBBInfo.setOnTouchListener(swipe);
+		
 		rlPWBBInfo = (RelativeLayout) vPWBBInfo.findViewById(R.id.rlPWBBInfo);
 		tvPWBBInfoName = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoName);
 		tvPWBBInfoMisc = (TextView) rlPWBBInfo.findViewById(R.id.tvPWBBInfoMisc);
@@ -707,6 +720,23 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 			case R.id.ibPWBBWish: {
 				WishUnwish();
 				break;
+			}
+		}
+	}
+
+	@Override
+	public void onSwipe(View v, int direction) {
+		if (v == vPWBBInfo) {
+			switch (direction) {
+				case ActivitySwipeDetector.DIRECTION_RIGHT: {
+					SwipeBBInfo(-1);
+					break;
+				}
+				
+				case ActivitySwipeDetector.DIRECTION_LEFT: {
+					SwipeBBInfo(+1);
+					break;
+				}
 			}
 		}
 	}

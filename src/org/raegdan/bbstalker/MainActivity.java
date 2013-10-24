@@ -20,6 +20,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 public class MainActivity extends ActivityEx implements OnClickListener, OnEditorActionListener {
 
@@ -107,6 +110,8 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		
 		etMAQuery.setOnClickListener(this);
 		etMAQuery.setOnEditorActionListener(this);
+		
+		ShowWhatsNew();
 	}
 	
 	//////////////////////////
@@ -198,6 +203,56 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pw.setFocusable(true);
+		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+	}
+	
+	////////////////////////////////////
+	// Show what's new in popup window
+	////////////////////////////////////
+	protected void ShowWhatsNew() {
+		Integer VersionCode = 0;
+		try {
+			VersionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		final String VersionCodeString = VersionCode.toString();
+		
+		final SharedPreferences sp = getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
+		if (sp.getBoolean("whatsnew_closed_" + VersionCodeString, false)) {
+			return;
+		}
+		
+		final PopupWindow pw;
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View vPWHelp = inflater.inflate(R.layout.pwwhatsnew, null);
+		RelativeLayout rlPWWhatsNew = (RelativeLayout) vPWHelp.findViewById(R.id.rlPWWhatsNew);
+
+		pw = new PopupWindow(this);
+		
+		pw.setContentView(rlPWWhatsNew);
+		pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setFocusable(true);
+
+		((Button) rlPWWhatsNew.findViewById(R.id.btnPWWhatsNewClose)).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pw.dismiss();
+			}
+		});
+		
+		pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				Editor ed = sp.edit();
+				ed.putBoolean("whatsnew_closed_" + VersionCodeString, true);
+				ed.commit();
+			}
+		});
+	
 		pw.showAtLocation(vPWHelp, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 	}
 
