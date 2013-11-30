@@ -223,6 +223,24 @@
 		},
 
 		{
+			"waveid": "9", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^9$", 									"field": "waveid", "priority": 200},
+				
+				{"regexp": "^A[A-Z\\.]$",							"field": "bbids", "priority": 100},
+				
+				{"regexp": "^[A-Z\\.]$",							"field": "bbids", "priority": 50},
+														 
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "2013",
+			"name": "",
+			"format": "Ax"                                       
+		},
+
+		{
 			"waveid": "101", 
 			"priorities":			          
 			[                                  
@@ -558,6 +576,31 @@
 		{"uniqid": "08022", "bbids": ["AX"],						"waveid": "8", "name": "Ribbon Wishes",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Ribbon_Wishes"},
 		{"uniqid": "08023", "bbids": ["AY"],						"waveid": "8", "name": "Lotus Blossom",							"wikiurl": "http://mylittlewiki.org/wiki/Lotus_Blossom"},
 		{"uniqid": "08024", "bbids": ["AZ"],						"waveid": "8", "name": "Twilight Sparkle",						"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"},
+		
+		{"uniqid": "09001", "bbids": ["AA"],						"waveid": "9", "name": "Applejack",								"wikiurl": "http://mylittlewiki.org/wiki/G4_Applejack"},
+		{"uniqid": "09002", "bbids": ["AB"],						"waveid": "9", "name": "Big Macintosh",							"wikiurl": "http://mylittlewiki.org/wiki/Big_McIntosh"},
+		{"uniqid": "09003", "bbids": ["AC"],						"waveid": "9", "name": "Fluttershy II",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Fluttershy"},
+		{"uniqid": "09004", "bbids": ["AD"],						"waveid": "9", "name": "Pinkie Pie",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Pinkie_Pie"},
+		{"uniqid": "09005", "bbids": ["AE"],						"waveid": "9", "name": "Rainbow Dash (Rainbow accents)",		"wikiurl": "http://mylittlewiki.org/wiki/G4_Rainbow_Dash"},
+		{"uniqid": "09006", "bbids": ["AF"],						"waveid": "9", "name": "Rarity (Rainbow accents)",				"wikiurl": "http://mylittlewiki.org/wiki/G4_Rarity"},
+		{"uniqid": "09007", "bbids": ["AG"],						"waveid": "9", "name": "Amethyst Star II",						"wikiurl": "http://mylittlewiki.org/wiki/Amethyst_Star"},
+		{"uniqid": "09008", "bbids": ["AH"],						"waveid": "9", "name": "Shoeshine II",							"wikiurl": "http://mylittlewiki.org/wiki/Shoeshine"},
+		{"uniqid": "09009", "bbids": ["AI"],						"waveid": "9", "name": "Noteworthy",							"wikiurl": "http://mylittlewiki.org/wiki/Noteworthy"},
+		{"uniqid": "09010", "bbids": ["AK"],						"waveid": "9", "name": "Sea Swirl",								"wikiurl": "http://mylittlewiki.org/wiki/Sea_Swirl"},
+		{"uniqid": "09011", "bbids": ["AL"],						"waveid": "9", "name": "Berryshine II",							"wikiurl": "http://mylittlewiki.org/wiki/Berryshine"},
+		{"uniqid": "09012", "bbids": ["AM"],						"waveid": "9", "name": "Princess Cadance II (Rainbow accents)",	"wikiurl": "http://mylittlewiki.org/wiki/Princess_Cadance"},
+		{"uniqid": "09013", "bbids": ["AN"],						"waveid": "9", "name": "Peachy Sweet II",						"wikiurl": "http://mylittlewiki.org/wiki/Peachy_Sweet"},
+		{"uniqid": "09014", "bbids": ["AO"],						"waveid": "9", "name": "Lily Valley", 							"wikiurl": "http://mylittlewiki.org/wiki/Lily_Valley"},
+		{"uniqid": "09015", "bbids": ["AP"],						"waveid": "9", "name": "Nurse Snowheart",						"wikiurl": "http://mylittlewiki.org/wiki/Nurse_Snowheart"},
+		{"uniqid": "09016", "bbids": ["AR"],						"waveid": "9", "name": "Sprinkle Medley",						"wikiurl": "http://mylittlewiki.org/wiki/Sprinkle_Medley"},
+		{"uniqid": "09017", "bbids": ["AS"],						"waveid": "9", "name": "Tropical Storm",						"wikiurl": "http://mylittlewiki.org/wiki/Tropical_Storm"},
+		{"uniqid": "09018", "bbids": ["AT"],						"waveid": "9", "name": "Mr. Carrot Cake",						"wikiurl": "http://mylittlewiki.org/wiki/Mr._Carrot_Cake"},
+		{"uniqid": "09019", "bbids": ["AU"],						"waveid": "9", "name": "Green Jewel",							"wikiurl": "http://mylittlewiki.org/wiki/Green_Jewel"},
+		{"uniqid": "09020", "bbids": ["AV"],						"waveid": "9", "name": "Lavender Fritter",						"wikiurl": "http://mylittlewiki.org/wiki/Lavender_Fritter"},
+		{"uniqid": "09021", "bbids": ["AW"],						"waveid": "9", "name": "Apple Honey",							"wikiurl": "http://mylittlewiki.org/wiki/Apple_Honey"},
+		{"uniqid": "09022", "bbids": ["AX"],						"waveid": "9", "name": "Honey Rays",							"wikiurl": "http://mylittlewiki.org/wiki/Honey_Rays"},
+		{"uniqid": "09023", "bbids": ["AY"],						"waveid": "9", "name": "Prism Glider",							"wikiurl": "http://mylittlewiki.org/wiki/Prism_Glider"},
+		{"uniqid": "09024", "bbids": ["AZ"],						"waveid": "9", "name": "Grape Delight",							"wikiurl": "http://mylittlewiki.org/wiki/Grape_Delight"},
 		
 		{"uniqid": "101001", "bbids": [""],							"waveid": "101", "name": "Granny Smith",						"wikiurl": "http://mylittlewiki.org/wiki/Granny_Smith"},
 		{"uniqid": "101002", "bbids": [""],							"waveid": "101", "name": "Big Macintosh",						"wikiurl": "http://mylittlewiki.org/wiki/Big_McIntosh"},
