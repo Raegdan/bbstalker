@@ -370,8 +370,51 @@
 			"year": "",
 			"name": "Toys 'R Us Exclusive",
 			"format": ""                                       
-		}		
-
+		},
+				
+		{
+			"waveid": "113", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Pony Lesson Set",
+			"format": ""                                       
+		},
+		
+		{
+			"waveid": "114", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Groovin' Hooves Set",
+			"format": ""                                       
+		},
+		
+		{
+			"waveid": "115", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Royal Surprise Set",
+			"format": ""                                       
+		},
+		
+		{
+			"waveid": "116", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Daring Pony Story Set",
+			"format": ""                                       
+		}
 		
 	],
 	
@@ -684,6 +727,23 @@
 		{"uniqid": "112009", "bbids": [""],							"waveid": "112", "name": "Peachy Pie",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Peachy_Pie"},
 		{"uniqid": "112010", "bbids": [""],							"waveid": "112", "name": "Skywishes",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Skywishes"},
 		{"uniqid": "112011", "bbids": [""],							"waveid": "112", "name": "Sweetsong",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Sweetsong"},
-		{"uniqid": "112012", "bbids": [""],							"waveid": "112", "name": "Gardenia Glow",						"wikiurl": "http://mylittlewiki.org/wiki/G4_Gardenia_Glow"}
+		{"uniqid": "112012", "bbids": [""],							"waveid": "112", "name": "Gardenia Glow",						"wikiurl": "http://mylittlewiki.org/wiki/G4_Gardenia_Glow"},
+
+		{"uniqid": "113001", "bbids": [""],							"waveid": "113", "name": "Cheerilee",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Cheerilee"},
+		{"uniqid": "113002", "bbids": [""],							"waveid": "113", "name": "Silver Spoon",						"wikiurl": "http://mylittlewiki.org/wiki/Silver_Spoon"},
+		{"uniqid": "113003", "bbids": [""],							"waveid": "113", "name": "Twist-a-loo",							"wikiurl": "http://mylittlewiki.org/wiki/Twist-a-loo"},
+		{"uniqid": "113004", "bbids": [""],							"waveid": "113", "name": "Smarty Pants",						"wikiurl": "http://mylittlewiki.org/wiki/Smarty_Pants"},
+
+		{"uniqid": "114001", "bbids": [""],							"waveid": "114", "name": "Lyra Heartstrings",					"wikiurl": "http://mylittlewiki.org/wiki/Lyra_Heartstrings"},
+		{"uniqid": "114002", "bbids": [""],							"waveid": "114", "name": "Octavia Melody",						"wikiurl": "http://mylittlewiki.org/wiki/Octavia_Melody"},
+		{"uniqid": "114003", "bbids": [""],							"waveid": "114", "name": "Lyrica Lilac",						"wikiurl": "http://mylittlewiki.org/wiki/Lyrica_Lilac"},
+
+		{"uniqid": "115001", "bbids": [""],							"waveid": "115", "name": "Queen Chrysalis",						"wikiurl": "http://mylittlewiki.org/wiki/Queen_Chrysalis"},
+		{"uniqid": "115002", "bbids": [""],							"waveid": "115", "name": "Princess Celestia",					"wikiurl": "http://mylittlewiki.org/wiki/Princess_Celestia"},
+		{"uniqid": "115003", "bbids": [""],							"waveid": "115", "name": "Twilight Sparkle",					"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"},
+
+		{"uniqid": "116001", "bbids": [""],							"waveid": "116", "name": "Daring Do Dazzle",					"wikiurl": "http://mylittlewiki.org/wiki/Daring_Do_Dazzle"},
+		{"uniqid": "116002", "bbids": [""],							"waveid": "116", "name": "Rainbow Dash",						"wikiurl": "http://mylittlewiki.org/wiki/G4_Rainbow_Dash"},
+		{"uniqid": "116003", "bbids": [""],							"waveid": "116", "name": "Princess Twilight Sparkle",			"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"}
 	]
 }
