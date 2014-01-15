@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/btnMAWishlist"
+        android:layout_below="@+id/btnDETManeColor"
         android:text="@string/help" />
 
     <Button
@@ -96,5 +96,14 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnMAWatchCollection"
         android:text="@string/wishlist" />
+
+    <Button
+        android:id="@+id/btnDETManeColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/btnMAHelp"
+        android:layout_below="@+id/btnMAWishlist"
+        android:text="@string/reverse_search" />
 
 </RelativeLayout>

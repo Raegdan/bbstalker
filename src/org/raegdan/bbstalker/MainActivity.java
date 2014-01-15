@@ -34,6 +34,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	Button btnMAConfig;
 	Button btnMAWatchWaves;
 	Button btnMAWishlist;
+	Button btnMADetector;
 	
 	EditText etMAQuery;
 	ProgressDialog mDialog;
@@ -96,7 +97,8 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		btnMAHelp = (Button) findViewById(R.id.btnMAHelp);
 		btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
 		btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
-		btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);		
+		btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);	
+		btnMADetector = (Button) findViewById(R.id.btnDETManeColor);
 		
 		etMAQuery = (EditText) findViewById(R.id.etMAQuery);
 
@@ -107,6 +109,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		btnMAConfig.setOnClickListener(this);
 		btnMAWatchWaves.setOnClickListener(this);
 		btnMAWishlist.setOnClickListener(this);
+		btnMADetector.setOnClickListener(this);
 		
 		etMAQuery.setOnClickListener(this);
 		etMAQuery.setOnEditorActionListener(this);
@@ -155,6 +158,11 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 				OpenWavesListActivity();
 				break;
 			}
+			
+			case R.id.btnDETManeColor: {
+				OpenDetectorActivity();
+				break;
+			}
 		}
 	}
 	
@@ -185,6 +193,11 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 	
 	protected void OpenWavesListActivity() {
 		Intent intent = new Intent(this, WavesActivity.class);
+		startActivity(intent);			
+	}
+	
+	protected void OpenDetectorActivity() {
+		Intent intent = new Intent(this, DetectorActivity.class);
 		startActivity(intent);			
 	}
 	
