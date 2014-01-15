@@ -85,6 +85,7 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 	final static int MODE_COLLECTION 	= 3;
 	final static int MODE_WAVE 	 	= 4;
 	final static int MODE_WISHLIST		= 5;
+	final static int MODE_DETECTOR		= 6;
 		
 	@SuppressWarnings("unchecked")
 	@Override
