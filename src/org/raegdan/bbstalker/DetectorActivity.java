@@ -3,9 +3,7 @@ package org.raegdan.bbstalker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +13,13 @@ import yuku.ambilwarna.*;
 
 public class DetectorActivity extends ActivityEx implements OnClickListener {
 
-	CheckBox cbDETUnicorn, cbDETPegasus, cbDETEarthen, cbDETAlicorn, cbDETMane, cbDETBody;
+	CheckBox cbDETUnicorn, cbDETPegasus, cbDETEarthen, cbDETAlicorn, cbDETMane, cbDETBody, cbDETNonpony;
 	Button btnDETManeColor, btnDETBodyColor, btnDETQuery;
+	
+	// Initial colors
+	final static int MANE_DEFAULT = 0xffff00ff;	// magenta
+	final static int BODY_DEFAULT = 0xffffff00;	// yellow
+	final static int DEALPHA = 0x00ffffff;			// color & DEALPHA == color with stripped alpha value
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +31,10 @@ public class DetectorActivity extends ActivityEx implements OnClickListener {
 		btnDETBodyColor = (Button) findViewById(R.id.btnDETBodyColor);
 		btnDETQuery = (Button) findViewById(R.id.btnDETQuery);
 		
-		btnDETManeColor.setBackgroundColor(0xffff00ff);
-		btnDETManeColor.setTag(Integer.valueOf(0xffff00ff));
-		btnDETBodyColor.setBackgroundColor(0xffffff00);
-		btnDETBodyColor.setTag(Integer.valueOf(0xffffff00));
+		btnDETManeColor.setBackgroundColor(MANE_DEFAULT);
+		btnDETManeColor.setTag(Integer.valueOf(MANE_DEFAULT));
+		btnDETBodyColor.setBackgroundColor(BODY_DEFAULT);
+		btnDETBodyColor.setTag(Integer.valueOf(BODY_DEFAULT));
 				
 		cbDETUnicorn = (CheckBox) findViewById(R.id.cbDETUnicorn);
 		cbDETPegasus = (CheckBox) findViewById(R.id.cbDETPegasus);
@@ -39,21 +42,13 @@ public class DetectorActivity extends ActivityEx implements OnClickListener {
 		cbDETAlicorn = (CheckBox) findViewById(R.id.cbDETAlicorn);
 		cbDETMane = (CheckBox) findViewById(R.id.cbDETMane);
 		cbDETBody = (CheckBox) findViewById(R.id.cbDETBody);
+		cbDETNonpony = (CheckBox) findViewById(R.id.cbDETNonpony);
 	
 		btnDETManeColor.setOnClickListener(this);
 		btnDETBodyColor.setOnClickListener(this);	
 		btnDETQuery.setOnClickListener(this);
 	}
 
-	/*@SuppressLint("NewApi")
-	protected int SafeGetBGColor(View v) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			return ((ColorDrawable) v.getBackground()).getColor();
-		} else {
-			return 0xff000000;
-		}
-	}*/
-	
 	protected void SelectColor(final View v) 	{
 		AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, ((Integer) v.getTag()).intValue(), new  AmbilWarnaDialog.OnAmbilWarnaListener() {
 	        @Override
@@ -64,7 +59,7 @@ public class DetectorActivity extends ActivityEx implements OnClickListener {
 	                
 	        @Override
 	        public void onCancel(AmbilWarnaDialog dialog) {
-	        	// selection cancelled
+	        	// selection cancelled, do nothing
 	        }
 	});
 
@@ -73,18 +68,26 @@ public class DetectorActivity extends ActivityEx implements OnClickListener {
 	
 	protected void Query() {
 		JSONObject js = new JSONObject();
+		
 		try {
 			js.put("alicorn", cbDETAlicorn.isChecked());
 			js.put("unicorn", cbDETUnicorn.isChecked());
 			js.put("pegasus", cbDETPegasus.isChecked());
 			js.put("earthen", cbDETEarthen.isChecked());
+			js.put("nonpony", cbDETNonpony.isChecked());
 			js.put("mane", cbDETMane.isChecked());
 			js.put("body", cbDETBody.isChecked());
-			js.put("mane_clr", ((Integer) btnDETManeColor.getTag()).intValue());
-			js.put("body_clr", ((Integer) btnDETBodyColor.getTag()).intValue());
+			js.put("manecolor", ((Integer) btnDETManeColor.getTag()).intValue() & DEALPHA);
+			js.put("bodycolor", ((Integer) btnDETBodyColor.getTag()).intValue() & DEALPHA);
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return;
 		}
+		
+		Intent intent = new Intent(this, DBListActivity.class);
+		intent.putExtra("query", js.toString());
+		intent.putExtra("mode", DBListActivity.MODE_DETECTOR);
+		startActivity(intent);
 	}
 	
 	@Override

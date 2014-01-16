@@ -50,6 +50,7 @@ public class BlindbagDB implements Cloneable {
 			e.printStackTrace();
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -65,6 +66,57 @@ public class BlindbagDB implements Cloneable {
 		}
 		
 		return this;
+	}
+
+	/////////////////////////////////////////////////
+	// Performs reverse lookup by race and colors.
+	/////////////////////////////////////////////////
+	public BlindbagDB ReverseLookup(String query) {
+		JSONObject js = new JSONObject();
+		
+		try {
+			js = new JSONObject(query);
+
+			for (int i = 0; i < blindbags.size(); i++) 	{
+				Blindbag bb = blindbags.get(i);
+				
+				if ( !(js.getBoolean("alicorn") && bb.race == Blindbag.RACE_ALICORN) &&
+						!(js.getBoolean("unicorn") && bb.race == Blindbag.RACE_UNICORN) &&
+						!(js.getBoolean("pegasus") && bb.race == Blindbag.RACE_PEGASUS) &&
+						!(js.getBoolean("earthen") && bb.race == Blindbag.RACE_EARTHEN) &&
+						!(js.getBoolean("nonpony") && bb.race == Blindbag.RACE_NONPONY)) {
+					bb.priority = 0;
+				} else { 
+					if (js.getBoolean("mane") || js.getBoolean("body")) {					
+						int buf = 0;
+						int hits = 0;
+						
+						if (js.getBoolean("mane")) {
+							buf += ColorDiff(bb.manecolor, js.getInt("manecolor"));
+							hits++;
+						}
+						
+						if (js.getBoolean("body")) {
+							buf += ColorDiff(bb.bodycolor, js.getInt("bodycolor"));
+							hits++;
+						}
+						
+						bb.priority = buf / hits;
+					} else {
+						bb.priority = 1;
+					}
+				}
+				
+				blindbags.set(i, bb);
+			}
+			
+			PrioritySort();
+			
+			return this;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -431,6 +483,22 @@ public class BlindbagDB implements Cloneable {
 			bb.uniqid = DB.getJSONArray("blindbags").getJSONObject(i).getString("uniqid");
 			bb.waveid = DB.getJSONArray("blindbags").getJSONObject(i).getString("waveid");
 			bb.wikiurl = DB.getJSONArray("blindbags").getJSONObject(i).getString("wikiurl");
+			
+			String rawrace = DB.getJSONArray("blindbags").getJSONObject(i).getString("race");
+			bb.race = Blindbag.RACE_NONPONY;
+			if (rawrace.equalsIgnoreCase("unicorn")) {
+				bb.race = Blindbag.RACE_UNICORN;
+			} else if (rawrace.equalsIgnoreCase("alicorn")) {
+				bb.race = Blindbag.RACE_ALICORN;
+			} else if (rawrace.equalsIgnoreCase("pegasus")) {
+				bb.race = Blindbag.RACE_PEGASUS;
+			} else if (rawrace.equalsIgnoreCase("earthen")) {
+				bb.race = Blindbag.RACE_EARTHEN;
+			}
+			
+			bb.manecolor = Integer.valueOf(DB.getJSONArray("blindbags").getJSONObject(i).getString("mane"), 16);
+			bb.bodycolor = Integer.valueOf(DB.getJSONArray("blindbags").getJSONObject(i).getString("body"), 16);
+			
 			bb.priority = 1;
 			
 			for (int j = 0; j < DB.getJSONArray("blindbags").getJSONObject(i).getJSONArray("bbids").length(); j++) 	{
@@ -511,5 +579,17 @@ public class BlindbagDB implements Cloneable {
 	
 	protected Boolean MatchRegexp(String regexp, String s) {
 		return Pattern.compile(regexp).matcher(s).matches();
+	}
+	
+	protected Integer ColorDiff(int color1, int color2) {
+		int buf = 0;
+		
+		buf += Math.abs(((color1 & 0xff0000) >> 16) - ((color2 & 0xff0000) >> 16));
+		buf += Math.abs(((color1 & 0x00ff00) >> 8) - ((color2 & 0x00ff00) >> 8));
+		buf += Math.abs((color1 & 0x0000ff) - (color2 & 0x0000ff));
+		
+		buf = buf / 3;
+		
+		return Integer.valueOf(0xff - buf);
 	}
 }

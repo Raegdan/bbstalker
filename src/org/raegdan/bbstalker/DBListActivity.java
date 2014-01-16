@@ -258,6 +258,12 @@ public class DBListActivity extends ActivityEx implements OnItemClickListener, O
 					db = database.GetWaveBBs(query);
 					break;
 				}
+				
+				case MODE_DETECTOR: {
+					TitleMsg = context.getString(R.string.detector);
+					db = database.ReverseLookup(query);				
+					break;
+				}				
 			}
 
 			PrepareDBList(db, context);

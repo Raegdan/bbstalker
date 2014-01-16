@@ -13,7 +13,7 @@
     <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
     <string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
     <string name="social_msg_geo">", geo: %1$s"</string>
-    <string name="app_title">"(\\ BBStalker v1.10.1 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.11.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -64,7 +64,7 @@
     <string name="pasted">Pasted from clipboard.</string>
     <string name="close">Close</string>
     <string name="whatsnew_title"><b>What\'s new?</b></string>
-    <string name="whatsnew_text"><b>1.10.1</b>\nWave 9\:\n&#8211; Shoeshine II picture added\n&#8211; Princess Cadance picture fixed\n\nSets added:\n&#8211; Pony Lesson Set\n&#8211; Groovin\' Hooves Set\n&#8211; Royal Surprise Set\n&#8211; Daring Pony Story Set</string>
+    <string name="whatsnew_text"><b>1.11.0</b>\n<b>Functional update!</b> Figure Detector added. Have just seen an unknown figure? Open Detector, select race and colors, and have the mystery revealed! Or just find all pegasi, all green unicorns, all ponies with purple manes etc. Good luck!</string>
     <string name="title_activity_detector">Detector</string>
     <string name="detector">Figure Detector</string>
     <string name="race">Race</string>
@@ -77,5 +77,7 @@
     <string name="body">Body</string>
     <string name="choose_color">Choose color...</string>
     <string name="reverse_search">Reverse search (Detector)</string>
+    <string name="nonpony">Non-pony</string>
+    <string name="swipeme">&#8678; Swipe me! &#8680;</string>
 
 </resources>

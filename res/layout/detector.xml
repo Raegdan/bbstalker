@@ -47,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:checked="true"
                 android:text="@string/unicorn" />
 
             <CheckBox
@@ -54,7 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:checked="true"
                 android:text="@string/pegasus" />
+
         </TableRow>
 
         <TableRow
@@ -66,14 +69,32 @@
                 android:id="@+id/cbDETEarthen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/earthen" />
 
             <CheckBox
                 android:id="@+id/cbDETAlicorn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/alicorn" />
+
         </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <CheckBox
+                android:id="@+id/cbDETNonpony"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/nonpony" />
+
+        </TableRow>
+
     </TableLayout>
 
     <TextView
