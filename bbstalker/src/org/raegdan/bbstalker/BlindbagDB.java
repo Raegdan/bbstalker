@@ -91,16 +91,12 @@ public class BlindbagDB implements Cloneable {
 						int priority = 0;
 						
 						if (js.getBoolean("mane") && js.getBoolean("body")) {
-							final double DEVQ = 0.01;
+							final double DEVQ = 0.3;
 							Double md = ColorDiff(bb.manecolor, js.getInt("manecolor"));
-							Double bd = ColorDiff(bb.bodycolor, js.getInt("bodycolor"));
+							Double bd = ColorDiff(bb.bodycolor, js.getInt("bodycolor")) * 0.75;
 							Double avg = (md + bd) / 2.0;
-							//Double dev = (Math.sqrt(0.5 * ((md - avg) * (md - avg)) + ((bd - avg) * (bd - avg))) * DEVQ);
 							Double dev = Math.abs(md - bd) * DEVQ;
-							priority = 1000 - (int) (avg + avg * dev);
-							
-							
-//							Log.d("color_diff", "mc="+ md.toString() + ", bc="+ bd.toString() + ", dd=" + dd.toString() + ", prio=" + Integer.valueOf(priority).toString());
+							priority = 1000 - (int) (avg + dev);
 						} else {
 							if (js.getBoolean("mane")) {
 								priority = 1000 - ColorDiff(bb.manecolor, js.getInt("manecolor")).intValue();

@@ -241,6 +241,20 @@
 		},
 
 		{
+			"waveid": "10", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^10$", 									"field": "waveid", "priority": 200},
+				
+				{"regexp": "^.*$", 									"field": "bbids", "priority": 10},
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "2014",
+			"name": "",
+			"format": "[unknown]"                                       
+		},
+
+		{
 			"waveid": "101", 
 			"priorities":			          
 			[                                  
@@ -413,6 +427,28 @@
 			],
 			"year": "",
 			"name": "Daring Pony Story Set",
+			"format": ""                                       
+		},
+		
+		{
+			"waveid": "117", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Soaring Pegasus Set",
+			"format": ""                                       
+		},
+		
+		{
+			"waveid": "118", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Ponyville Newmaker Set",
 			"format": ""                                       
 		}
 		
@@ -644,7 +680,34 @@
 		{"uniqid": "09022", "bbids": ["AX"],						"mane":"e1d61a","body":"dac5d4","race":"pegasus",	"waveid": "9", "name": "Honey Rays",							"wikiurl": "http://mylittlewiki.org/wiki/Honey_Rays"},
 		{"uniqid": "09023", "bbids": ["AY"],						"mane":"c0dee9","body":"89bedd","race":"pegasus",	"waveid": "9", "name": "Prism Glider",							"wikiurl": "http://mylittlewiki.org/wiki/Prism_Glider"},
 		{"uniqid": "09024", "bbids": ["AZ"],						"mane":"bbd9f3","body":"be98d3","race":"earthen",	"waveid": "9", "name": "Grape Delight",							"wikiurl": "http://mylittlewiki.org/wiki/Grape_Delight"},
-		
+
+		{"uniqid": "10001", "bbids": ["[unknown]"],					"mane":"50aab2","body":"1374d3","race":"unicorn",	"waveid": "10", "name": "Trixie Lulamoon (Glitter)",			"wikiurl": "http://mylittlewiki.org/wiki/Trixie_Lulamoon"},
+		{"uniqid": "10002", "bbids": ["[unknown]"],					"mane":"1ea793","body":"c0d609","race":"earthen",	"waveid": "10", "name": "Green Jewel (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Green_Jewel"},
+		{"uniqid": "10003", "bbids": ["[unknown]"],					"mane":"f24e69","body":"cf641c","race":"pegasus",	"waveid": "10", "name": "Sunny Rays (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/Sunny_Rays"},
+		{"uniqid": "10004", "bbids": ["[unknown]"],					"mane":"fe5fa2","body":"126a92","race":"earthen",	"waveid": "10", "name": "Lotus Blossom (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Lotus_Blossom"},
+		{"uniqid": "10005", "bbids": ["[unknown]"],					"mane":"392b9d","body":"954eaa","race":"unicorn",	"waveid": "10", "name": "Ribbon Wishes (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/G4_Blind_Bag_Exclusive_Characters#Ribbon_Wishes"},
+		{"uniqid": "10006", "bbids": ["[unknown]"],					"mane":"0bb994","body":"d6ad1f","race":"unicorn",	"waveid": "10", "name": "Snailsquirm (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Snailsquirm"},
+		{"uniqid": "10007", "bbids": ["[unknown]"],					"mane":"6439bc","body":"773ac5","race":"alicorn",	"waveid": "10", "name": "Princess Twilight Sparkle (Glitter)",	"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"},
+		{"uniqid": "10008", "bbids": ["[unknown]"],					"mane":"f3e125","body":"dd242a","race":"unicorn",	"waveid": "10", "name": "Junebug (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/G4_Junebug"},
+		{"uniqid": "10009", "bbids": ["[unknown]"],					"mane":"5ce4e4","body":"789b0d","race":"pegasus",	"waveid": "10", "name": "Sunshower Raindrops (Glitter)",		"wikiurl": "http://mylittlewiki.org/wiki/Sunshower_Raindrops"},
+		{"uniqid": "10010", "bbids": ["[unknown]"],					"mane":"e9efe5","body":"d07002","race":"nonpony",	"waveid": "10", "name": "Gilda the Griffon (Glitter)",			"wikiurl": "http://mylittlewiki.org/wiki/Gilda"},
+		{"uniqid": "10011", "bbids": ["[unknown]"],					"mane":"f14d31","body":"dea325","race":"pegasus",	"waveid": "10", "name": "Strawberry Sunrise (Glitter)",			"wikiurl": "http://mylittlewiki.org/wiki/Strawberry_Sunrise"},
+		{"uniqid": "10012", "bbids": ["[unknown]"],					"mane":"f4e04d","body":"168d67","race":"pegasus",	"waveid": "10", "name": "Sassaflash (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/Sassaflash"},
+		{"uniqid": "10013", "bbids": ["[unknown]"],					"mane":"f1f7f7","body":"0f6cba","race":"earthen",	"waveid": "10", "name": "Royal Riff (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/Royal_Riff"},
+		{"uniqid": "10014", "bbids": ["[unknown]"],					"mane":"106493","body":"a3b32c","race":"unicorn",	"waveid": "10", "name": "Lemon Hearts (Glitter)", 				"wikiurl": "http://mylittlewiki.org/wiki/Lemon_Hearts"},
+		{"uniqid": "10015", "bbids": ["[unknown]"],					"mane":"f1d52c","body":"e24707","race":"earthen",	"waveid": "10", "name": "Applejack (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/G4_Applejack"},
+		{"uniqid": "10016", "bbids": ["[unknown]"],					"mane":"f0814a","body":"1f8869","race":"unicorn",	"waveid": "10", "name": "Snipsy Snap (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Snipsy_Snap"},
+		{"uniqid": "10017", "bbids": ["[unknown]"],					"mane":"d40b39","body":"d6ad2f","race":"pegasus",	"waveid": "10", "name": "Fluttershy II (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/G4_Fluttershy"},
+		{"uniqid": "10018", "bbids": ["[unknown]"],					"mane":"29c12e","body":"c6c223","race":"earthen",	"waveid": "10", "name": "Mosely Orange (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Mosely_Orange"},
+
+		{"uniqid": "10019", "bbids": ["[unknown]"],					"mane":"000000","body":"000000","race":"earthen",	"waveid": "10", "name": "Pinkie Pie (Glitter)",					"wikiurl": "http://mylittlewiki.org/wiki/G4_Pinkie_Pie"},
+
+		{"uniqid": "10020", "bbids": ["[unknown]"],					"mane":"6cab7c","body":"b972b4","race":"earthen",	"waveid": "10", "name": "Flower Wishes (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/G4_Flower_Wishes"},
+		{"uniqid": "10021", "bbids": ["[unknown]"],					"mane":"be3386","body":"582689","race":"pegasus",	"waveid": "10", "name": "Rainbowshine (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Rainbowshine"},
+		{"uniqid": "10022", "bbids": ["[unknown]"],					"mane":"f04b2f","body":"289a2b","race":"earthen",	"waveid": "10", "name": "Peachy Sweet II (Glitter)",			"wikiurl": "http://mylittlewiki.org/wiki/Peachy_Sweet#Peachy_Sweet"},
+		{"uniqid": "10023", "bbids": ["[unknown]"],					"mane":"a6b0a8","body":"6548bf","race":"pegasus",	"waveid": "10", "name": "Rainbow Swoop (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Rainbow_Swoop"},
+		{"uniqid": "10024", "bbids": ["[unknown]"],					"mane":"7143d7","body":"229de0","race":"unicorn",	"waveid": "10", "name": "Diamond Mint (Glitter)",				"wikiurl": "http://mylittlewiki.org/wiki/Diamond_Mint"},
+				
 		{"uniqid": "101001", "bbids": [""],							"mane":"c4d1ca","body":"aac456","race":"earthen",	"waveid": "101", "name": "Granny Smith",						"wikiurl": "http://mylittlewiki.org/wiki/Granny_Smith"},
 		{"uniqid": "101002", "bbids": [""],							"mane":"b98f09","body":"bb2d39","race":"earthen",	"waveid": "101", "name": "Big Macintosh",						"wikiurl": "http://mylittlewiki.org/wiki/Big_McIntosh"},
 		{"uniqid": "101003", "bbids": [""],							"mane":"bab14a","body":"b6782b","race":"earthen",	"waveid": "101", "name": "Applejack",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Applejack"},
@@ -744,6 +807,14 @@
 
 		{"uniqid": "116001", "bbids": [""],							"mane":"616870","body":"cbb835","race":"pegasus",	"waveid": "116", "name": "Daring Do Dazzle",					"wikiurl": "http://mylittlewiki.org/wiki/Daring_Do_Dazzle"},
 		{"uniqid": "116002", "bbids": [""],							"mane":"e17b39","body":"c3dee5","race":"pegasus",	"waveid": "116", "name": "Rainbow Dash",						"wikiurl": "http://mylittlewiki.org/wiki/G4_Rainbow_Dash"},
-		{"uniqid": "116003", "bbids": [""],							"mane":"252563","body":"c08fd0","race":"alicorn",	"waveid": "116", "name": "Princess Twilight Sparkle",			"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"}
+		{"uniqid": "116003", "bbids": [""],							"mane":"252563","body":"c08fd0","race":"alicorn",	"waveid": "116", "name": "Princess Twilight Sparkle",			"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"},
+		
+		{"uniqid": "117001", "bbids": [""],							"mane":"a0d5d9","body":"637279","race":"pegasus",	"waveid": "117", "name": "Thunderlane",							"wikiurl": "http://mylittlewiki.org/wiki/Thunderlane"},
+		{"uniqid": "117002", "bbids": [""],							"mane":"ec8b9e","body":"e4da7b","race":"pegasus",	"waveid": "117", "name": "Fluttershy",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Fluttershy"},
+		{"uniqid": "117003", "bbids": [""],							"mane":"ebed7f","body":"a0b2c6","race":"pegasus",	"waveid": "117", "name": "Derpy",								"wikiurl": "http://mylittlewiki.org/wiki/Derpy"},
+	
+		{"uniqid": "118001", "bbids": [""],							"mane":"7be9e0","body":"dac72b","race":"unicorn",	"waveid": "118", "name": "Snailsquirm",							"wikiurl": "http://mylittlewiki.org/wiki/Snailsquirm"},
+		{"uniqid": "118002", "bbids": [""],							"mane":"ae5c10","body":"8ec4b4","race":"unicorn",	"waveid": "118", "name": "Snipsy Snap",							"wikiurl": "http://mylittlewiki.org/wiki/Snipsy_Snap"},
+		{"uniqid": "118003", "bbids": [""],							"mane":"d1357e","body":"ecc6db","race":"earthen",	"waveid": "118", "name": "Pinkie Pie",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Pinkie_Pie"}	
 	]
 }
