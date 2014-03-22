@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/btnMAWatchCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAWatchWaves"
+        android:text="@string/my_collection" />
+
+    <Button
+        android:id="@+id/btnMAHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnDETManeColor"
+        android:text="@string/help" />
+
+    <Button
+        android:id="@+id/btnMAConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAHelp"
+        android:text="@string/config" />
+
+    <Button
+        android:id="@+id/btnMAWatchDB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAQuery"
+        android:text="@string/watch_all_db" />
+
+    <Button
+        android:id="@+id/btnMAWatchWaves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAWatchDB"
+        android:text="@string/watch_all_waves" />
+        
+    <Button
+        android:id="@+id/btnMAQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvMATitle"
+        android:text="@string/query" />
+
+    <EditText
+        android:id="@+id/etMAQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btnMAQuery"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/btnMAQuery"
+        android:layout_below="@+id/tvMATitle"
+        android:layout_toLeftOf="@id/btnMAQuery"
+        android:ems="10"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/tvMATitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_title"
+        android:textAllCaps="false"
+        android:textColor="#ff99cc00"
+        android:textSize="20dp"
+        android:textStyle="normal"
+        android:typeface="monospace" />
+
+    <Button
+        android:id="@+id/btnMAWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnMAWatchCollection"
+        android:text="@string/wishlist" />
+
+    <Button
+        android:id="@+id/btnDETManeColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/btnMAHelp"
+        android:layout_below="@+id/btnMAWishlist"
+        android:text="@string/reverse_search" />
+
+</RelativeLayout>
