@@ -1,4 +1,5 @@
-bin
-_release/*
-!_release/.stub
-_trash
+bbstalker/bin
+bbstalker/_release/*
+!bbstalker/_release/.stub
+bbstalker/_trash
+AmbilWarna/bin
