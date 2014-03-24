@@ -60,7 +60,7 @@
 	<string name="pasted">Вставлено из буфера обмена.</string>
 	<string name="close">Закрыть</string>
 	<string name="whatsnew_title"><b>Что нового?</b></string>
-    <string name="whatsnew_text"><b>1.12.0</b>\n<b>Добавлены наборы:</b>\n&#8211; Soaring Pegasus Set\n&#8211; Ponyville Newmaker Set\n\n<b>Волна 10 добавлена частично</b> - коды блиндбагов 10 волны и фото Пинки из неё пока отсутствуют в интернете.\n\n<b>Обратный поиск:</b>\n&#8211; Формула сравнения цветов усовершенствована, но по-прежнему имеет небольшие ошибки. Если у вас есть идеи по её улучшению - пожалуйста, свяжитесь со мной!</string>
+    <string name="whatsnew_text"><b>1.12.1 - небольшое обновление</b>\n<b>Волна 10:</b> добавлена фотография Пинки и 14 известных кодов. Крепкий брохуф <b>Tomo</b> за информацию!</string>
 	<string name="title_activity_detector">Определитель</string>
     <string name="detector">Определитель фигурок</string>
     <string name="race">Раса</string>
