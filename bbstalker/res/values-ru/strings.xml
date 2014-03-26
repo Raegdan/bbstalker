@@ -60,7 +60,7 @@
 	<string name="pasted">Вставлено из буфера обмена.</string>
 	<string name="close">Закрыть</string>
 	<string name="whatsnew_title"><b>Что нового?</b></string>
-    <string name="whatsnew_text"><b>1.12.1 - небольшое обновление</b>\n<b>Волна 10:</b> добавлена фотография Пинки и 14 известных кодов. Крепкий брохуф <b>Tomo</b> за информацию!</string>
+    <string name="whatsnew_text"><b>1.12.2</b>\n<b>Волна 10</b> теперь поддерживается полностью!</string>
 	<string name="title_activity_detector">Определитель</string>
     <string name="detector">Определитель фигурок</string>
     <string name="race">Раса</string>

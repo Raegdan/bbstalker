@@ -13,7 +13,7 @@
     <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
     <string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
     <string name="social_msg_geo">", geo: %1$s"</string>
-    <string name="app_title">"(\\ BBStalker v1.12.1 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.12.2 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -64,7 +64,7 @@
     <string name="pasted">Pasted from clipboard.</string>
     <string name="close">Close</string>
     <string name="whatsnew_title"><b>What\'s new?</b></string>
-    <string name="whatsnew_text"><b>1.12.1 - some little update</b>\n<b>Wave 10:</b> added Pinkie Pie photo and 14 known blind bag codes. Strong brohoof to <b>Tomo</b> for info!</string>
+    <string name="whatsnew_text"><b>1.12.2</b>\n<b>Wave 10</b> is now fully supported!</string>
     <string name="title_activity_detector">Detector</string>
     <string name="detector">Figure Detector</string>
     <string name="race">Race</string>
