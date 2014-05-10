@@ -454,6 +454,17 @@
 			"year": "",
 			"name": "Ponyville Newmaker Set",
 			"format": ""                                       
+		},
+		
+		{
+			"waveid": "119", 
+			"priorities":			          
+			[                                  
+				{"regexp": "^.*$", 									"field": "name",  "priority": 10}				
+			],
+			"year": "",
+			"name": "Rainbow Pony Favorite Set",
+			"format": ""                                       
 		}
 		
 	],
@@ -531,7 +542,7 @@
 		{"uniqid": "03019", "bbids": ["19", "41592", "41295"],		"mane":"fffcad","body":"feb33c","race":"earthen",	"waveid": "3", "name": "Applejack",								"wikiurl": "http://mylittlewiki.org/wiki/G4_Applejack"},
 		{"uniqid": "03020", "bbids": ["20", "42502", "42205"],		"mane":"f46da8","body":"fdee87","race":"pegasus",	"waveid": "3", "name": "Fluttershy",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Fluttershy"},
 		{"uniqid": "03021", "bbids": ["21", "42512", "42215"],		"mane":"f6eb44","body":"f67fc1","race":"earthen",	"waveid": "3", "name": "Cherry Berry",							"wikiurl": "http://mylittlewiki.org/wiki/Cherry_Berry"},
-		{"uniqid": "03022", "bbids": ["22", "42522", "42225"],		"mane":"b2e6e4","body":"8adcd0","race":"earthen",	"waveid": "3", "name": "Heartstrings",							"wikiurl": "http://mylittlewiki.org/wiki/Heartstrings"},
+		{"uniqid": "03022", "bbids": ["22", "42522", "42225"],		"mane":"b2e6e4","body":"8adcd0","race":"unicorn",	"waveid": "3", "name": "Heartstrings",							"wikiurl": "http://mylittlewiki.org/wiki/Heartstrings"},
 		{"uniqid": "03023", "bbids": ["23", "42532", "42235"],		"mane":"3b5fd1","body":"64b7e9","race":"earthen",	"waveid": "3", "name": "Noteworthy",							"wikiurl": "http://mylittlewiki.org/wiki/Noteworthy"},
 		{"uniqid": "03024", "bbids": ["24", "42542", "42245"],		"mane":"56bce4","body":"dfeab0","race":"pegasus",	"waveid": "3", "name": "Lucky Dreams",							"wikiurl": "http://mylittlewiki.org/wiki/Lucky_Dreams"},
 					
@@ -817,6 +828,13 @@
 	
 		{"uniqid": "118001", "bbids": [""],							"mane":"7be9e0","body":"dac72b","race":"unicorn",	"waveid": "118", "name": "Snailsquirm",							"wikiurl": "http://mylittlewiki.org/wiki/Snailsquirm"},
 		{"uniqid": "118002", "bbids": [""],							"mane":"ae5c10","body":"8ec4b4","race":"unicorn",	"waveid": "118", "name": "Snipsy Snap",							"wikiurl": "http://mylittlewiki.org/wiki/Snipsy_Snap"},
-		{"uniqid": "118003", "bbids": [""],							"mane":"d1357e","body":"ecc6db","race":"earthen",	"waveid": "118", "name": "Pinkie Pie",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Pinkie_Pie"}	
+		{"uniqid": "118003", "bbids": [""],							"mane":"d1357e","body":"ecc6db","race":"earthen",	"waveid": "118", "name": "Pinkie Pie",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Pinkie_Pie"},	
+
+		{"uniqid": "119001", "bbids": [""],							"mane":"544ea8","body":"ccccce","race":"unicorn",	"waveid": "119", "name": "Rarity",								"wikiurl": "http://mylittlewiki.org/wiki/G4_Rarity"},
+		{"uniqid": "119002", "bbids": [""],							"mane":"543d1d","body":"9d934e","race":"earthen",	"waveid": "119", "name": "Dr. Whooves",							"wikiurl": "http://mylittlewiki.org/wiki/Dr._Hooves"},
+		{"uniqid": "119003", "bbids": [""],							"mane":"dbc558","body":"eb9d55","race":"earthen",	"waveid": "119", "name": "Applejack",							"wikiurl": "http://mylittlewiki.org/wiki/G4_Applejack"},	
+		{"uniqid": "119004", "bbids": [""],							"mane":"216ac9","body":"c5c6c8","race":"unicorn",	"waveid": "119", "name": "DJ P0N-3 (Vinyl Scratch)",			"wikiurl": "http://mylittlewiki.org/wiki/DJ_Pon-3"},
+		{"uniqid": "119005", "bbids": [""],							"mane":"25216e","body":"cd91cf","race":"alicorn",	"waveid": "119", "name": "Princess Twilight Sparkle",			"wikiurl": "http://mylittlewiki.org/wiki/Twilight_Sparkle"}
+
 	]
 }

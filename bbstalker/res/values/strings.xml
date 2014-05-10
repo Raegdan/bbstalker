@@ -13,7 +13,7 @@
     <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
     <string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
     <string name="social_msg_geo">", geo: %1$s"</string>
-    <string name="app_title">"(\\ BBStalker v1.12.2 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.13.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -23,7 +23,7 @@
     <string name="config">"Config"</string>
     <string name="code">"Code: "</string>
     <string name="help_header"><i><b>BBStalker</b>\nBrought to you by Raegdan\nLicense: GNU GPL v3</i></string>
-    <string name="help_text">Help text in English coming soon.</string>
+    <string name="help_text"><i>(This is my own translation from Russian. As I\'m not a professional translator the grammar may be not so good. If you can make a better Russian-&gt;English translation, please contact me.)</i>\n\nBBStalker is a database and collection manager for My Little Pony\: Friendship is Magic (G4) \"blind bags\" (non-transparent bags with figures) and collection sets.\n\nNormally, a buyer should not know which figure is inside the blind bag before he makes his purchase, but anyway the manufacturer provides this information hidden in a special code on the blind bag. It can be either a <b>digit code on the vertical stitch on the back side of the bag</b> (waves 1-7), or a <b>two-letter code on the bottom stitch</b> (since wave 8).\n\nBBStalker provides a smart search system based on priorities and tries to recognize the type of information requested via the search field. Most relevant search results are located at the top of the list and all other matches go after.\n\nBut keep in mind that smart search performs a lot of computations and may not be suitable for cheap or old devices. If you experience unaffordable low search speed, you can <b>disable</b> smart search at the config screen and use the quick one instead. The quick search doesn\'t sort the results but <b>computes about 10 times faster!</b>\n\nThe search criteria may be one of the following:\n&#8211; pony name or its part;\n&#8211; blind bag code or its part;\n&#8211; wave number.\n\nWildcards:\n\n&#8211; dot (.) - any single symbol;\n&#8211; asterisk (*) - one or more of any symbols.\n\nE.g. \"tw*t\" matches \"Tw<u>iligh</u>t\", \"t*w*t\" for \"Not<u>e</u>w<u>or</u>thy\", and \"tw.t\" for \"Tw<u>i</u>tter\" (Dear Hasbro, please make a pony named Twitter! :)\n\nAlso BBStalker has a thing so-called \"Detector\" or \"Reverse search\". It allows you to search for figures by race and colors. Check needed races, then check and select known pony colors. Search engine will exclude all unchecked races and then sort results by color similarity descending.\n\nFigures\' cards can be swiped - use left/right swipes to go rapidly through the list.\n\nUsing BBStalker for its main purpose needs no internet connection, but if you have one you can tell your friends about your purchase via your favourite social network! Alas it\'s not yet compatible with official Facebook app due to stupid technical restrictions of Facebook :(\n\nAlso BBStalker allows you to manage your collection and wish list. Press a star if you plan to buy a pony, press a cart if you have bought it, and press a cart with a red cross if you have sold/gifted/lost one of them. As a result you will always know whom do you have and whom do you want to buy - at "My collection" and "My wishlist" screens.\n\nThis software is free software ("free as in free speech", "libre") under GNU General Public License 3. Its full source code is available on GitHub: https://github.com/Raegdan/bbstalker. For example, you can easily modify BBStalker for another similar collectible items!</string>
     <string name="trying_to_locate">Trying to get location...</string>
     <string name="trying_to_get_link">Trying to get a Google Maps link...</string>
     <string name="title_activity_config">ConfigActivity</string>
@@ -64,7 +64,7 @@
     <string name="pasted">Pasted from clipboard.</string>
     <string name="close">Close</string>
     <string name="whatsnew_title"><b>What\'s new?</b></string>
-    <string name="whatsnew_text"><b>1.12.2</b>\n<b>Wave 10</b> is now fully supported!</string>
+    <string name="whatsnew_text"><b>1.13.0</b>\n&#8211; Added <b>Rainbow Pony Favorite Set</b>\n&#8211; Added <b>English help</b>\n&#8211; <b>Main menu and reverse search screens</b> are scrollable since now!</string>
     <string name="title_activity_detector">Detector</string>
     <string name="detector">Figure Detector</string>
     <string name="race">Race</string>

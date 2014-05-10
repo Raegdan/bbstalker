@@ -98,7 +98,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 		btnMAConfig = (Button) findViewById(R.id.btnMAConfig);
 		btnMAWatchWaves = (Button) findViewById(R.id.btnMAWatchWaves);
 		btnMAWishlist = (Button) findViewById(R.id.btnMAWishlist);	
-		btnMADetector = (Button) findViewById(R.id.btnDETManeColor);
+		btnMADetector = (Button) findViewById(R.id.btnMADetector);
 		
 		etMAQuery = (EditText) findViewById(R.id.etMAQuery);
 
@@ -159,7 +159,7 @@ public class MainActivity extends ActivityEx implements OnClickListener, OnEdito
 				break;
 			}
 			
-			case R.id.btnDETManeColor: {
+			case R.id.btnMADetector: {
 				OpenDetectorActivity();
 				break;
 			}
