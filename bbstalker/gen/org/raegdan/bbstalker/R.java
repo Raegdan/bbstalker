@@ -405,10 +405,39 @@ public final class R {
         public static final int w7=0x7f020179;
         public static final int w8=0x7f02017a;
         public static final int w9=0x7f02017b;
-        public static final int wiki=0x7f02017c;
+        public static final int wi1=0x7f02017c;
+        public static final int wi10=0x7f02017d;
+        public static final int wi101=0x7f02017e;
+        public static final int wi102=0x7f02017f;
+        public static final int wi103=0x7f020180;
+        public static final int wi104=0x7f020181;
+        public static final int wi105=0x7f020182;
+        public static final int wi106=0x7f020183;
+        public static final int wi107=0x7f020184;
+        public static final int wi108=0x7f020185;
+        public static final int wi109=0x7f020186;
+        public static final int wi110=0x7f020187;
+        public static final int wi111=0x7f020188;
+        public static final int wi112=0x7f020189;
+        public static final int wi113=0x7f02018a;
+        public static final int wi114=0x7f02018b;
+        public static final int wi115=0x7f02018c;
+        public static final int wi116=0x7f02018d;
+        public static final int wi117=0x7f02018e;
+        public static final int wi118=0x7f02018f;
+        public static final int wi119=0x7f020190;
+        public static final int wi2=0x7f020191;
+        public static final int wi3=0x7f020192;
+        public static final int wi4=0x7f020193;
+        public static final int wi5=0x7f020194;
+        public static final int wi6=0x7f020195;
+        public static final int wi7=0x7f020196;
+        public static final int wi8=0x7f020197;
+        public static final int wi9=0x7f020198;
+        public static final int wiki=0x7f020199;
     }
     public static final class id {
-        public static final int action_settings=0x7f080060;
+        public static final int action_settings=0x7f080064;
         public static final int ambilwarna_cursor=0x7f080004;
         public static final int ambilwarna_dialogView=0x7f080000;
         public static final int ambilwarna_pref_widget_kotak=0x7f080009;
@@ -435,7 +464,7 @@ public final class R {
         public static final int btnPWIEExport=0x7f080032;
         public static final int btnPWIEImport=0x7f080031;
         public static final int btnPWIEPaste=0x7f080034;
-        public static final int btnPWWhatsNewClose=0x7f08005c;
+        public static final int btnPWWhatsNewClose=0x7f08005f;
         public static final int cbCAllowGeoloc=0x7f080010;
         public static final int cbCAllowGeolocByShop=0x7f08000d;
         public static final int cbCPortraitOnly=0x7f080013;
@@ -457,20 +486,22 @@ public final class R {
         public static final int ibPWBBWiki=0x7f080050;
         public static final int ibPWBBWish=0x7f080051;
         public static final int ivPWBBInfoPonyPic=0x7f08004a;
+        public static final int ivPWWaveImage=0x7f08005a;
         public static final int ivVLDBListWavePic=0x7f080039;
         public static final int ivVLDBStar=0x7f08003a;
         public static final int ivVLWavesWavePic=0x7f08003b;
         public static final int linearLayout1=0x7f080035;
         public static final int llPWBBCartUncartWiki=0x7f08004c;
         public static final int lvDBList=0x7f080019;
-        public static final int lvWavesList=0x7f08005d;
+        public static final int lvWavesList=0x7f080060;
         public static final int rlPWBBInfo=0x7f080048;
         public static final int rlPWHelp=0x7f080055;
         public static final int rlPWIE=0x7f08002f;
-        public static final int rlPWWhatsNew=0x7f080058;
+        public static final int rlPWWaveImage=0x7f080058;
+        public static final int rlPWWhatsNew=0x7f08005b;
         public static final int rlVLDBListWavePic=0x7f080036;
         public static final int scrollView1=0x7f08000b;
-        public static final int scrollView2=0x7f08005a;
+        public static final int scrollView2=0x7f08005d;
         public static final int tableLayout1=0x7f08001c;
         public static final int tableLayout2=0x7f080027;
         public static final int tableRow1=0x7f08001e;
@@ -501,10 +532,12 @@ public final class R {
         public static final int tvPWBBSwipe=0x7f08004d;
         public static final int tvPWHelpHeader=0x7f080056;
         public static final int tvPWHelpText=0x7f080057;
-        public static final int tvPWWhatsNewHeader=0x7f080059;
-        public static final int tvPWWhatsNewText=0x7f08005b;
-        public static final int tvWavesHeader=0x7f08005e;
-        public static final int tvWavesTitle=0x7f08005f;
+        public static final int tvPWWaveImageHeader=0x7f080059;
+        public static final int tvPWWhatsNewHeader=0x7f08005c;
+        public static final int tvPWWhatsNewText=0x7f08005e;
+        public static final int tvWavesHeader=0x7f080062;
+        public static final int tvWavesLongTap=0x7f080061;
+        public static final int tvWavesTitle=0x7f080063;
     }
     public static final class layout {
         public static final int ambilwarna_dialog=0x7f030000;
@@ -518,8 +551,9 @@ public final class R {
         public static final int main=0x7f030008;
         public static final int pwbbinfo=0x7f030009;
         public static final int pwhelp=0x7f03000a;
-        public static final int pwwhatsnew=0x7f03000b;
-        public static final int waves=0x7f03000c;
+        public static final int pwwaveimage=0x7f03000b;
+        public static final int pwwhatsnew=0x7f03000c;
+        public static final int waves=0x7f03000d;
     }
     public static final class menu {
         public static final int config=0x7f070000;
@@ -565,12 +599,13 @@ public final class R {
         public static final int json_db_err=0x7f050002;
         public static final int json_saving_err=0x7f050007;
         public static final int loading=0x7f050028;
+        public static final int long_tap_for_img=0x7f05004e;
         public static final int looking_up=0x7f050027;
         public static final int mane=0x7f050048;
         public static final int my_collection=0x7f050003;
         public static final int no_shop_name=0x7f050023;
-        public static final int no_social_app_p1=0x7f05004e;
-        public static final int no_social_app_p2=0x7f05004f;
+        public static final int no_social_app_p1=0x7f05004f;
+        public static final int no_social_app_p2=0x7f050050;
         public static final int nonpony=0x7f05004c;
         public static final int nothing_to_query=0x7f050001;
         public static final int pasted=0x7f05003c;

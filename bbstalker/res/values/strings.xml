@@ -13,7 +13,7 @@
     <string name="social_msg_bb">"Hey everypony! Just found W%1$s blind bags &amp; %2$s among them @ %3$s%4$s using #bbstalker"</string>
     <string name="social_msg_set">"Hey everypony! Just found %1$s collection set @ %2$s%3$s using #bbstalker"</string>
     <string name="social_msg_geo">", geo: %1$s"</string>
-    <string name="app_title">"(\\ BBStalker v1.13.0 /)"</string>
+    <string name="app_title">"(\\ BBStalker v1.14.0 /)"</string>
     <string name="shop_name">"Shop:"</string>
     <string name="shop_field">"Walmart"</string>
     <string name="query">"Query"</string>
@@ -64,7 +64,7 @@
     <string name="pasted">Pasted from clipboard.</string>
     <string name="close">Close</string>
     <string name="whatsnew_title"><b>What\'s new?</b></string>
-    <string name="whatsnew_text"><b>1.13.0</b>\n&#8211; Added <b>Rainbow Pony Favorite Set</b>\n&#8211; Added <b>English help</b>\n&#8211; <b>Main menu and reverse search screens</b> are scrollable since now!</string>
+    <string name="whatsnew_text"><b>1.14.0</b>\n&#8211; Blind bags and collection sets photos added! Just long-tap a blind bag/set on \"All waves\" screen.\n&#8211; Russian BBStalker locale is now used for Ukrainian, Belarussian and Kazakh device locales, because Russian is more spread than English in corresponding countries.</string>
     <string name="title_activity_detector">Detector</string>
     <string name="detector">Figure Detector</string>
     <string name="race">Race</string>
@@ -79,5 +79,6 @@
     <string name="reverse_search">Reverse search (Detector)</string>
     <string name="nonpony">Non-pony</string>
     <string name="swipeme">&#8678; Swipe me! &#8680;</string>
+    <string name="long_tap_for_img">Long tap on an item pops up the blind bag/set image.</string>
 
 </resources>

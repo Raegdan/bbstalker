@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tvWavesHeader"
+        android:layout_below="@+id/tvWavesLongTap"
         android:padding="@dimen/activity_horizontal_margin" >
     </ListView>
     
@@ -37,5 +37,17 @@
         android:textSize="20dp"
         android:textStyle="normal"
         android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/tvWavesLongTap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvWavesHeader"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/long_tap_for_img"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

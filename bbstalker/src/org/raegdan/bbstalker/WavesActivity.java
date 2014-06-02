@@ -7,14 +7,20 @@ import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class WavesActivity extends ActivityEx implements OnItemClickListener {
+public class WavesActivity extends ActivityEx implements OnItemClickListener, OnItemLongClickListener {
 	TextView tvWavesHeader;
 	ListView lvWavesList;
 	DBList dblist;
@@ -58,6 +64,7 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		
 		SimpleAdapter saDBList = new SimpleAdapter(this, dblist.data, R.layout.lvwaves, dblist.fields, dblist.views);
 		lvWavesList.setOnItemClickListener(this);
+		lvWavesList.setOnItemLongClickListener(this);
 		lvWavesList.setAdapter(saDBList);
 	}
 	
@@ -119,6 +126,29 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 		}
 	}
 	
+	protected void ShowWaveImage (int index)
+	{
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		View vPWWaveImage = inflater.inflate(R.layout.pwwaveimage, null);
+		
+		TextView tvPWWaveImageHeader = (TextView) vPWWaveImage.findViewById(R.id.tvPWWaveImageHeader);
+		ImageView ivPWWaveImage = (ImageView) vPWWaveImage.findViewById(R.id.ivPWWaveImage);
+		RelativeLayout rlPWWaveImage = (RelativeLayout) vPWWaveImage.findViewById(R.id.rlPWWaveImage);
+		
+		ivPWWaveImage.setImageResource(this.getResources().getIdentifier("wi" + (String) dblist.data.get(index).get("waveid"), "drawable", this.getPackageName()));
+		tvPWWaveImageHeader.setText((String) dblist.data.get(index).get("name"));
+		
+		PopupWindow pw = new PopupWindow(this);
+		
+		pw.setContentView(rlPWWaveImage);
+		pw.setWidth(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+		pw.setFocusable(true);
+		
+		pw.showAtLocation(vPWWaveImage, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+	}
+	
 	//////////////////////////////
 
 	protected void QueryWave(String waveid)
@@ -132,5 +162,16 @@ public class WavesActivity extends ActivityEx implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		QueryWave((String) dblist.data.get(arg2).get("waveid"));
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		switch (arg0.getId()) {
+		case R.id.lvWavesList:
+			ShowWaveImage(arg2);
+			return true;
+		}
+		
+		return false;
 	}
 }
