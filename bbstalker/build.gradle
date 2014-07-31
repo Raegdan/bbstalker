@@ -1,0 +1,27 @@
+apply plugin: 'android'
+
+android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/raegdan/DiskD/Dropbox/Private/eclipse/debug.keystore')
+        }
+    }
+    compileSdkVersion 15
+    buildToolsVersion '20.0.0'
+    defaultConfig {
+        applicationId "org.raegdan.bbstalker"
+        minSdkVersion 7
+        targetSdkVersion 15
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':AmbilWarna')
+    compile 'com.android.support:support-v4:20.+'
+}

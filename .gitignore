@@ -1,5 +1,6 @@
-bbstalker/bin
-bbstalker/_release/*
-!bbstalker/_release/.stub
-bbstalker/_trash
-AmbilWarna/bin
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+/build
+/_release
